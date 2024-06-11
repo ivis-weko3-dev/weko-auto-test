@@ -3,6 +3,13 @@ import sys
 import config
 from methods_required_during_testing import *
 def test_no_1(driver):
+    """No.1 Create new mail template
+
+    Log in User's role is System Administrator
+
+    Args:
+        driver(WebDriver): WebDriver object  
+    """
     # log in as System Administrator
     A1(driver, config.system_administrator, config.system_administrator_password)
 
@@ -56,6 +63,14 @@ def test_no_1(driver):
     save_screenshot(driver, sys._getframe().f_code.co_name)
 
 def test_no_2(driver):
+    """No.2 Edit Secret URL Download mail template
+
+    Log in User's role is System Administrator
+    Secret URL Download is enabled
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     # log in as System Administrator
     A1(driver, config.system_administrator, config.system_administrator_password)
 
@@ -74,7 +89,7 @@ def test_no_2(driver):
             target = template
             break
     if target is None:
-        raise Exception('Secret URL Download template for test not found')
+        assert False, 'Secret URL Download template for test not found'
 
     # click test template and edit subject and body
     target.click()
@@ -105,7 +120,7 @@ def test_no_2(driver):
             target = template
             break
     if target is None:
-        raise Exception('Editing Secret URL Download template failed')
+        assert False, 'Editing Secret URL Download template failed'
 
     # check if the save is successful
     target.click()
@@ -122,6 +137,13 @@ def test_no_2(driver):
     save_screenshot(driver, sys._getframe().f_code.co_name)
 
 def test_no_3(driver):
+    """No.3 Edit Guest User Request mail template
+
+    Log in User's role is System Administrator
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     # log in as System Administrator
     A1(driver, config.system_administrator, config.system_administrator_password)
 
@@ -140,7 +162,7 @@ def test_no_3(driver):
             target = template
             break
     if target is None:
-        raise Exception('Guest User Request template for test not found')
+        assert False, 'Guest User Request template for test not found'
 
     # click test template and edit subject and body
     target.click()
@@ -171,7 +193,7 @@ def test_no_3(driver):
             target = template
             break
     if target is None:
-        raise Exception('Editing Guest User Request template failed')
+        assert False, 'Editing Guest User Request template failed'
 
     # check if the save is successful
     target.click()
@@ -188,6 +210,13 @@ def test_no_3(driver):
     save_screenshot(driver, sys._getframe().f_code.co_name)
 
 def test_no_4(driver):
+    """No.4 Edit Other mail template
+    
+    Log in User's role is System Administrator
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     # log in as System Administrator
     A1(driver, config.system_administrator, config.system_administrator_password)
 
@@ -206,7 +235,7 @@ def test_no_4(driver):
             target = template
             break
     if target is None:
-        raise Exception('Other template for test not found')
+        assert False, 'Other template for test not found'
 
     # click test template and edit subject and body
     target.click()
@@ -237,7 +266,7 @@ def test_no_4(driver):
             target = template
             break
     if target is None:
-        raise Exception('Editing Other template failed')
+        assert False, 'Editing Other template failed'
 
     # check if the save is successful
     target.click()
@@ -253,6 +282,13 @@ def test_no_4(driver):
     save_screenshot(driver, sys._getframe().f_code.co_name)
 
 def test_no_5(driver):
+    """No.5 Create new Terms and Conditions
+    
+    Log in User's role is Repository Administrator
+
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     # log in as Repository Administrator
     A1(driver, config.repository_administrator, config.repository_administrator_password)
 
@@ -320,6 +356,14 @@ def test_no_5(driver):
     save_screenshot(driver, sys._getframe().f_code.co_name)
 
 def test_no_6(driver):
+    """No.6 Edit Terms and Conditions
+    
+    Log in User's role is Repository Administrator
+    No.5 has been executed
+
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     # log in as Repository Administrator
     A1(driver, config.repository_administrator, config.repository_administrator_password)
 
@@ -336,7 +380,7 @@ def test_no_6(driver):
             target = term
             break
     if target is None:
-        raise Exception('Term what created by test_no_5 not found')
+        assert False, 'Term what created by test_no_5 not found'
 
     # click target term
     target.click()
@@ -385,7 +429,7 @@ def test_no_6(driver):
             target = term
             break
     if target is None:
-        raise Exception('Editing Terms and Conditions failed')
+        assert False, 'Editing Terms and Conditions failed'
 
     # check if the save is successful
     target.click()
@@ -406,6 +450,14 @@ def test_no_6(driver):
     save_screenshot(driver, sys._getframe().f_code.co_name)
 
 def test_no_7(driver):
+    """No.7 Delete Terms and Conditions
+    
+    Log in User's role is Repository Administrator
+    No.5 has been executed
+
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     # log in as Repository Administrator
     A1(driver, config.repository_administrator, config.repository_administrator_password)
 
@@ -422,7 +474,7 @@ def test_no_7(driver):
             target = term
             break
     if target is None:
-        raise Exception('Term what created by test_no_5 and edited by test_no_6 not found')
+        assert False, 'Term what created by test_no_5 and edited by test_no_6 not found'
 
     # delete target term
     target.find_elements(By.TAG_NAME, 'a')[1].click()
@@ -451,11 +503,27 @@ def test_no_7(driver):
     save_screenshot(driver, sys._getframe().f_code.co_name)
 
 def test_no_8(driver):
+    """No.8 Can't delete Terms and Conditions if it is set to any item
+    
+    Log in User's role is Repository Administrator
+    The Terms and Conditions if it is set to any item exists
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     # skip this test
     # NII_WEKO3-240
-    pass
+    assert True
 
 def test_no_12(driver):
+    """No.12 Check Data Usage Report Work Flow exists
+    
+    Log in User's role is Repository Administrator
+    Data Usage Report Work Flow if it is before registration exists
+
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     # log in as Repository Administrator
     A1(driver, config.repository_administrator, config.repository_administrator_password)
 
@@ -468,7 +536,7 @@ def test_no_12(driver):
     reminder_location = usage_report_reminder_email.location
     driver.execute_script('window.scrollTo(0, ' + str(reminder_location['y']) + ')')
 
-    # check if Usage Report Reminder Email exists
+    # check if Data Usage Report Work Flow exists
     tbody = driver.find_element(
         By.XPATH, '//*[@id="root"]/div/div[8]/div/div/div/div[2]/div[1]/table/tbody')
     trs = tbody.find_elements(By.TAG_NAME, 'tr')
@@ -477,6 +545,13 @@ def test_no_12(driver):
     save_screenshot(driver, sys._getframe().f_code.co_name)
 
 def test_no_13(driver):
+    """No.13 Send Mail of Usage Report Reminder Email
+    
+    Log in User's role is Repository Administrator
+
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     # log in as Repository Administrator
     A1(driver, config.repository_administrator, config.repository_administrator_password)
 
@@ -513,6 +588,13 @@ def test_no_13(driver):
     save_screenshot(driver, sys._getframe().f_code.co_name)
 
 def test_no_14(driver):
+    """No.14 Check Restricted Access and Mail Templates not exists
+    
+    Log in User's role is Community Administrator
+
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     # log in as Community Administrator
     A1(driver, config.community_administrator, config.community_administrator_password)
 
@@ -546,6 +628,13 @@ def test_no_14(driver):
     save_screenshot(driver, sys._getframe().f_code.co_name)
 
 def test_no_15(driver):
+    """No.15 Check Administration not exists
+    
+    Log in User's role is Contributor
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     # log in as Contributor
     A1(driver, config.contributor, config.contributor_password)
 
@@ -570,6 +659,13 @@ def test_no_15(driver):
     save_screenshot(driver, sys._getframe().f_code.co_name)
 
 def test_no_16(driver):
+    """No.16 Check Administration not exists
+    
+    Log in User's role is General
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     # log in as general
     A1(driver, config.general, config.general_password)
 
@@ -594,5 +690,12 @@ def test_no_16(driver):
     save_screenshot(driver, sys._getframe().f_code.co_name)
 
 def save_screenshot(driver, co_name):
+    """Save screenshot
+    
+    Args:
+        driver(WebDriver): WebDriver object
+        co_name(str): test case name
+    """
     time.sleep(1)
-    driver.save_screenshot(config.base_save_folder + d + "_" + co_name + ".png")
+    driver.save_screenshot(
+        config.base_save_folder + 'admin/' + d + "_" + co_name + ".png")

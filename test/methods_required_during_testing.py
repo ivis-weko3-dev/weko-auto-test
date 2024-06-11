@@ -349,28 +349,39 @@ def A20(driver):
     driver.find_element(By.XPATH, '//*[@id="btn_quit"]').click()
 
 def transition_to_mail_template(driver):
+    """Transition to Mail Template page
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     driver.get(config.base_url + "/admin/mailtemplates/")
     time.sleep(1)
 
 def set_secret_url(driver, param):
     """Set SecretURL Status.
 
-    :param driver: webdriver
-    :param param: bool
+    Args:
+        driver(WebDriver): WebDriver object
+        param(bool): On(True) or OFF(False)
     """
     # access to Administration/restricted access page
     driver.get(config.base_url + "/admin/restricted_access/")
     driver.implicitly_wait(10)
-    
+
     # click 'SecretURL enable button' if its checked is not equal to param
     check_box = driver.find_element(By.XPATH, '//*[@id="secret_enable"]')
     if bool(check_box.get_attribute("checked")) != param:
         check_box.click()
         driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    
+
     time.sleep(1)
 
 def transition_to_restricted_access(driver):
+    """Transition to Restricted Access page
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     driver.get(config.base_url + "/admin/restricted_access/")
     time.sleep(1)
     
