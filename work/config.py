@@ -31,6 +31,33 @@ general_password = 'uspass123'
 term_title = 'Test Terms and Conditions Title'
 edited_term_title = 'Edited ' + term_title
 
+secret_url_users = {
+    'C1': {
+        'mail': 'repoadmin@weko-selenium.jp',
+        'password': 'uspass123'
+    },
+    'C2': {
+        'mail': 'comadmin@weko-selenium.jp',
+        'password': 'uspass123'
+    },
+    'C3': {
+        'mail': 'reg-contributor@weko-selenium.jp',
+        'password': 'uspass123'
+    },
+    'C4': {
+        'mail': 'noreg-contributor@weko-selenium.jp',
+        'password': 'uspass123'
+    },
+    'C5': {
+        'mail': 'prxreg-contributor@weko-selenium.jp',
+        'password': 'uspass123'
+    },
+    'C6': {
+        'mail': 'general@weko-selenium.jp',
+        'password': 'uspass123'
+    }
+}
+
 class SetupDriver:
     def setup_driver(self):
         options = webdriver.ChromeOptions()

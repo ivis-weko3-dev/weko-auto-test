@@ -384,6 +384,37 @@ def transition_to_restricted_access(driver):
     """
     driver.get(config.base_url + "/admin/restricted_access/")
     time.sleep(1)
+
+def search_and_display_target_item(driver, param):
+    # access to WEKO's TOP page
+    driver.get(config.base_url)
+
+    # search target item
+    search_box = driver.find_element(By.XPATH, '//*[@id="q"]')
+    search_box.send_keys(param)
+    driver.find_element(By.XPATH, '//*[@id="top-search-btn"]').click()
+    time.sleep(1)
+
+    # display target item
+    search_result = driver.find_element(
+        By.XPATH, '//*[@id="index_item_list"]/div[2]/div/div/invenio-search-results')
+    search_result_list = search_result.find_elements(By.CLASS_NAME, 'panel')
+    for result in search_result_list:
+        header = result.find_element(By.XPATH, './/div/div/a')
+        if header.text == param:
+            header.click()
+            break
+
+    time.sleep(1)
+
+def click_file_information_button(driver):
+    button_list = driver.find_element(
+        By.XPATH, '//*[@id="detail-item"]/table/tbody/tr/td[3]').find_elements(By.TAG_NAME, 'a')
+    for button in button_list:
+        if button.text == 'Information':
+            button.click()
+            break
+    time.sleep(1)
     
 def main():
     try:
