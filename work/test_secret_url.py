@@ -394,7 +394,99 @@ def test_no_15(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-# No.16 - No.20 are not created because No.15 is failed
+def test_no_16(driver):
+    """No.16 Send email containing secret URL
+    
+    Secret URL is enabled
+    Expiration Date is 3
+    Download Limit is 3
+    Access Setting is Open Date and publish date is after today
+    User's Role is Repository Administrator
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    # log in as Repository Administrator
+    login(driver, 'Repository')
+
+    # search target item
+    search_and_display_target_item(driver, 'B3_公開前')
+
+    # display content's info
+    click_file_information_button(driver)
+
+    # click secret url button
+    A7(driver)
+
+    # check mail
+    check_secret_url_mail(driver, config.users['Repository']['mail'], 'B3_公開前', 3, 3)
+
+def test_no_17(driver):
+    """No.17 Download the target content
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    # download the target content
+    A8(driver, 'root')
+
+    # check download file
+    file_list = os.listdir(config.base_download_dir)
+    assert 'before_publish.txt' in file_list
+
+def test_no_18(driver):
+    """No.18 Try to download the target content over the download limit
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    # download the target content several times
+    # In No.17, download the content once, so the number of remaining downloads is 2
+    for i in range(3):
+        A8(driver, 'root')
+        if i < 2:
+            # check download file
+            file_list = os.listdir(config.base_download_dir)
+            assert 'before_publish (' + str(i + 1) + ').txt' in file_list
+        else:
+            # check over download limit error message
+            check_over_download_limit_error_message(driver)
+
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+
+    # delete downloaded files to do other tests
+    delete_target_files = [file for file in file_list if file.startswith('before_publish')]
+    for file in delete_target_files:
+        os.remove(config.base_download_dir + '/' + file)
+
+# No.19 is not created because this test is difficult to automate
+
+def test_no_20(driver):
+    """No.20 Secret URL different from No.16's secret URL
+    
+    Secret URL is enabled
+    Expiration Date is 3
+    Download Limit is 3
+    Access Setting is Open Date and publish date is after today
+    User's Role is Repository Administrator
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    # log in as Repository Administrator
+    login(driver, 'Repository')
+
+    # search target item
+    search_and_display_target_item(driver, 'B3_公開前')
+
+    # display content's info
+    click_file_information_button(driver)
+
+    # click secret url button
+    A7(driver)
+
+    # check secret url
+    check_secret_url_is_difference()
 
 def test_no_21(driver):
     """No.21 Secret URL button is not hidden
@@ -422,7 +514,99 @@ def test_no_21(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-# No.22 - No.26 are not created because No.21 is failed
+def test_no_22(driver):
+    """No.22 Send email containing secret URL
+    
+    Secret URL is enabled
+    Expiration Date is 3
+    Download Limit is 3
+    Access Setting is Open Date and publish date is after today
+    User's Role is Contributor and the item's owner
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    # log in as Contributor
+    login(driver, 'RegCon')
+
+    # search target item
+    search_and_display_target_item(driver, 'B3_公開前')
+
+    # display content's info
+    click_file_information_button(driver)
+
+    # click secret url button
+    A7(driver)
+
+    # check mail
+    check_secret_url_mail(driver, config.users['RegCon']['mail'], 'B3_公開前', 3, 3)
+
+def test_no_23(driver):
+    """No.23 Download the target content
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    # download the target content
+    A8(driver, 'root')
+
+    # check download file
+    file_list = os.listdir(config.base_download_dir)
+    assert 'before_publish.txt' in file_list
+
+def test_no_24(driver):
+    """No.24 Try to download the target content over the download limit
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    # download the target content several times
+    # In No.23, download the content once, so the number of remaining downloads is 2
+    for i in range(3):
+        A8(driver, 'root')
+        if i < 2:
+            # check download file
+            file_list = os.listdir(config.base_download_dir)
+            assert 'before_publish (' + str(i + 1) + ').txt' in file_list
+        else:
+            # check over download limit error message
+            check_over_download_limit_error_message(driver)
+
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+
+    # delete downloaded files to do other tests
+    delete_target_files = [file for file in file_list if file.startswith('before_publish')]
+    for file in delete_target_files:
+        os.remove(config.base_download_dir + '/' + file)
+
+# No.25 is not created because this test is difficult to automate
+
+def test_no_26(driver):
+    """No.26 Secret URL different from No.22's secret URL
+    
+    Secret URL is enabled
+    Expiration Date is 3
+    Download Limit is 3
+    Access Setting is Open Date and publish date is after today
+    User's Role is Contributor and the item's owner
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    # log in as Contributor
+    login(driver, 'RegCon')
+
+    # search target item
+    search_and_display_target_item(driver, 'B3_公開前')
+
+    # display content's info
+    click_file_information_button(driver)
+
+    # click secret url button
+    A7(driver)
+
+    # check secret url
+    check_secret_url_is_difference()
 
 def test_no_27(driver):
     """No.27 Display error message
@@ -1995,9 +2179,91 @@ def test_no_90(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-# No.91 is not created because No.15 is failed
+def test_no_91(driver):
+    """No.91 Download file with secret URL is failed
+    
+    Secret URL is enabled and switch to disabled after email is sent
+    Expiration Date is 3
+    Download Limit is 3
+    Access Setting is Open Date and publish date is after today
+    User's Role is Repository Administrator
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    # log in as Repository Administrator
+    login(driver, 'Repository')
 
-# No.92 is not created because No.21 is failed
+    # enable secret url
+    set_secret_url(driver, True)
+
+    # search target item
+    search_and_display_target_item(driver, 'B3_公開前')
+
+    # display content's info
+    click_file_information_button(driver)
+
+    # click secret url button
+    A7(driver)
+
+    # disable secret url
+    set_secret_url(driver, False)
+
+    # download the target file
+    A8(driver, 'root')
+
+    # check error page has the class what name is error-page
+    error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
+    assert len(error_page) > 0, 'This page is not error page'
+
+def test_no_92(driver):
+    """No.92 Download file with secret URL is failed
+    
+    Secret URL is enabled and switch to disabled after email is sent
+    Expiration Date is 3
+    Download Limit is 3
+    Access Setting is Open Date and publish date is after today
+    User's Role is Contributor and the item's owner
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    # log in as Repository Administrator for enable secret url
+    login(driver, 'Repository')
+
+    # enable secret url
+    set_secret_url(driver, True)
+
+    # log out
+    logout(driver)
+
+    # log in as Contributor
+    login(driver, 'RegCon')
+
+    # search target item
+    search_and_display_target_item(driver, 'B3_公開前')
+
+    # display content's info
+    click_file_information_button(driver)
+
+    # click secret url button
+    A7(driver)
+
+    # log out
+    logout(driver)
+
+    # log in as Repository Administrator for disable secret url
+    login(driver, 'Repository')
+
+    # disable secret url
+    set_secret_url(driver, False)
+
+    # download the target file
+    A8(driver, 'root')
+
+    # check error page has the class what name is error-page
+    error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
+    assert len(error_page) > 0, 'This page is not error page'
 
 def test_no_93(driver):
     """No.93 Download file with secret URL is failed
@@ -2085,9 +2351,117 @@ def test_no_94(driver):
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
     assert len(error_page) > 0, 'This page is not error page'
 
-# No.95 is not created because No.15 is failed
+def test_no_95(driver):
+    """No.95 The number of possible downloads changes by changing Download Limit
+    
+    Secret URL is enabled
+    Expiration Date is 3
+    Download Limit is 3 and switch to 5 after email is sent
+    Access Setting is Open Date and publish date is after today
+    User's Role is Repository Administrator
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    # log in as Repository Administrator
+    login(driver, 'Repository')
 
-# No.96 is not created because No.21 is failed
+    # enable secret url and set download limit to 3
+    set_secret_url(driver, True)
+    A4(driver, 3)
+
+    # search target item
+    search_and_display_target_item(driver, 'B3_公開前')
+
+    # display content's info
+    click_file_information_button(driver)
+
+    # click secret url button
+    A7(driver)
+
+    # set download limit to 5
+    A4(driver, 5)
+
+    # download the target content several times
+    for i in range(6):
+        A8(driver, 'root')
+        if i < 5:
+            # check download file
+            parentheses = ' (' + str(i) + ')' if i > 0 else ''
+            file_list = os.listdir(config.base_download_dir)
+            assert 'before_publish' + parentheses + '.txt' in file_list
+        else:
+            # check over download limit error message
+            check_over_download_limit_error_message(driver)
+
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+
+    # delete download files to do other tests
+    delete_target_files = [file for file in file_list if file.startswith('before_publish')]
+    for file in delete_target_files:
+        os.remove(config.base_download_dir + '/' + file)
+
+def test_no_96(driver):
+    """No.96 The number of possible downloads changes by changing Download Limit
+    
+    Secret URL is enabled
+    Expiration Date is 3
+    Download Limit is 3 and switch to 5 after email is sent
+    Access Setting is Open Date and publish date is after today
+    User's Role is Contributor and the item's owner
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    # log in as Repository Administrator for set download limit to 3
+    login(driver, 'Repository')
+
+    # enable secret url and set download limit to 3
+    set_secret_url(driver, True)
+    A4(driver, 3)
+
+    # log out
+    logout(driver)
+
+    # log in as Contributor
+    login(driver, 'RegCon')
+
+    # search target item
+    search_and_display_target_item(driver, 'B3_公開前')
+
+    # display content's info
+    click_file_information_button(driver)
+
+    # click secret url button
+    A7(driver)
+
+    # log out
+    logout(driver)
+
+    # log in as Repository Administrator for set download limit to 5
+    login(driver, 'Repository')
+
+    # set download limit to 5
+    A4(driver, 5)
+
+    # download the target content several times
+    for i in range(6):
+        A8(driver, 'root')
+        if i < 5:
+            # check download file
+            parentheses = ' (' + str(i) + ')' if i > 0 else ''
+            file_list = os.listdir(config.base_download_dir)
+            assert 'before_publish' + parentheses + '.txt' in file_list
+        else:
+            # check over download limit error message
+            check_over_download_limit_error_message(driver)
+
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+
+    # delete download files to do other tests
+    delete_target_files = [file for file in file_list if file.startswith('before_publish')]
+    for file in delete_target_files:
+        os.remove(config.base_download_dir + '/' + file)
 
 def test_no_97(driver):
     """No.97 The number of possible downloads changes by changing Download Limit
