@@ -590,14 +590,14 @@ def test_no_13(driver):
 
     # find target mail
     xs = []
-    for root, dir, files in os.walk('mail/root/new'):
+    for root, _, files in os.walk('mail/root/new'):
         for file in files:
             path = os.path.join(root, file)
             xs.append((os.path.getmtime(path), path))
     target_mail = sorted(xs, reverse=True)[0][1]
 
     # check mail recipient
-    with open(target_mail, 'r') as f:
+    with open(target_mail, 'r', encoding='utf-8') as f:
         lines = f.read().splitlines()
     recipient = [line for line in lines if line.startswith('To: ')]
     assert recipient[1].split(' ')[1] == user

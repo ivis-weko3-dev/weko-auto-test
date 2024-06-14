@@ -2310,14 +2310,14 @@ def check_secret_url_mail(driver, mail_address, item_name, expiration_date_num, 
 
     # find target mail
     xs = []
-    for root, dir, files in os.walk('mail/root/new'):
+    for root, _, files in os.walk('mail/root/new'):
         for file in files:
             path = os.path.join(root, file)
             xs.append((os.path.getmtime(path), path))
     target_mail = sorted(xs, reverse=True)[0][1]
 
     # check mail recipient
-    with open(target_mail, 'r') as f:
+    with open(target_mail, 'r', encoding='utf-8') as f:
         lines = f.read().splitlines()
     recipient = [line for line in lines if line.startswith('To: ')]
     assert recipient[1].split(' ')[1] == mail_address
@@ -2346,12 +2346,12 @@ def check_secret_url_is_difference():
     mail_list = os.listdir(path)
 
     # get the latest mail
-    with open(path + '/' + mail_list[-1], 'r') as f:
+    with open(path + '/' + mail_list[-1], 'r', encoding='utf-8') as f:
         text = f.read()
         latest_url = re.search('https://.*', text).group()
 
     # get the second latest mail
-    with open(path + '/' + mail_list[-2], 'r') as f:
+    with open(path + '/' + mail_list[-2], 'r', encoding='utf-8') as f:
         text = f.read()
         second_latest_url = re.search('https://.*', text).group()
 

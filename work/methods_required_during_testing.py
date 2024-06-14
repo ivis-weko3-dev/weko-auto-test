@@ -55,30 +55,34 @@ def A1(driver, account_mail, account_password):
     """
     # access to WEKO's TOP page
     driver.get(config.base_url)
+    driver.implicitly_wait(10)
     
     # show Login page with press login button
     driver.find_element(By.XPATH, '//*[@id="fixed_header"]/form/a[1]').click()
+    driver.implicitly_wait(10)
     
     # enter mail-address and password and click login button
     driver.find_element(By.XPATH, '//*[@id="email"]').send_keys(account_mail)
     driver.find_element(By.XPATH, '//*[@id="password"]').send_keys(account_password)
     driver.find_element(By.XPATH, '/html/body/div/div[2]/div/div/div/div[1]/form/button').click()
     
-    time.sleep(2)
+    time.sleep(1)
     
-def A2(driver):
-    """Switch SecretURL ON/OFF.
+def A2(driver, enable):
+    """Set SecretURL ON/OFF.
 
     :param driver: webdriver
+    :param enable: boolean
     """
     # access to Administration/restricted access page
     driver.get(config.base_url + "/admin/restricted_access/")
     driver.implicitly_wait(10)
     
-    # click 'SecretURL enable button'
+    # click 'SecretURL enable/disable button'
     check_box = driver.find_element(By.XPATH, '//*[@id="secret_enable"]')
-    check_box.click()
-    driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
+    if (check_box.get_attribute("checked") == "true") != enable:
+        check_box.click()
+        driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
     
     time.sleep(1)
     
@@ -212,76 +216,9 @@ def A8(driver, user):
         print(e)
     time.sleep(1)
     
-
-    
-# 利用申請
-def A10(driver, guest_mail = None):
-    # 利用申請ボタン押下
+# ダウンロードボタンまたは利用申請ボタン押下
+def A10(driver):
     driver.find_element(By.XPATH, '//*[@id="detail-item"]/table/tbody/tr/td[3]/a[1]/button').click()
-    
-    # プリントボタン押下、印刷画面表示
-    # driver.find_element(By.XPATH, '//*[@id="print-btn"]').click()
-    try:
-        driver.find_element(By.CLASS_NAME, 'pointer').click()
-    except:
-        # driver.find_element(By.XPATH, '//*[@id="allModal"]/div/div/div[3]/button'):
-        return
-    
-    driver.find_element(By.CLASS_NAME, 'term_next').click()
-    
-    if guest_mail != None:
-        driver.find_element(By.XPATH, '//*[@id="user_mail"]').send_keys(guest_mail)
-        driver.find_element(By.XPATH, '//*[@id="user_mail_confirm"]').send_keys(guest_mail)
-        driver.find_element(By.XPATH, '//*[@id="confirm_email_btn"]').click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, '//*[@id="modalSendEmailSuccess"]/div/div/div[3]/div/button').click()
-        A8(driver, "guest")
-        
-
-    # 利用申請ワークフロー、「次へ」ボタン押下
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="weko_records_ctrl"]/div[8]/div/div[1]/div/button[2]/span').click()
-    
-    # インデックスツリー登録後「次へ」ボタン押下
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="step_page"]/div[2]/div/app-root-tree/app-tree-list2/div[2]/div/div[1]/div/div/div[2]/tree/tree-internal/ul/li/tree-internal/ul/li/div/div[2]/input').click()
-    driver.find_element(By.XPATH, '//*[@id="step_page"]/div[2]/div/app-root-tree/app-tree-list2/div[2]/div/div[2]/div/div/div[3]/button[2]').click()
-    
-    # 「次へ」ボタン押下
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
-    
-    # 「次へ」ボタン押下
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="step_page_permission"]/div/div/div/h1')
-    
-    # ログアウト後管理者で再ログイン
-    logout(driver)
-    
-    A1(driver, "root@weko-selenium.jp", "uspass123")
-    
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="background-color-main-content"]/ul/li[2]/a').click()
-    
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table/tbody/tr[1]/td[5]/a').click()
-    
-    # 「承認」ボタン押下
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="btn-approval"]').click()
-    
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="workFlow"]/div[2]/div/div/div[1]/lable')
-    
-    time.sleep(2)
-    
-    if guest_mail != None:
-        logout(driver)
-        A8(driver, "guest")
-        
-        driver.implicitly_wait(10)
-        driver.find_element(By.XPATH, '//*[@id="mail_form"]').send_keys(guest_mail)
-        driver.find_element(By.XPATH, '//*[@id="mailaddress_confirm_download"]').click()
     
 # プリントボタン押下
 def A11(driver):
@@ -347,6 +284,21 @@ def A19(driver):
 # WF強制終了ボタン押下
 def A20(driver):
     driver.find_element(By.XPATH, '//*[@id="btn_quit"]').click()
+
+def B1(driver):
+    # 管理者画面表示
+    driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/button').click()
+    driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/ul/li[6]').click()
+    
+    driver.implicitly_wait(10)
+    driver.find_element(By.XPATH, '/html/body/div/aside/section/ul/li[15]').click()
+    driver.find_element(By.XPATH, '/html/body/div/aside/section/ul/li[15]/ul/li[17]').click()
+    
+    driver.implicitly_wait(10)
+    driver.find_element(By.XPATH, '//*[@id="new_term"]').click()
+    driver.find_element(By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input').send_keys("aaa")
+    driver.find_element(By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea').send_keys("sample text")
+
 
 def transition_to_mail_template(driver):
     """Transition to Mail Template page
