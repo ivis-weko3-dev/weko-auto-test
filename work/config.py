@@ -18,41 +18,35 @@ test_account_mail = "contributor@weko-selenium.jp"
 test_account_password = "uspass123"
 guest_mail = "guest@weko-selenium.jp"
 
-system_administrator = 'wekosoftware@nii.ac.jp'
-system_administrator_password = 'uspass123'
-repository_administrator = 'repoadmin@example.org'
-repository_administrator_password = 'uspass123'
-community_administrator = 'comadmin@example.org'
-community_administrator_password = 'uspass123'
-contributor = 'contributor@example.org'
-contributor_password = 'uspass123'
-general = 'user@example.org'
-general_password = 'uspass123'
 term_title = 'Test Terms and Conditions Title'
 edited_term_title = 'Edited ' + term_title
 
-secret_url_users = {
-    'C1': {
+users = {
+    'System': {
+        'mail': 'sysadmin@weko-selenium.jp',
+        'password': 'uspass123'
+    },
+    'Repository': {
         'mail': 'repoadmin@weko-selenium.jp',
         'password': 'uspass123'
     },
-    'C2': {
+    'Community': {
         'mail': 'comadmin@weko-selenium.jp',
         'password': 'uspass123'
     },
-    'C3': {
+    'RegCon': {
         'mail': 'reg-contributor@weko-selenium.jp',
         'password': 'uspass123'
     },
-    'C4': {
+    'NoRegCon': {
         'mail': 'noreg-contributor@weko-selenium.jp',
         'password': 'uspass123'
     },
-    'C5': {
+    'PrxRegCon': {
         'mail': 'prxreg-contributor@weko-selenium.jp',
         'password': 'uspass123'
     },
-    'C6': {
+    'General': {
         'mail': 'general@weko-selenium.jp',
         'password': 'uspass123'
     }

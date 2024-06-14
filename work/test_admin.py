@@ -1,4 +1,5 @@
-import sys
+import inspect
+import os
 
 import config
 from methods_required_during_testing import *
@@ -11,7 +12,7 @@ def test_no_1(driver):
         driver(WebDriver): WebDriver object  
     """
     # log in as System Administrator
-    A1(driver, config.system_administrator, config.system_administrator_password)
+    login(driver, 'System')
 
     # Secret URL Download disable
     set_secret_url(driver, False)
@@ -60,7 +61,7 @@ def test_no_1(driver):
 
     # scroll down other mail templates
     driver.execute_script('document.querySelectorAll(".scrollbar")[0].scrollBy(0, 1000)')
-    save_screenshot(driver, sys._getframe().f_code.co_name)
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 def test_no_2(driver):
     """No.2 Edit Secret URL Download mail template
@@ -72,7 +73,7 @@ def test_no_2(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as System Administrator
-    A1(driver, config.system_administrator, config.system_administrator_password)
+    login(driver, 'System')
 
     # Secret URL Download enable
     set_secret_url(driver, True)
@@ -134,7 +135,7 @@ def test_no_2(driver):
     # scroll up window and body
     driver.execute_script('window.scroll(0, 0)')
     driver.execute_script('document.getElementsByTagName("textarea")[0].scroll(0, 0)')
-    save_screenshot(driver, sys._getframe().f_code.co_name)
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 def test_no_3(driver):
     """No.3 Edit Guest User Request mail template
@@ -145,7 +146,7 @@ def test_no_3(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as System Administrator
-    A1(driver, config.system_administrator, config.system_administrator_password)
+    login(driver, 'System')
 
     # Secret URL Download disable
     set_secret_url(driver, False)
@@ -207,7 +208,7 @@ def test_no_3(driver):
     # scroll up window and body
     driver.execute_script('window.scroll(0, 0)')
     driver.execute_script('document.getElementsByTagName("textarea")[0].scroll(0, 0)')
-    save_screenshot(driver, sys._getframe().f_code.co_name)
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 def test_no_4(driver):
     """No.4 Edit Other mail template
@@ -218,7 +219,7 @@ def test_no_4(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as System Administrator
-    A1(driver, config.system_administrator, config.system_administrator_password)
+    login(driver, 'System')
 
     # Secret URL Download disable
     set_secret_url(driver, False)
@@ -279,7 +280,7 @@ def test_no_4(driver):
 
     # scroll up window and body
     driver.execute_script('document.getElementsByTagName("textarea")[0].scroll(0, 0)')
-    save_screenshot(driver, sys._getframe().f_code.co_name)
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 def test_no_5(driver):
     """No.5 Create new Terms and Conditions
@@ -290,7 +291,7 @@ def test_no_5(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    A1(driver, config.repository_administrator, config.repository_administrator_password)
+    login(driver, 'Repository')
 
     # transition to restricted access
     transition_to_restricted_access(driver)
@@ -353,7 +354,7 @@ def test_no_5(driver):
     assert term_content_en.get_attribute('value') == input_content_en
 
     driver.execute_script('window.scrollBy(0, 300)')
-    save_screenshot(driver, sys._getframe().f_code.co_name)
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 def test_no_6(driver):
     """No.6 Edit Terms and Conditions
@@ -365,7 +366,7 @@ def test_no_6(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    A1(driver, config.repository_administrator, config.repository_administrator_password)
+    login(driver, 'Repository')
 
     # transition to restricted access
     transition_to_restricted_access(driver)
@@ -447,7 +448,7 @@ def test_no_6(driver):
     assert term_content_en.get_attribute('value') == input_content_en
 
     driver.execute_script('window.scrollBy(0, 300)')
-    save_screenshot(driver, sys._getframe().f_code.co_name)
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 def test_no_7(driver):
     """No.7 Delete Terms and Conditions
@@ -459,7 +460,7 @@ def test_no_7(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    A1(driver, config.repository_administrator, config.repository_administrator_password)
+    login(driver, 'Repository')
 
     # transition to restricted access
     transition_to_restricted_access(driver)
@@ -500,7 +501,7 @@ def test_no_7(driver):
     assert target is None
 
     driver.execute_script('window.scrollBy(0, 300)')
-    save_screenshot(driver, sys._getframe().f_code.co_name)
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 def test_no_8(driver):
     """No.8 Can't delete Terms and Conditions if it is set to any item
@@ -525,7 +526,7 @@ def test_no_12(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    A1(driver, config.repository_administrator, config.repository_administrator_password)
+    login(driver, 'Repository')
 
     # transition to restricted access
     transition_to_restricted_access(driver)
@@ -542,7 +543,7 @@ def test_no_12(driver):
     trs = tbody.find_elements(By.TAG_NAME, 'tr')
     assert len(trs) > 0
 
-    save_screenshot(driver, sys._getframe().f_code.co_name)
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 def test_no_13(driver):
     """No.13 Send Mail of Usage Report Reminder Email
@@ -553,7 +554,7 @@ def test_no_13(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    A1(driver, config.repository_administrator, config.repository_administrator_password)
+    login(driver, 'Repository')
 
     # transition to restricted access
     transition_to_restricted_access(driver)
@@ -568,24 +569,50 @@ def test_no_13(driver):
     tbody = driver.find_element(
         By.XPATH, '//*[@id="root"]/div/div[8]/div/div/div/div[2]/div[1]/table/tbody')
     trs = tbody.find_elements(By.TAG_NAME, 'tr')
-    if len(trs) == 0:
-        raise Exception('Usage Report Reminder Email not found')
+    assert len(trs) > 0, 'Usage Report Reminder Email not found'
+
+    # get activity and user
+    activity = trs[0].find_element(By.XPATH, './/td[2]').text
+    user = trs[0].find_element(By.XPATH, './/td[6]').text
 
     # click check box of first reminder
-    reminder_check_box = driver.find_element(
-        By.XPATH,
-        '//*[@id="root"]/div/div[8]/div/div/div/div[2]/div[1]/table/tbody/tr[1]/td[1]/input'
-    )
+    reminder_check_box = trs[0].find_element(By.XPATH, './/td[1]/input')
     reminder_check_box.click()
+    time.sleep(1)
 
     # click Confirm button
     driver.find_element(By.XPATH, '//*[@id="filter_form_submit"]').click()
+    time.sleep(1)
 
     # click Send Mail button
     driver.find_element(By.XPATH, '/html/body/div[2]/div[2]/div/div/div[2]/div/button[1]').click()
-    # mail sending error
+    time.sleep(1)
 
-    save_screenshot(driver, sys._getframe().f_code.co_name)
+    # find target mail
+    xs = []
+    for root, dir, files in os.walk('mail/root/new'):
+        for file in files:
+            path = os.path.join(root, file)
+            xs.append((os.path.getmtime(path), path))
+    target_mail = sorted(xs, reverse=True)[0][1]
+
+    # check mail recipient
+    with open(target_mail, 'r') as f:
+        lines = f.read().splitlines()
+    recipient = [line for line in lines if line.startswith('To: ')]
+    assert recipient[1].split(' ')[1] == user
+
+    # check mail body
+    usage_report_no_jp = [line for line in lines if line.startswith('報告番号：')]
+    usage_report_no_en = [line for line in lines if line.startswith('Usage Report No.：')]
+    email_jp = [line for line in lines if line.startswith('メールアドレス：')]
+    email_en = [line for line in lines if line.startswith('E-mail：')]
+    assert usage_report_no_jp[0].split('：')[1] == activity
+    assert usage_report_no_en[0].split('：')[1] == activity
+    assert email_jp[0].split('：')[1] == user
+    assert email_en[0].split('：')[1] == user
+
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 def test_no_14(driver):
     """No.14 Check Restricted Access and Mail Templates not exists
@@ -596,7 +623,7 @@ def test_no_14(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    A1(driver, config.community_administrator, config.community_administrator_password)
+    login(driver, 'Community')
 
     # access to admin page
     driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/button').click()
@@ -625,7 +652,7 @@ def test_no_14(driver):
     assert not is_exist_restricted_access
     assert not is_exist_mail_templates
 
-    save_screenshot(driver, sys._getframe().f_code.co_name)
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 def test_no_15(driver):
     """No.15 Check Administration not exists
@@ -636,7 +663,7 @@ def test_no_15(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Contributor
-    A1(driver, config.contributor, config.contributor_password)
+    login(driver, 'RegCon')
 
     # open menu
     driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/button').click()
@@ -656,7 +683,7 @@ def test_no_15(driver):
     # assert not exists Administration
     assert not is_exist_administration
 
-    save_screenshot(driver, sys._getframe().f_code.co_name)
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 def test_no_16(driver):
     """No.16 Check Administration not exists
@@ -667,7 +694,7 @@ def test_no_16(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as general
-    A1(driver, config.general, config.general_password)
+    login(driver, 'General')
 
     # open menu
     driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/button').click()
@@ -687,7 +714,19 @@ def test_no_16(driver):
     # assert not exists Administration
     assert not is_exist_administration
 
-    save_screenshot(driver, sys._getframe().f_code.co_name)
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+
+def login(driver, target_key):
+    """Log in as target user
+    
+    Args:
+        driver(WebDriver): WebDriver object
+        target_key(str): key of target user in config.users
+    """
+    # set login_user from config
+    login_user = config.users[target_key]
+    # log in as target user
+    A1(driver, login_user['mail'], login_user['password'])
 
 def save_screenshot(driver, co_name):
     """Save screenshot
