@@ -338,6 +338,12 @@ def transition_to_restricted_access(driver):
     time.sleep(1)
 
 def search_and_display_target_item(driver, param):
+    """Search and display target item
+    
+    Args:
+        driver(WebDriver): WebDriver object
+        param(str): target item's title
+    """
     # access to WEKO's TOP page
     driver.get(config.base_url)
 
@@ -360,6 +366,11 @@ def search_and_display_target_item(driver, param):
     time.sleep(1)
 
 def click_file_information_button(driver):
+    """Click File Information button
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     button_list = driver.find_element(
         By.XPATH, '//*[@id="detail-item"]/table/tbody/tr/td[3]').find_elements(By.TAG_NAME, 'a')
     for button in button_list:

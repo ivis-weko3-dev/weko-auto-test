@@ -11,7 +11,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from pathlib import Path
 
 # 変数
-base_url = "https://192.168.56.105"
+base_url = "https://192.168.56.103"
 base_save_folder = "screenshots/"
 base_download_dir = "downloads/"
 test_account_mail = "contributor@weko-selenium.jp"
@@ -20,6 +20,8 @@ guest_mail = "guest@weko-selenium.jp"
 
 term_title = 'Test Terms and Conditions Title'
 edited_term_title = 'Edited ' + term_title
+
+application_for_use_error_msg = 'This data is not available for this user'
 
 users = {
     'System': {

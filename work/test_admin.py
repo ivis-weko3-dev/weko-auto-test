@@ -3,6 +3,7 @@ import os
 
 import config
 from methods_required_during_testing import *
+# pytest test_admin.py::test_no_1
 def test_no_1(driver):
     """No.1 Create new mail template
 
@@ -29,16 +30,20 @@ def test_no_1(driver):
     # input subject and body
     test_subject = 'テストテンプレート'
     subject = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input'
+    )
     subject.send_keys(test_subject)
     test_body = 'テストテンプレート本文'
     body = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea'
+    )
     body.send_keys(test_body)
 
     # save mail template
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(1)
+    time.sleep(3)
 
     # refresh page
     driver.refresh()
@@ -53,16 +58,21 @@ def test_no_1(driver):
     assert save_template_element.text.split('|')[1].strip() == test_subject
     save_template_element.click()
     subject = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input'
+    )
     assert subject.get_attribute('value') == test_subject
     body = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea'
+    )
     assert body.get_attribute('value') == test_body
 
     # scroll down other mail templates
     driver.execute_script('document.querySelectorAll(".scrollbar")[0].scrollBy(0, 1000)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+# pytest test_admin.py::test_no_2
 def test_no_2(driver):
     """No.2 Edit Secret URL Download mail template
 
@@ -95,19 +105,23 @@ def test_no_2(driver):
     # click test template and edit subject and body
     target.click()
     subject = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input'
+    )
     edited_subject = '編集済_' + subject.get_attribute('value')
     subject.clear()
     subject.send_keys(edited_subject)
     body = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea'
+    )
     edited_body = '編集後のテンプレート\n' + body.get_attribute('value')
     body.clear()
     body.send_keys(edited_body)
 
     # save mail template
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(1)
+    time.sleep(3)
 
     # refresh page
     driver.refresh()
@@ -126,10 +140,14 @@ def test_no_2(driver):
     # check if the save is successful
     target.click()
     subject = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input'
+    )
     assert subject.get_attribute('value') == edited_subject
     body = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea'
+    )
     assert body.get_attribute('value') == edited_body
 
     # scroll up window and body
@@ -137,6 +155,7 @@ def test_no_2(driver):
     driver.execute_script('document.getElementsByTagName("textarea")[0].scroll(0, 0)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+# pytest test_admin.py::test_no_3
 def test_no_3(driver):
     """No.3 Edit Guest User Request mail template
 
@@ -168,19 +187,23 @@ def test_no_3(driver):
     # click test template and edit subject and body
     target.click()
     subject = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input'
+    )
     edited_subject = '編集済_' + subject.get_attribute('value')
     subject.clear()
     subject.send_keys(edited_subject)
     body = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea'
+    )
     edited_body = '編集後のテンプレート\n' + body.get_attribute('value')
     body.clear()
     body.send_keys(edited_body)
 
     # save mail template
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(1)
+    time.sleep(3)
 
     # refresh page
     driver.refresh()
@@ -199,10 +222,14 @@ def test_no_3(driver):
     # check if the save is successful
     target.click()
     subject = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input'
+    )
     assert subject.get_attribute('value') == edited_subject
     body = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea'
+    )
     assert body.get_attribute('value') == edited_body
 
     # scroll up window and body
@@ -210,6 +237,7 @@ def test_no_3(driver):
     driver.execute_script('document.getElementsByTagName("textarea")[0].scroll(0, 0)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+# pytest test_admin.py::test_no_4
 def test_no_4(driver):
     """No.4 Edit Other mail template
     
@@ -241,19 +269,23 @@ def test_no_4(driver):
     # click test template and edit subject and body
     target.click()
     subject = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input')
+        By.XPATH, 
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input'
+    )
     edited_subject = '編集済_' + subject.get_attribute('value')
     subject.clear()
     subject.send_keys(edited_subject)
     body = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea'
+    )
     edited_body = '編集後のテンプレート\n' + body.get_attribute('value')
     body.clear()
     body.send_keys(edited_body)
 
     # save mail template
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(1)
+    time.sleep(3)
 
     # refresh page
     driver.refresh()
@@ -272,16 +304,21 @@ def test_no_4(driver):
     # check if the save is successful
     target.click()
     subject = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input'
+    )
     assert subject.get_attribute('value') == edited_subject
     body = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea'
+    )
     assert body.get_attribute('value') == edited_body
 
     # scroll up window and body
     driver.execute_script('document.getElementsByTagName("textarea")[0].scroll(0, 0)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+# pytest test_admin.py::test_no_5
 def test_no_5(driver):
     """No.5 Create new Terms and Conditions
     
@@ -303,13 +340,21 @@ def test_no_5(driver):
 
     # get target elements
     term_title_jp = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input'
+    )
     term_content_jp = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
+    )
     term_title_en = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input'
+    )
     term_content_en = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
+    )
 
     # define input values
     input_title_jp = 'テスト利用規約タイトル'
@@ -325,11 +370,11 @@ def test_no_5(driver):
 
     # save Terms and Conditions
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(1)
+    time.sleep(3)
 
     # refresh page
     driver.refresh()
-    time.sleep(1)
+    time.sleep(3)
 
     # redefine elements and get term list after save
     term_box_list = driver.find_element(By.XPATH, '//*[@id="sltBoxListEmail"]')
@@ -341,13 +386,21 @@ def test_no_5(driver):
     assert save_term_element.text == input_title_en
     save_term_element.click()
     term_title_jp = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input'
+    )
     term_content_jp = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
+    )
     term_title_en = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input'
+    )
     term_content_en = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
+    )
     assert term_title_jp.get_attribute('value') == input_title_jp
     assert term_content_jp.get_attribute('value') == input_content_jp
     assert term_title_en.get_attribute('value') == input_title_en
@@ -356,6 +409,7 @@ def test_no_5(driver):
     driver.execute_script('window.scrollBy(0, 300)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+# pytest test_admin.py::test_no_6
 def test_no_6(driver):
     """No.6 Edit Terms and Conditions
     
@@ -388,13 +442,21 @@ def test_no_6(driver):
 
     # get target elements
     term_title_jp = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input'
+    )
     term_content_jp = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
+    )
     term_title_en = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input'
+    )
     term_content_en = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
+    )
 
     # define input values
     input_title_jp = '編集済' + term_title_jp.get_attribute('value')
@@ -414,11 +476,11 @@ def test_no_6(driver):
 
     # save Terms and Conditions
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(1)
+    time.sleep(3)
 
     # refresh page
     driver.refresh()
-    time.sleep(1)
+    time.sleep(3)
 
     # redefine elements
     term_box_list = driver.find_element(By.XPATH, '//*[@id="sltBoxListEmail"]')
@@ -435,21 +497,30 @@ def test_no_6(driver):
     # check if the save is successful
     target.click()
     term_title_jp = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input'
+    )
     assert term_title_jp.get_attribute('value') == input_title_jp
     term_content_jp = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
+    )
     assert term_content_jp.get_attribute('value') == input_content_jp
     term_title_en = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input'
+    )
     assert term_title_en.get_attribute('value') == input_title_en
     term_content_en = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea')
+        By.XPATH,
+        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
+    )
     assert term_content_en.get_attribute('value') == input_content_en
 
     driver.execute_script('window.scrollBy(0, 300)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+# pytest test_admin.py::test_no_7
 def test_no_7(driver):
     """No.7 Delete Terms and Conditions
     
@@ -482,11 +553,11 @@ def test_no_7(driver):
 
     # save Terms and Conditions
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(1)
+    time.sleep(3)
 
     # refresh page
     driver.refresh()
-    time.sleep(1)
+    time.sleep(3)
 
     # redefine elements and check if the save is successful
     term_box_list = driver.find_element(By.XPATH, '//*[@id="sltBoxListEmail"]')
@@ -503,6 +574,7 @@ def test_no_7(driver):
     driver.execute_script('window.scrollBy(0, 300)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+# pytest test_admin.py::test_no_8
 def test_no_8(driver):
     """No.8 Can't delete Terms and Conditions if it is set to any item
     
@@ -516,6 +588,7 @@ def test_no_8(driver):
     # NII_WEKO3-240
     assert True
 
+# pytest test_admin.py::test_no_12
 def test_no_12(driver):
     """No.12 Check Data Usage Report Work Flow exists
     
@@ -533,18 +606,23 @@ def test_no_12(driver):
 
     # scroll to Usage Report Reminder Email's location
     usage_report_reminder_email = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[8]/div/div/div')
+        By.XPATH, 
+        '//*[@id="root"]/div/div[8]/div/div/div'
+    )
     reminder_location = usage_report_reminder_email.location
     driver.execute_script('window.scrollTo(0, ' + str(reminder_location['y']) + ')')
 
     # check if Data Usage Report Work Flow exists
     tbody = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[8]/div/div/div/div[2]/div[1]/table/tbody')
+        By.XPATH,
+        '//*[@id="root"]/div/div[8]/div/div/div/div[2]/div[1]/table/tbody'
+    )
     trs = tbody.find_elements(By.TAG_NAME, 'tr')
     assert len(trs) > 0
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+# pytest test_admin.py::test_no_13
 def test_no_13(driver):
     """No.13 Send Mail of Usage Report Reminder Email
     
@@ -561,13 +639,17 @@ def test_no_13(driver):
 
     # scroll to Usage Report Reminder Email's location
     usage_report_reminder_email = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[8]/div/div/div')
+        By.XPATH, 
+        '//*[@id="root"]/div/div[8]/div/div/div'
+    )
     reminder_location = usage_report_reminder_email.location
     driver.execute_script('window.scrollTo(0, ' + str(reminder_location['y']) + ')')
 
     # get Usage Report Reminder Email's data
     tbody = driver.find_element(
-        By.XPATH, '//*[@id="root"]/div/div[8]/div/div/div/div[2]/div[1]/table/tbody')
+        By.XPATH,
+        '//*[@id="root"]/div/div[8]/div/div/div/div[2]/div[1]/table/tbody'
+    )
     trs = tbody.find_elements(By.TAG_NAME, 'tr')
     assert len(trs) > 0, 'Usage Report Reminder Email not found'
 
@@ -578,15 +660,15 @@ def test_no_13(driver):
     # click check box of first reminder
     reminder_check_box = trs[0].find_element(By.XPATH, './/td[1]/input')
     reminder_check_box.click()
-    time.sleep(1)
+    time.sleep(3)
 
     # click Confirm button
     driver.find_element(By.XPATH, '//*[@id="filter_form_submit"]').click()
-    time.sleep(1)
+    time.sleep(3)
 
     # click Send Mail button
     driver.find_element(By.XPATH, '/html/body/div[2]/div[2]/div/div/div[2]/div/button[1]').click()
-    time.sleep(1)
+    time.sleep(3)
 
     # find target mail
     xs = []
@@ -614,6 +696,7 @@ def test_no_13(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+# pytest test_admin.py::test_no_14
 def test_no_14(driver):
     """No.14 Check Restricted Access and Mail Templates not exists
     
@@ -628,7 +711,7 @@ def test_no_14(driver):
     # access to admin page
     driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/button').click()
     driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/ul/li[6]').click()
-    time.sleep(1)
+    time.sleep(3)
 
     # open Setting
     driver.find_element(By.XPATH, '/html/body/div/aside/section/ul/li[7]').click()
@@ -654,6 +737,7 @@ def test_no_14(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+# pytest test_admin.py::test_no_15
 def test_no_15(driver):
     """No.15 Check Administration not exists
     
@@ -685,6 +769,7 @@ def test_no_15(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+# pytest test_admin.py::test_no_16
 def test_no_16(driver):
     """No.16 Check Administration not exists
     
@@ -735,6 +820,6 @@ def save_screenshot(driver, co_name):
         driver(WebDriver): WebDriver object
         co_name(str): test case name
     """
-    time.sleep(1)
+    time.sleep(3)
     driver.save_screenshot(
         config.base_save_folder + 'admin/' + d + "_" + co_name + ".png")
