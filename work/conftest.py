@@ -2,6 +2,7 @@ import pytest
 import time
 
 import config
+from methods_required_during_testing import logout
 from selenium.webdriver.common.by import By
 
 @pytest.fixture()
@@ -15,5 +16,6 @@ def driver():
         '//*[@id="klaro"]/div/div/div/div/div/button'
     ).click()
     yield setup_driver.driver
+    logout(setup_driver.driver)
     setup_driver.teardown_method()
     time.sleep(1)

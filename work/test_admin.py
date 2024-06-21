@@ -43,7 +43,7 @@ def test_no_1(driver):
 
     # save mail template
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(3)
+    time.sleep(1)
 
     # refresh page
     driver.refresh()
@@ -121,7 +121,7 @@ def test_no_2(driver):
 
     # save mail template
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(3)
+    time.sleep(1)
 
     # refresh page
     driver.refresh()
@@ -203,7 +203,7 @@ def test_no_3(driver):
 
     # save mail template
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(3)
+    time.sleep(1)
 
     # refresh page
     driver.refresh()
@@ -285,7 +285,7 @@ def test_no_4(driver):
 
     # save mail template
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(3)
+    time.sleep(1)
 
     # refresh page
     driver.refresh()
@@ -370,11 +370,11 @@ def test_no_5(driver):
 
     # save Terms and Conditions
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(3)
+    time.sleep(1)
 
     # refresh page
     driver.refresh()
-    time.sleep(3)
+    time.sleep(1)
 
     # redefine elements and get term list after save
     term_box_list = driver.find_element(By.XPATH, '//*[@id="sltBoxListEmail"]')
@@ -476,11 +476,11 @@ def test_no_6(driver):
 
     # save Terms and Conditions
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(3)
+    time.sleep(1)
 
     # refresh page
     driver.refresh()
-    time.sleep(3)
+    time.sleep(1)
 
     # redefine elements
     term_box_list = driver.find_element(By.XPATH, '//*[@id="sltBoxListEmail"]')
@@ -553,11 +553,11 @@ def test_no_7(driver):
 
     # save Terms and Conditions
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    time.sleep(3)
+    time.sleep(1)
 
     # refresh page
     driver.refresh()
-    time.sleep(3)
+    time.sleep(1)
 
     # redefine elements and check if the save is successful
     term_box_list = driver.find_element(By.XPATH, '//*[@id="sltBoxListEmail"]')
@@ -660,15 +660,15 @@ def test_no_13(driver):
     # click check box of first reminder
     reminder_check_box = trs[0].find_element(By.XPATH, './/td[1]/input')
     reminder_check_box.click()
-    time.sleep(3)
+    time.sleep(1)
 
     # click Confirm button
     driver.find_element(By.XPATH, '//*[@id="filter_form_submit"]').click()
-    time.sleep(3)
+    time.sleep(1)
 
     # click Send Mail button
     driver.find_element(By.XPATH, '/html/body/div[2]/div[2]/div/div/div[2]/div/button[1]').click()
-    time.sleep(3)
+    time.sleep(1)
 
     # find target mail
     xs = []
@@ -711,7 +711,7 @@ def test_no_14(driver):
     # access to admin page
     driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/button').click()
     driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/ul/li[6]').click()
-    time.sleep(3)
+    time.sleep(1)
 
     # open Setting
     driver.find_element(By.XPATH, '/html/body/div/aside/section/ul/li[7]').click()
@@ -820,6 +820,6 @@ def save_screenshot(driver, co_name):
         driver(WebDriver): WebDriver object
         co_name(str): test case name
     """
-    time.sleep(3)
+    time.sleep(1)
     driver.save_screenshot(
         config.base_save_folder + 'admin/' + d + "_" + co_name + ".png")

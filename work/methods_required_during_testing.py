@@ -65,8 +65,25 @@ def A1(driver, account_mail, account_password):
     driver.find_element(By.XPATH, '//*[@id="email"]').send_keys(account_mail)
     driver.find_element(By.XPATH, '//*[@id="password"]').send_keys(account_password)
     driver.find_element(By.XPATH, '/html/body/div/div[2]/div/div/div/div[1]/form/button').click()
-    
     time.sleep(1)
+
+    # check if login is successful
+    url = driver.current_url
+    retry_count = 0
+    err_msg = ''
+    while url == config.base_url + '/login/' and retry_count < 10:
+        time.sleep(5)
+        driver.find_element(By.XPATH, '//*[@id="email"]').clear()
+        driver.find_element(By.XPATH, '//*[@id="password"]').clear()
+        driver.find_element(By.XPATH, '//*[@id="email"]').send_keys(account_mail)
+        driver.find_element(By.XPATH, '//*[@id="password"]').send_keys(account_password)
+        driver.find_element(By.XPATH, '/html/body/div/div[2]/div/div/div/div[1]/form/button').click()
+        time.sleep(1)
+        url = driver.current_url
+        retry_count += 1
+        if retry_count == 10:
+            err_msg = "Login failed"
+    assert not err_msg, err_msg
     
 def A2(driver, enable):
     """Set SecretURL ON/OFF.
@@ -352,6 +369,14 @@ def search_and_display_target_item(driver, param):
     search_box.send_keys(param)
     driver.find_element(By.XPATH, '//*[@id="top-search-btn"]').click()
     time.sleep(1)
+
+    options = driver.find_element(By.XPATH, '//*[@id="sortType"]')\
+        .find_elements(By.TAG_NAME, 'option')
+    for option in options:
+        if option.text == 'asc':
+            option.click()
+            time.sleep(3)
+            break
 
     # display target item
     search_result = driver.find_element(

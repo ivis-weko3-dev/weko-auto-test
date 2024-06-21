@@ -2834,6 +2834,6 @@ def save_screenshot(driver, co_name):
         driver(WebDriver): WebDriver object
         co_name(str): test case name
     """
-    time.sleep(3)
+    time.sleep(1)
     driver.save_screenshot(
         config.base_save_folder + 'secret_url/' + d + "_" + co_name + ".png")
