@@ -6,7 +6,8 @@ RUN apt-get update && \
     git \
     sudo \
     wget \
-    vim
+    vim \
+    nkf
 RUN pip install --upgrade pip
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt

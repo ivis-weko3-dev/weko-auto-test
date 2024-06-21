@@ -2,3 +2,4 @@ requests
 selenium
 BeautifulSoup4
 pandas
+pytest
