@@ -5,7 +5,7 @@ import config
 from methods_required_during_testing import *
 
 # pytest test_secret_url.py::test_no_1
-def test_no_1(driver):
+def test_no_1(enable_secret_url):
     """No.1 Secret URL button is hidden
 
     Secret URL is enabled
@@ -15,29 +15,29 @@ def test_no_1(driver):
     User's Role is Repository Administrator
 
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(enable_secret_url, 'Repository')
 
     # enable secret url, Expiration Date is 3, Download Limit is 3
-    set_secret_url(driver, True)
-    A3(driver, 3)
-    A4(driver, 3)
+    # set_secret_url(enable_secret_url, True)
+    # A3(enable_secret_url, 3)
+    # A4(enable_secret_url, 3)
 
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_2
-def test_no_2(driver):
+def test_no_2(enable_secret_url):
     """No.2 Secret URL button is hidden
     
     Secret URL is enabled
@@ -47,24 +47,24 @@ def test_no_2(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(enable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_3
-def test_no_3(driver):
+def test_no_3(enable_secret_url):
     """No.3 Secret URL button is hidden
     
     Secret URL is enabled
@@ -74,24 +74,24 @@ def test_no_3(driver):
     User's Role is Contributor and not the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'NoRegCon')
+    login(enable_secret_url, 'NoRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_4
-def test_no_4(driver):
+def test_no_4(enable_secret_url):
     """No.4 Secret URL button is hidden
     
     Secret URL is enabled
@@ -101,24 +101,24 @@ def test_no_4(driver):
     User's Role is Contributor and the item's contributor
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'PrxRegCon')
+    login(enable_secret_url, 'PrxRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_5
-def test_no_5(driver):
+def test_no_5(enable_secret_url):
     """No.5 Secret URL button is hidden
     
     Secret URL is enabled
@@ -128,24 +128,24 @@ def test_no_5(driver):
     User's Role is Community Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(driver, 'Community')
+    login(enable_secret_url, 'Community')
 
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_6
-def test_no_6(driver):
+def test_no_6(enable_secret_url):
     """No.6 Secret URL button is hidden
     
     Secret URL is enabled
@@ -155,24 +155,24 @@ def test_no_6(driver):
     User's Role is General
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(driver, 'General')
+    login(enable_secret_url, 'General')
 
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_7
-def test_no_7(driver):
+def test_no_7(enable_secret_url):
     """No.7 Secret URL button is hidden
     
     Secret URL is enabled
@@ -182,22 +182,22 @@ def test_no_7(driver):
     User is not logged in
 
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
 
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_8
-def test_no_8(driver):
+def test_no_8(enable_secret_url):
     """No.8 Secret URL button is hidden
     
     Secret URL is enabled
@@ -207,24 +207,24 @@ def test_no_8(driver):
     User's Role is Repository Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(enable_secret_url, 'Repository')
 
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_9
-def test_no_9(driver):
+def test_no_9(enable_secret_url):
     """No.9 Secret URL button is hidden
     
     Secret URL is enabled
@@ -234,24 +234,24 @@ def test_no_9(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(enable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_10
-def test_no_10(driver):
+def test_no_10(enable_secret_url):
     """No.10 Display error message
     
     Secret URL is enabled
@@ -261,24 +261,24 @@ def test_no_10(driver):
     User's Role is Contributor and not the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'NoRegCon')
+    login(enable_secret_url, 'NoRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_11
-def test_no_11(driver):
+def test_no_11(enable_secret_url):
     """No.11 Secret URL button is hidden
     
     Secret URL is enabled
@@ -288,24 +288,24 @@ def test_no_11(driver):
     User's Role is Contributor and the item's contributor
 
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'PrxRegCon')
+    login(enable_secret_url, 'PrxRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_12
-def test_no_12(driver):
+def test_no_12(enable_secret_url):
     """No.12 Display error message
     
     Secret URL is enabled
@@ -315,24 +315,24 @@ def test_no_12(driver):
     User's Role is Community Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(driver, 'Community')
+    login(enable_secret_url, 'Community')
 
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_13
-def test_no_13(driver):
+def test_no_13(enable_secret_url):
     """No.13 Display error message
     
     Secret URL is enabled
@@ -342,24 +342,24 @@ def test_no_13(driver):
     User's Role is General
 
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(driver, 'General')
+    login(enable_secret_url, 'General')
 
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_14
-def test_no_14(driver):
+def test_no_14(enable_secret_url):
     """No.14 Transition to the login page
     
     Secret URL is enabled
@@ -369,21 +369,21 @@ def test_no_14(driver):
     User is not logged in
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check transition destination is login page
-    check_login_page(driver)
+    check_login_page(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_15
-def test_no_15(driver):
+def test_no_15(enable_secret_url):
     """No.15 Secret URL button is not hidden
     
     Secret URL is enabled
@@ -393,24 +393,24 @@ def test_no_15(driver):
     User's Role is Repository Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(enable_secret_url, 'Repository')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is not hidden
-    check_secret_url_button_is_hidden(driver, False)
+    check_secret_url_button_is_hidden(enable_secret_url, False)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_16
-def test_no_16(driver):
+def test_no_16(enable_secret_url):
     """No.16 Send email containing secret URL
     
     Secret URL is enabled
@@ -420,57 +420,66 @@ def test_no_16(driver):
     User's Role is Repository Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(enable_secret_url, 'Repository')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(driver)
+    A7(enable_secret_url)
 
     # check mail
-    check_secret_url_mail(driver, config.users['Repository']['mail'], 'B3_公開前', 3, 3)
+    check_secret_url_mail(
+        enable_secret_url,
+        config.users['Repository']['mail'],
+        config.item_name_dic['before_publish'],
+        3,
+        3)
 
 # pytest test_secret_url.py::test_no_17
-def test_no_17(driver):
+def test_no_17(enable_secret_url):
     """No.17 Download the target content
     
+    Target User's Role is Repository Administrator
+
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # download the target content
-    A8(driver, 'root')
+    A8(enable_secret_url, config.users['Repository']['mail'].split('@')[0])
 
     # check download file
     file_list = os.listdir(config.base_download_dir)
     assert 'before_publish.txt' in file_list
 
 # pytest test_secret_url.py::test_no_18
-def test_no_18(driver):
+def test_no_18(enable_secret_url):
     """No.18 Try to download the target content over the download limit
     
+    Target User's Role is Repository Administrator
+
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # download the target content several times
     # In No.17, download the content once, so the number of remaining downloads is 2
     for i in range(3):
-        A8(driver, 'root')
+        A8(enable_secret_url, config.users['Repository']['mail'].split('@')[0])
         if i < 2:
             # check download file
             file_list = os.listdir(config.base_download_dir)
             assert 'before_publish (' + str(i + 1) + ').txt' in file_list
         else:
             # check over download limit error message
-            check_over_download_limit_error_message(driver)
+            check_over_download_limit_error_message(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
     # delete downloaded files to do other tests
     delete_target_files = [file for file in file_list if file.startswith('before_publish')]
@@ -480,7 +489,7 @@ def test_no_18(driver):
 # No.19 is not created because this test is difficult to automate
 
 # pytest test_secret_url.py::test_no_20
-def test_no_20(driver):
+def test_no_20(enable_secret_url):
     """No.20 Secret URL different from No.16's secret URL
     
     Secret URL is enabled
@@ -490,25 +499,25 @@ def test_no_20(driver):
     User's Role is Repository Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(enable_secret_url, 'Repository')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(driver)
+    A7(enable_secret_url)
 
     # check secret url
-    check_secret_url_is_difference()
+    check_secret_url_is_difference(config.users['Repository']['mail'].split('@')[0])
 
 # pytest test_secret_url.py::test_no_21
-def test_no_21(driver):
+def test_no_21(enable_secret_url):
     """No.21 Secret URL button is not hidden
     
     Secret URL is enabled
@@ -518,24 +527,24 @@ def test_no_21(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(enable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is not hidden
-    check_secret_url_button_is_hidden(driver, False)
+    check_secret_url_button_is_hidden(enable_secret_url, False)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_22
-def test_no_22(driver):
+def test_no_22(enable_secret_url):
     """No.22 Send email containing secret URL
     
     Secret URL is enabled
@@ -545,57 +554,66 @@ def test_no_22(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(enable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(driver)
+    A7(enable_secret_url)
 
     # check mail
-    check_secret_url_mail(driver, config.users['RegCon']['mail'], 'B3_公開前', 3, 3)
+    check_secret_url_mail(
+        enable_secret_url,
+        config.users['RegCon']['mail'],
+        config.item_name_dic['before_publish'],
+        3,
+        3)
 
 # pytest test_secret_url.py::test_no_23
-def test_no_23(driver):
+def test_no_23(enable_secret_url):
     """No.23 Download the target content
+
+    Target User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # download the target content
-    A8(driver, 'root')
+    A8(enable_secret_url, config.users['RegCon']['mail'].split('@')[0])
 
     # check download file
     file_list = os.listdir(config.base_download_dir)
     assert 'before_publish.txt' in file_list
 
 # pytest test_secret_url.py::test_no_24
-def test_no_24(driver):
+def test_no_24(enable_secret_url):
     """No.24 Try to download the target content over the download limit
+
+    Target User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # download the target content several times
     # In No.23, download the content once, so the number of remaining downloads is 2
     for i in range(3):
-        A8(driver, 'root')
+        A8(enable_secret_url, config.users['RegCon']['mail'].split('@')[0])
         if i < 2:
             # check download file
             file_list = os.listdir(config.base_download_dir)
             assert 'before_publish (' + str(i + 1) + ').txt' in file_list
         else:
             # check over download limit error message
-            check_over_download_limit_error_message(driver)
+            check_over_download_limit_error_message(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
     # delete downloaded files to do other tests
     delete_target_files = [file for file in file_list if file.startswith('before_publish')]
@@ -605,7 +623,7 @@ def test_no_24(driver):
 # No.25 is not created because this test is difficult to automate
 
 # pytest test_secret_url.py::test_no_26
-def test_no_26(driver):
+def test_no_26(enable_secret_url):
     """No.26 Secret URL different from No.22's secret URL
     
     Secret URL is enabled
@@ -615,25 +633,25 @@ def test_no_26(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(enable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(driver)
+    A7(enable_secret_url)
 
     # check secret url
-    check_secret_url_is_difference()
+    check_secret_url_is_difference(config.users['RegCon']['mail'].split('@')[0])
 
 # pytest test_secret_url.py::test_no_27
-def test_no_27(driver):
+def test_no_27(enable_secret_url):
     """No.27 Display error message
     
     Secret URL is enabled
@@ -643,24 +661,24 @@ def test_no_27(driver):
     User's Role is Contributor and not the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'NoRegCon')
+    login(enable_secret_url, 'NoRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_28
-def test_no_28(driver):
+def test_no_28(enable_secret_url):
     """No.28 Secret URL button is hidden
     
     Secret URL is enabled
@@ -670,24 +688,24 @@ def test_no_28(driver):
     User's Role is Contributor and the item's contributor
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'PrxRegCon')
+    login(enable_secret_url, 'PrxRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_29
-def test_no_29(driver):
+def test_no_29(enable_secret_url):
     """No.29 Display error message
     
     Secret URL is enabled
@@ -697,24 +715,24 @@ def test_no_29(driver):
     User's Role is Community Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(driver, 'Community')
+    login(enable_secret_url, 'Community')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_30
-def test_no_30(driver):
+def test_no_30(enable_secret_url):
     """No.30 Display error message
     
     Secret URL is enabled
@@ -724,24 +742,24 @@ def test_no_30(driver):
     User's Role is General
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(driver, 'General')
+    login(enable_secret_url, 'General')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_31
-def test_no_31(driver):
+def test_no_31(enable_secret_url):
     """No.31 Transition to the login page
     
     Secret URL is enabled
@@ -751,21 +769,21 @@ def test_no_31(driver):
     User is not logged in
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check transition destination is login page
-    check_login_page(driver)
+    check_login_page(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_32
-def test_no_32(driver):
+def test_no_32(enable_secret_url):
     """No.32 Secret URL button is hidden
     
     Secret URL is enabled
@@ -775,24 +793,24 @@ def test_no_32(driver):
     User's Role is Repository Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(enable_secret_url, 'Repository')
 
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_33
-def test_no_33(driver):
+def test_no_33(enable_secret_url):
     """No.33 Secret URL button is hidden
     
     Secret URL is enabled
@@ -802,24 +820,24 @@ def test_no_33(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(enable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_34
-def test_no_34(driver):
+def test_no_34(enable_secret_url):
     """No.34 Secret URL button is hidden
     
     Secret URL is enabled
@@ -829,24 +847,24 @@ def test_no_34(driver):
     User's Role is Contributor and not the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'NoRegCon')
+    login(enable_secret_url, 'NoRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_35
-def test_no_35(driver):
+def test_no_35(enable_secret_url):
     """No.35 Secret URL button is hidden
     
     Secret URL is enabled
@@ -856,24 +874,24 @@ def test_no_35(driver):
     User's Role is Contributor and the item's contributor
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'PrxRegCon')
+    login(enable_secret_url, 'PrxRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_36
-def test_no_36(driver):
+def test_no_36(enable_secret_url):
     """No.36 Secret URL button is hidden
     
     Secret URL is enabled
@@ -883,24 +901,24 @@ def test_no_36(driver):
     User's Role is Community Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(driver, 'Community')
+    login(enable_secret_url, 'Community')
 
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_37
-def test_no_37(driver):
+def test_no_37(enable_secret_url):
     """No.37 Secret URL button is hidden
     
     Secret URL is enabled
@@ -910,24 +928,24 @@ def test_no_37(driver):
     User's Role is General
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(driver, 'General')
+    login(enable_secret_url, 'General')
 
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_38
-def test_no_38(driver):
+def test_no_38(enable_secret_url):
     """No.38 Secret URL button is hidden
     
     Secret URL is enabled
@@ -937,21 +955,21 @@ def test_no_38(driver):
     User is not logged in
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_39
-def test_no_39(driver):
+def test_no_39(enable_secret_url):
     """No.39 Secret URL button is not hidden
     
     Secret URL is enabled
@@ -961,24 +979,24 @@ def test_no_39(driver):
     User's Role is Repository Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(enable_secret_url, 'Repository')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is not hidden
-    check_secret_url_button_is_hidden(driver, False)
+    check_secret_url_button_is_hidden(enable_secret_url, False)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_40
-def test_no_40(driver):
+def test_no_40(enable_secret_url):
     """No.40 Send email containing secret URL
     
     Secret URL is enabled
@@ -988,57 +1006,66 @@ def test_no_40(driver):
     User's Role is Repository Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(enable_secret_url, 'Repository')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(driver)
+    A7(enable_secret_url)
 
     # check mail
-    check_secret_url_mail(driver, config.users['Repository']['mail'], 'B5_非公開', 3, 3)
+    check_secret_url_mail(
+        enable_secret_url,
+        config.users['Repository']['mail'],
+        config.item_name_dic['private'],
+        3,
+        3)
 
 # pytest test_secret_url.py::test_no_41
-def test_no_41(driver):
+def test_no_41(enable_secret_url):
     """No.41 Download the target content
     
+    Target User's Role is Repository Administrator
+
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # download the target content
-    A8(driver, 'root')
+    A8(enable_secret_url, config.users['Repository']['mail'].split('@')[0])
 
     # check download file
     file_list = os.listdir(config.base_download_dir)
     assert 'private.txt' in file_list
 
 # pytest test_secret_url.py::test_no_42
-def test_no_42(driver):
+def test_no_42(enable_secret_url):
     """No.42 Try to download the target content over the download limit
     
+    Target User's Role is Repository Administrator
+
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # download the target content several times
     # In No.41, download the content once, so the number of remaining downloads is 2
     for i in range(3):
-        A8(driver, 'root')
+        A8(enable_secret_url, config.users['Repository']['mail'].split('@')[0])
         if i < 2:
             # check download file
             file_list = os.listdir(config.base_download_dir)
             assert 'private (' + str(i + 1) + ').txt' in file_list
         else:
             # check over download limit error message
-            check_over_download_limit_error_message(driver)
+            check_over_download_limit_error_message(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
     # delete downloaded files to do other tests
     delete_target_files = [file for file in file_list if file.startswith('private')]
@@ -1048,7 +1075,7 @@ def test_no_42(driver):
 # No.43 is not created because this test is difficult to automate
 
 # pytest test_secret_url.py::test_no_44
-def test_no_44(driver):
+def test_no_44(enable_secret_url):
     """No.44 Secret URL different from No.40's secret URL
     
     Secret URL is enabled
@@ -1058,25 +1085,25 @@ def test_no_44(driver):
     User's Role is Repository Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(enable_secret_url, 'Repository')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(driver)
+    A7(enable_secret_url)
 
     # check secret url
-    check_secret_url_is_difference()
+    check_secret_url_is_difference(config.users['Repository']['mail'].split('@')[0])
 
 # pytest test_secret_url.py::test_no_45
-def test_no_45(driver):
+def test_no_45(enable_secret_url):
     """No.45 Secret URL button is not hidden
     
     Secret URL is enabled
@@ -1086,24 +1113,24 @@ def test_no_45(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(enable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is not hidden
-    check_secret_url_button_is_hidden(driver, False)
+    check_secret_url_button_is_hidden(enable_secret_url, False)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_46
-def test_no_46(driver):
+def test_no_46(enable_secret_url):
     """No.46 Send email containing secret URL
     
     Secret URL is enabled
@@ -1113,57 +1140,66 @@ def test_no_46(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(enable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(driver)
+    A7(enable_secret_url)
 
     # check mail
-    check_secret_url_mail(driver, config.users['RegCon']['mail'], 'B5_非公開', 3, 3)
+    check_secret_url_mail(
+        enable_secret_url,
+        config.users['RegCon']['mail'],
+        config.item_name_dic['private'],
+        3,
+        3)
 
 # pytest test_secret_url.py::test_no_47
-def test_no_47(driver):
+def test_no_47(enable_secret_url):
     """No.47 Download the target content
     
+    Target User's Role is Contributor and the item's owner
+
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # download the target content
-    A8(driver, 'root')
+    A8(enable_secret_url, config.users['RegCon']['mail'].split('@')[0])
 
     # check download file
     file_list = os.listdir(config.base_download_dir)
     assert 'private.txt' in file_list
 
 # pytest test_secret_url.py::test_no_48
-def test_no_48(driver):
+def test_no_48(enable_secret_url):
     """No.48 Try to download the target content over the download limit
+
+    Target User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # download the target content several times
     # In No.47, download the content once, so the number of remaining downloads is 2
     for i in range(3):
-        A8(driver, 'root')
+        A8(enable_secret_url, config.users['RegCon']['mail'].split('@')[0])
         if i < 2:
             # check download file
             file_list = os.listdir(config.base_download_dir)
             assert 'private (' + str(i + 1) + ').txt' in file_list
         else:
             # check over download limit error message
-            check_over_download_limit_error_message(driver)
+            check_over_download_limit_error_message(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
     # delete downloaded files to do other tests
     delete_target_files = [file for file in file_list if file.startswith('private')]
@@ -1173,7 +1209,7 @@ def test_no_48(driver):
 # No.49 is not created because this test is difficult to automate
 
 # pytest test_secret_url.py::test_no_50
-def test_no_50(driver):
+def test_no_50(enable_secret_url):
     """No.50 Secret URL different from No.46's secret URL
     
     Secret URL is enabled
@@ -1183,25 +1219,25 @@ def test_no_50(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(enable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(driver)
+    A7(enable_secret_url)
 
     # check secret url
-    check_secret_url_is_difference()
+    check_secret_url_is_difference(config.users['RegCon']['mail'].split('@')[0])
 
 # pytest test_secret_url.py::test_no_51
-def test_no_51(driver):
+def test_no_51(enable_secret_url):
     """No.51 Display error message
     
     Secret URL is enabled
@@ -1211,24 +1247,24 @@ def test_no_51(driver):
     User's Role is Contributor and not the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'NoRegCon')
+    login(enable_secret_url, 'NoRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_52
-def test_no_52(driver):
+def test_no_52(enable_secret_url):
     """No.52 Secret URL button is hidden
     
     Secret URL is enabled
@@ -1238,24 +1274,24 @@ def test_no_52(driver):
     User's Role is Contributor and the item's contributor
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'PrxRegCon')
+    login(enable_secret_url, 'PrxRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_53
-def test_no_53(driver):
+def test_no_53(enable_secret_url):
     """No.53 Display error message
     
     Secret URL is enabled
@@ -1265,24 +1301,24 @@ def test_no_53(driver):
     User's Role is Community Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(driver, 'Community')
+    login(enable_secret_url, 'Community')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_54
-def test_no_54(driver):
+def test_no_54(enable_secret_url):
     """No.54 Display error message
     
     Secret URL is enabled
@@ -1292,24 +1328,24 @@ def test_no_54(driver):
     User's Role is General
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(driver, 'General')
+    login(enable_secret_url, 'General')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_55
-def test_no_55(driver):
+def test_no_55(enable_secret_url):
     """No.55 Transition to the login page
     
     Secret URL is enabled
@@ -1319,21 +1355,21 @@ def test_no_55(driver):
     User is not logged in
     
     Args:
-        driver(WebDriver): WebDriver object
+        enable_secret_url(WebDriver): WebDriver object
     """
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(enable_secret_url)
 
     # check transition destination is login page
-    check_login_page(driver)
+    check_login_page(enable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_56
-def test_no_56(driver):
+def test_no_56(disable_secret_url):
     """No.56 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1343,27 +1379,27 @@ def test_no_56(driver):
     User's Role is Repository Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(disable_secret_url, 'Repository')
 
     # disable secret url
-    set_secret_url(driver, False)
+    set_secret_url(disable_secret_url, False)
 
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_57
-def test_no_57(driver):
+def test_no_57(disable_secret_url):
     """No.57 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1373,24 +1409,24 @@ def test_no_57(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(disable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_58
-def test_no_58(driver):
+def test_no_58(disable_secret_url):
     """No.58 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1400,24 +1436,24 @@ def test_no_58(driver):
     User's Role is Contributor and not the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'NoRegCon')
+    login(disable_secret_url, 'NoRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_59
-def test_no_59(driver):
+def test_no_59(disable_secret_url):
     """No.59 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1427,24 +1463,24 @@ def test_no_59(driver):
     User's Role is Contributor and the item's contributor
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'PrxRegCon')
+    login(disable_secret_url, 'PrxRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_60
-def test_no_60(driver):
+def test_no_60(disable_secret_url):
     """No.60 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1454,24 +1490,24 @@ def test_no_60(driver):
     User's Role is Community Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(driver, 'Community')
+    login(disable_secret_url, 'Community')
 
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_61
-def test_no_61(driver):
+def test_no_61(disable_secret_url):
     """No.61 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1481,24 +1517,24 @@ def test_no_61(driver):
     User's Role is General
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(driver, 'General')
+    login(disable_secret_url, 'General')
 
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_62
-def test_no_62(driver):
+def test_no_62(disable_secret_url):
     """No.62 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1508,21 +1544,21 @@ def test_no_62(driver):
     User is not logged in
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # search target item
-    search_and_display_target_item(driver, 'B1_オープンアクセス')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['open_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_63
-def test_no_63(driver):
+def test_no_63(disable_secret_url):
     """No.63 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1532,24 +1568,24 @@ def test_no_63(driver):
     User's Role is Repository Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(disable_secret_url, 'Repository')
 
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_64
-def test_no_64(driver):
+def test_no_64(disable_secret_url):
     """No.64 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1559,24 +1595,24 @@ def test_no_64(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(disable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_65
-def test_no_65(driver):
+def test_no_65(disable_secret_url):
     """No.65 Display error message
     
     Secret URL is disabled
@@ -1586,24 +1622,24 @@ def test_no_65(driver):
     User's Role is Contributor and not the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'NoRegCon')
+    login(disable_secret_url, 'NoRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(disable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_66
-def test_no_66(driver):
+def test_no_66(disable_secret_url):
     """No.66 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1613,24 +1649,24 @@ def test_no_66(driver):
     User's Role is Contributor and the item's contributor
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'PrxRegCon')
+    login(disable_secret_url, 'PrxRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_67
-def test_no_67(driver):
+def test_no_67(disable_secret_url):
     """No.67 Display error message
     
     Secret URL is disabled
@@ -1640,24 +1676,24 @@ def test_no_67(driver):
     User's Role is Community Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(driver, 'Community')
+    login(disable_secret_url, 'Community')
 
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(disable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_68
-def test_no_68(driver):
+def test_no_68(disable_secret_url):
     """No.68 Display error message
     
     Secret URL is disabled
@@ -1667,24 +1703,24 @@ def test_no_68(driver):
     User's Role is General
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(driver, 'General')
+    login(disable_secret_url, 'General')
 
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(disable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_69
-def test_no_69(driver):
+def test_no_69(disable_secret_url):
     """No.69 Transition to the login page
     
     Secret URL is disabled
@@ -1694,21 +1730,21 @@ def test_no_69(driver):
     User is not logged in
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # search target item
-    search_and_display_target_item(driver, 'B2_制限公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['restricted_access'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check transition destination is login page
-    check_login_page(driver)
+    check_login_page(disable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_70
-def test_no_70(driver):
+def test_no_70(disable_secret_url):
     """No.70 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1718,24 +1754,24 @@ def test_no_70(driver):
     User's Role is Repository Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(disable_secret_url, 'Repository')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_71
-def test_no_71(driver):
+def test_no_71(disable_secret_url):
     """No.71 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1745,24 +1781,24 @@ def test_no_71(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(disable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_72
-def test_no_72(driver):
+def test_no_72(disable_secret_url):
     """No.72 Display error message
     
     Secret URL is disabled
@@ -1772,24 +1808,24 @@ def test_no_72(driver):
     User's Role is Contributor and not the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'NoRegCon')
+    login(disable_secret_url, 'NoRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(disable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_73
-def test_no_73(driver):
+def test_no_73(disable_secret_url):
     """No.73 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1799,24 +1835,24 @@ def test_no_73(driver):
     User's Role is Contributor and the item's contributor
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'PrxRegCon')
+    login(disable_secret_url, 'PrxRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_74
-def test_no_74(driver):
+def test_no_74(disable_secret_url):
     """No.74 Display error message
     
     Secret URL is disabled
@@ -1826,24 +1862,24 @@ def test_no_74(driver):
     User's Role is Community Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(driver, 'Community')
+    login(disable_secret_url, 'Community')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(disable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_75
-def test_no_75(driver):
+def test_no_75(disable_secret_url):
     """No.75 Display error message
     
     Secret URL is disabled
@@ -1853,24 +1889,24 @@ def test_no_75(driver):
     User's Role is General
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(driver, 'General')
+    login(disable_secret_url, 'General')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check permission error page
-    check_permission_error_page(driver)
+    check_permission_error_page(disable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_76
-def test_no_76(driver):
+def test_no_76(disable_secret_url):
     """No.76 Transition to the login page
     
     Secret URL is disabled
@@ -1880,21 +1916,21 @@ def test_no_76(driver):
     User is not logged in
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['before_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check transition destination is login page
-    check_login_page(driver)
+    check_login_page(disable_secret_url)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_77
-def test_no_77(driver):
+def test_no_77(disable_secret_url):
     """No.77 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1904,24 +1940,24 @@ def test_no_77(driver):
     User's Role is Repository Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(disable_secret_url, 'Repository')
 
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_78
-def test_no_78(driver):
+def test_no_78(disable_secret_url):
     """No.78 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1931,24 +1967,24 @@ def test_no_78(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(disable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_79
-def test_no_79(driver):
+def test_no_79(disable_secret_url):
     """No.79 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1958,24 +1994,24 @@ def test_no_79(driver):
     User's Role is Contributor and not the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'NoRegCon')
+    login(disable_secret_url, 'NoRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_80
-def test_no_80(driver):
+def test_no_80(disable_secret_url):
     """No.80 Secret URL button is hidden
     
     Secret URL is disabled
@@ -1985,24 +2021,24 @@ def test_no_80(driver):
     User's Role is Contributor and the item's contributor
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'PrxRegCon')
+    login(disable_secret_url, 'PrxRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_81
-def test_no_81(driver):
+def test_no_81(disable_secret_url):
     """No.81 Secret URL button is hidden
     
     Secret URL is disabled
@@ -2012,24 +2048,24 @@ def test_no_81(driver):
     User's Role is Community Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(driver, 'Community')
+    login(disable_secret_url, 'Community')
 
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_82
-def test_no_82(driver):
+def test_no_82(disable_secret_url):
     """No.82 Secret URL button is hidden
     
     Secret URL is disabled
@@ -2039,24 +2075,24 @@ def test_no_82(driver):
     User's Role is General
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(driver, 'General')
+    login(disable_secret_url, 'General')
 
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_83
-def test_no_83(driver):
+def test_no_83(disable_secret_url):
     """No.83 Secret URL button is hidden
     
     Secret URL is disabled
@@ -2066,21 +2102,21 @@ def test_no_83(driver):
     User is not logged in
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # search target item
-    search_and_display_target_item(driver, 'B4_公開後')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['after_publish'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_84
-def test_no_84(driver):
+def test_no_84(disable_secret_url):
     """No.84 Secret URL button is hidden
     
     Secret URL is disabled
@@ -2090,24 +2126,24 @@ def test_no_84(driver):
     User's Role is Repository Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login(disable_secret_url, 'Repository')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_85
-def test_no_85(driver):
+def test_no_85(disable_secret_url):
     """No.85 Secret URL button is hidden
     
     Secret URL is disabled
@@ -2117,24 +2153,24 @@ def test_no_85(driver):
     User's Role is Contributor and the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login(disable_secret_url, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_86
-def test_no_86(driver):
+def test_no_86(disable_secret_url):
     """No.86 Secret URL button is hidden
     
     Secret URL is disabled
@@ -2144,24 +2180,24 @@ def test_no_86(driver):
     User's Role is Contributor and not the item's owner
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'NoRegCon')
+    login(disable_secret_url, 'NoRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_87
-def test_no_87(driver):
+def test_no_87(disable_secret_url):
     """No.87 Secret URL button is hidden
     
     Secret URL is disabled
@@ -2171,24 +2207,24 @@ def test_no_87(driver):
     User's Role is Contributor and the item's contributor
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'PrxRegCon')
+    login(disable_secret_url, 'PrxRegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_88
-def test_no_88(driver):
+def test_no_88(disable_secret_url):
     """No.88 Secret URL button is hidden
     
     Secret URL is disabled
@@ -2198,24 +2234,24 @@ def test_no_88(driver):
     User's Role is Community Administrator
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(driver, 'Community')
+    login(disable_secret_url, 'Community')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_89
-def test_no_89(driver):
+def test_no_89(disable_secret_url):
     """No.89 Secret URL button is hidden
     
     Secret URL is disabled
@@ -2225,24 +2261,24 @@ def test_no_89(driver):
     User's Role is General
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(driver, 'General')
+    login(disable_secret_url, 'General')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_90
-def test_no_90(driver):
+def test_no_90(disable_secret_url):
     """No.90 Secret URL button is hidden
     
     Secret URL is disabled
@@ -2252,18 +2288,18 @@ def test_no_90(driver):
     User is not logged in
     
     Args:
-        driver(WebDriver): WebDriver object
+        disable_secret_url(WebDriver): WebDriver object
     """
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
 
     # display content's info
-    click_file_information_button(driver)
+    click_file_information_button(disable_secret_url)
 
     # check secret url button is hidden
-    check_secret_url_button_is_hidden(driver, True)
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
-    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+    save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_91
 def test_no_91(driver):
@@ -2285,7 +2321,7 @@ def test_no_91(driver):
     set_secret_url(driver, True)
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(driver, config.item_name_dic['before_publish'])
 
     # display content's info
     click_file_information_button(driver)
@@ -2297,7 +2333,7 @@ def test_no_91(driver):
     set_secret_url(driver, False)
 
     # download the target file
-    A8(driver, 'root')
+    A8(driver, config.users['Repository']['mail'].split('@')[0])
 
     # check error page has the class what name is error-page
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
@@ -2329,7 +2365,7 @@ def test_no_92(driver):
     login(driver, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(driver, config.item_name_dic['before_publish'])
 
     # display content's info
     click_file_information_button(driver)
@@ -2347,7 +2383,7 @@ def test_no_92(driver):
     set_secret_url(driver, False)
 
     # download the target file
-    A8(driver, 'root')
+    A8(driver, config.users['RegCon']['mail'].split('@')[0])
 
     # check error page has the class what name is error-page
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
@@ -2373,7 +2409,7 @@ def test_no_93(driver):
     set_secret_url(driver, True)
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(driver, config.item_name_dic['private'])
 
     # display content's info
     click_file_information_button(driver)
@@ -2385,7 +2421,7 @@ def test_no_93(driver):
     set_secret_url(driver, False)
 
     # download the target file
-    A8(driver, 'root')
+    A8(driver, config.users['Repository']['mail'].split('@')[0])
 
     # check error page has the class what name is error-page
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
@@ -2417,7 +2453,7 @@ def test_no_94(driver):
     login(driver, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(driver, config.item_name_dic['private'])
 
     # display content's info
     click_file_information_button(driver)
@@ -2435,7 +2471,7 @@ def test_no_94(driver):
     set_secret_url(driver, False)
 
     # download the target file
-    A8(driver, 'root')
+    A8(driver, config.users['RegCon']['mail'].split('@')[0])
 
     # check error page has the class what name is error-page
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
@@ -2462,7 +2498,7 @@ def test_no_95(driver):
     A4(driver, 3)
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(driver, config.item_name_dic['before_publish'])
 
     # display content's info
     click_file_information_button(driver)
@@ -2475,7 +2511,7 @@ def test_no_95(driver):
 
     # download the target content several times
     for i in range(6):
-        A8(driver, 'root')
+        A8(driver, config.users['Repository']['mail'].split('@')[0])
         if i < 5:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
@@ -2519,7 +2555,7 @@ def test_no_96(driver):
     login(driver, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B3_公開前')
+    search_and_display_target_item(driver, config.item_name_dic['before_publish'])
 
     # display content's info
     click_file_information_button(driver)
@@ -2538,7 +2574,7 @@ def test_no_96(driver):
 
     # download the target content several times
     for i in range(6):
-        A8(driver, 'root')
+        A8(driver, config.users['RegCon']['mail'].split('@')[0])
         if i < 5:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
@@ -2576,7 +2612,7 @@ def test_no_97(driver):
     A4(driver, 3)
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(driver, config.item_name_dic['private'])
 
     # display content's info
     click_file_information_button(driver)
@@ -2589,7 +2625,7 @@ def test_no_97(driver):
 
     # download the target content several times
     for i in range(6):
-        A8(driver, 'root')
+        A8(driver, config.users['Repository']['mail'].split('@')[0])
         if i < 5:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
@@ -2633,7 +2669,7 @@ def test_no_98(driver):
     login(driver, 'RegCon')
 
     # search target item
-    search_and_display_target_item(driver, 'B5_非公開')
+    search_and_display_target_item(driver, config.item_name_dic['private'])
 
     # display content's info
     click_file_information_button(driver)
@@ -2652,7 +2688,7 @@ def test_no_98(driver):
 
     # download the target content several times
     for i in range(6):
-        A8(driver, 'root')
+        A8(driver, config.users['RegCon']['mail'].split('@')[0])
         if i < 5:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
@@ -2779,7 +2815,8 @@ def check_secret_url_mail(driver, mail_address, item_name, expiration_date_num, 
 
     # find target mail
     xs = []
-    for root, _, files in os.walk('mail/root/new'):
+    target_user = mail_address.split('@')[0]
+    for root, _, files in os.walk('mail/' + target_user + '/new'):
         for file in files:
             path = os.path.join(root, file)
             xs.append((os.path.getmtime(path), path))
@@ -2789,7 +2826,7 @@ def check_secret_url_mail(driver, mail_address, item_name, expiration_date_num, 
     with open(target_mail, 'r', encoding='utf-8') as f:
         lines = f.read().splitlines()
     recipient = [line for line in lines if line.startswith('To: ')]
-    assert recipient[1].split(' ')[1] == mail_address
+    assert recipient[0].split(' ')[1] == mail_address
 
     # check mail body
     secret_url_info_jp = [line for line in lines if line.endswith('シークレットURLを作成しました。')]
@@ -2806,10 +2843,14 @@ def check_secret_url_mail(driver, mail_address, item_name, expiration_date_num, 
     assert limit_sentence_en[0].find(expiration_date.strftime('%Y-%m-%d')) != -1\
         and limit_sentence_en[0].find(str(download_limit) + ' times') != -1
 
-def check_secret_url_is_difference():
-    """Check secret url is difference between the latest mail and the second latest mail"""
+def check_secret_url_is_difference(user_name):
+    """Check secret url is difference between the latest mail and the second latest mail
+    
+    Args:
+        user_name(str): user name
+    """
     # create path where mail is saved
-    path = 'mail/root/new'
+    path = 'mail/' + user_name + '/new'
 
     # get all mail
     mail_list = os.listdir(path)

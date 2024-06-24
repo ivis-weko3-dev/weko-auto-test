@@ -54,6 +54,33 @@ users = {
     }
 }
 
+item_name_dic = {
+    'open_access': 'B1_オープンアクセス',
+    'restricted_access': 'B2_制限公開',
+    'before_publish': 'B3_公開前',
+    'after_publish': 'B4_公開後',
+    'private': 'B5_非公開',
+    'scenario_1': 'テストシナリオ1',
+    'scenario_2': 'テストシナリオ2',
+    'scenario_3': 'テストシナリオ3',
+    'scenario_4': 'テストシナリオ4',
+    'scenario_5': 'テストシナリオ5',
+    'scenario_6': 'テストシナリオ6'
+}
+
+mail_subjects = {
+    'request_for_register': '利用報告の登録のお願い／Request for register Data Usage Report',
+    'request_for_approval': '利用申請の承認のお願い／Request for Approval of Application for Use',
+    'request_for_approval_for_guest':
+        'データ利用申請の承認のお願い（ゲストユーザー向け）／Request for Approval of Application for Use  （for guest user）',
+    'approved_application_for_guest':
+        '利用申請の承認のお知らせ（ゲストユーザー向け）／Guest\'\'s application was approved （for guest user）',
+    'results_of_the_review': '利用申請の審査結果について／The results of the review of your application',
+    'results_of_the_review_for_guest':
+        '利用申請の審査結果について（ゲストユーザー向け）／The results of the review of your application  （for guest user）',
+    'received_application': '利用報告の受付のお知らせ／Your Application was Received'
+}
+
 class SetupDriver:
     def setup_driver(self):
         options = webdriver.ChromeOptions()
