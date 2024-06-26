@@ -72,6 +72,9 @@ def test_no_1(driver):
     driver.execute_script('document.querySelectorAll(".scrollbar")[0].scrollBy(0, 1000)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+    # delete created mail template
+    other_mail_template_list_after_save[-1].find_elements(By.TAG_NAME, 'a')[1].click()
+
 # pytest test_admin.py::test_no_2
 def test_no_2(driver):
     """No.2 Edit Secret URL Download mail template
@@ -155,6 +158,13 @@ def test_no_2(driver):
     driver.execute_script('document.getElementsByTagName("textarea")[0].scroll(0, 0)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+    # restore edited objects
+    subject.clear()
+    subject.send_keys(edited_subject.replace('編集済_', ''))
+    body.clear()
+    body.send_keys(edited_body.replace('編集後のテンプレート\n', ''))
+    driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
+
 # pytest test_admin.py::test_no_3
 def test_no_3(driver):
     """No.3 Edit Guest User Request mail template
@@ -237,6 +247,13 @@ def test_no_3(driver):
     driver.execute_script('document.getElementsByTagName("textarea")[0].scroll(0, 0)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
+    # restore edited objects
+    subject.clear()
+    subject.send_keys(edited_subject.replace('編集済_', ''))
+    body.clear()
+    body.send_keys(edited_body.replace('編集後のテンプレート\n', ''))
+    driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
+
 # pytest test_admin.py::test_no_4
 def test_no_4(driver):
     """No.4 Edit Other mail template
@@ -317,6 +334,13 @@ def test_no_4(driver):
     # scroll up window and body
     driver.execute_script('document.getElementsByTagName("textarea")[0].scroll(0, 0)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
+
+    # restore edited objects
+    subject.clear()
+    subject.send_keys(edited_subject.replace('編集済_', ''))
+    body.clear()
+    body.send_keys(edited_body.replace('編集後のテンプレート\n', ''))
+    driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
 
 # pytest test_admin.py::test_no_5
 def test_no_5(driver):
@@ -672,7 +696,7 @@ def test_no_13(driver):
 
     # find target mail
     xs = []
-    for root, _, files in os.walk('mail/root/new'):
+    for root, _, files in os.walk('mail/' + user.split('@', 1)[0] + '/new'):
         for file in files:
             path = os.path.join(root, file)
             xs.append((os.path.getmtime(path), path))
@@ -682,7 +706,7 @@ def test_no_13(driver):
     with open(target_mail, 'r', encoding='utf-8') as f:
         lines = f.read().splitlines()
     recipient = [line for line in lines if line.startswith('To: ')]
-    assert recipient[1].split(' ')[1] == user
+    assert recipient[0].split(' ')[1] == user
 
     # check mail body
     usage_report_no_jp = [line for line in lines if line.startswith('報告番号：')]

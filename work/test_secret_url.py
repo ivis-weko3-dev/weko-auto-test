@@ -1,5 +1,6 @@
 import datetime
 import inspect
+import shutil
 
 import config
 from methods_required_during_testing import *
@@ -306,7 +307,7 @@ def test_no_11(enable_secret_url):
 
 # pytest test_secret_url.py::test_no_12
 def test_no_12(enable_secret_url):
-    """No.12 Display error message
+    """No.12 Secret URL button is hidden
     
     Secret URL is enabled
     Expiration Date is 3
@@ -326,8 +327,8 @@ def test_no_12(enable_secret_url):
     # display content's info
     click_file_information_button(enable_secret_url)
 
-    # check permission error page
-    check_permission_error_page(enable_secret_url)
+    # check secret url button is hidden
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
@@ -409,10 +410,14 @@ def test_no_15(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_16
-def test_no_16(enable_secret_url):
-    """No.16 Send email containing secret URL
+# pytest test_secret_url.py::test_no_16_to_18
+def test_no_16_to_18(enable_secret_url):
+    """Target Tests are No.16, No.17 and No.18
     
+    No.16 Send email containing secret URL
+    No.17 Download the target content
+    No.18 Try to download the target content over the download limit
+
     Secret URL is enabled
     Expiration Date is 3
     Download Limit is 3
@@ -422,6 +427,7 @@ def test_no_16(enable_secret_url):
     Args:
         enable_secret_url(WebDriver): WebDriver object
     """
+    # No.16 Send email containing secret URL
     # log in as Repository Administrator
     login(enable_secret_url, 'Repository')
 
@@ -442,35 +448,19 @@ def test_no_16(enable_secret_url):
         3,
         3)
 
-# pytest test_secret_url.py::test_no_17
-def test_no_17(enable_secret_url):
-    """No.17 Download the target content
-    
-    Target User's Role is Repository Administrator
-
-    Args:
-        enable_secret_url(WebDriver): WebDriver object
-    """
+    # No.17 Download the target content
     # download the target content
-    A8(enable_secret_url, config.users['Repository']['mail'].split('@')[0])
+    A8(enable_secret_url, config.users['Repository']['mail'].split('@', 1)[0])
 
     # check download file
     file_list = os.listdir(config.base_download_dir)
     assert 'before_publish.txt' in file_list
 
-# pytest test_secret_url.py::test_no_18
-def test_no_18(enable_secret_url):
-    """No.18 Try to download the target content over the download limit
-    
-    Target User's Role is Repository Administrator
-
-    Args:
-        enable_secret_url(WebDriver): WebDriver object
-    """
+    # No.18 Try to download the target content over the download limit
     # download the target content several times
     # In No.17, download the content once, so the number of remaining downloads is 2
     for i in range(3):
-        A8(enable_secret_url, config.users['Repository']['mail'].split('@')[0])
+        A8(enable_secret_url, config.users['Repository']['mail'].split('@', 1)[0])
         if i < 2:
             # check download file
             file_list = os.listdir(config.base_download_dir)
@@ -481,10 +471,9 @@ def test_no_18(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-    # delete downloaded files to do other tests
-    delete_target_files = [file for file in file_list if file.startswith('before_publish')]
-    for file in delete_target_files:
-        os.remove(config.base_download_dir + '/' + file)
+    # move downloaded files to do other tests
+    move_target_files = [file for file in file_list if file.startswith('before_publish')]
+    move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
 # No.19 is not created because this test is difficult to automate
 
@@ -514,7 +503,7 @@ def test_no_20(enable_secret_url):
     A7(enable_secret_url)
 
     # check secret url
-    check_secret_url_is_difference(config.users['Repository']['mail'].split('@')[0])
+    check_secret_url_is_difference(config.users['Repository']['mail'].split('@', 1)[0])
 
 # pytest test_secret_url.py::test_no_21
 def test_no_21(enable_secret_url):
@@ -543,9 +532,13 @@ def test_no_21(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_22
-def test_no_22(enable_secret_url):
-    """No.22 Send email containing secret URL
+# pytest test_secret_url.py::test_no_22_to_24
+def test_no_22_to_24(enable_secret_url):
+    """Target Tests are No.22, No.23 and No.24
+    
+    No.22 Send email containing secret URL
+    No.23 Download the target content
+    No.24 Try to download the target content over the download limit
     
     Secret URL is enabled
     Expiration Date is 3
@@ -556,6 +549,7 @@ def test_no_22(enable_secret_url):
     Args:
         enable_secret_url(WebDriver): WebDriver object
     """
+    # No.22 Send email containing secret URL
     # log in as Contributor
     login(enable_secret_url, 'RegCon')
 
@@ -576,35 +570,19 @@ def test_no_22(enable_secret_url):
         3,
         3)
 
-# pytest test_secret_url.py::test_no_23
-def test_no_23(enable_secret_url):
-    """No.23 Download the target content
-
-    Target User's Role is Contributor and the item's owner
-    
-    Args:
-        enable_secret_url(WebDriver): WebDriver object
-    """
+    # No.23 Download the target content
     # download the target content
-    A8(enable_secret_url, config.users['RegCon']['mail'].split('@')[0])
+    A8(enable_secret_url, config.users['RegCon']['mail'].split('@', 1)[0])
 
     # check download file
     file_list = os.listdir(config.base_download_dir)
     assert 'before_publish.txt' in file_list
 
-# pytest test_secret_url.py::test_no_24
-def test_no_24(enable_secret_url):
-    """No.24 Try to download the target content over the download limit
-
-    Target User's Role is Contributor and the item's owner
-    
-    Args:
-        enable_secret_url(WebDriver): WebDriver object
-    """
+    # No.24 Try to download the target content over the download limit
     # download the target content several times
     # In No.23, download the content once, so the number of remaining downloads is 2
     for i in range(3):
-        A8(enable_secret_url, config.users['RegCon']['mail'].split('@')[0])
+        A8(enable_secret_url, config.users['RegCon']['mail'].split('@', 1)[0])
         if i < 2:
             # check download file
             file_list = os.listdir(config.base_download_dir)
@@ -615,10 +593,9 @@ def test_no_24(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-    # delete downloaded files to do other tests
-    delete_target_files = [file for file in file_list if file.startswith('before_publish')]
-    for file in delete_target_files:
-        os.remove(config.base_download_dir + '/' + file)
+    # move downloaded files to do other tests
+    move_target_files = [file for file in file_list if file.startswith('before_publish')]
+    move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
 # No.25 is not created because this test is difficult to automate
 
@@ -648,7 +625,7 @@ def test_no_26(enable_secret_url):
     A7(enable_secret_url)
 
     # check secret url
-    check_secret_url_is_difference(config.users['RegCon']['mail'].split('@')[0])
+    check_secret_url_is_difference(config.users['RegCon']['mail'].split('@', 1)[0])
 
 # pytest test_secret_url.py::test_no_27
 def test_no_27(enable_secret_url):
@@ -706,7 +683,7 @@ def test_no_28(enable_secret_url):
 
 # pytest test_secret_url.py::test_no_29
 def test_no_29(enable_secret_url):
-    """No.29 Display error message
+    """No.29 Secret URL button is hidden
     
     Secret URL is enabled
     Expiration Date is 3
@@ -726,8 +703,8 @@ def test_no_29(enable_secret_url):
     # display content's info
     click_file_information_button(enable_secret_url)
 
-    # check permission error page
-    check_permission_error_page(enable_secret_url)
+    # check secret url button is hidden
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
@@ -995,9 +972,13 @@ def test_no_39(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_40
-def test_no_40(enable_secret_url):
-    """No.40 Send email containing secret URL
+# pytest test_secret_url.py::test_no_40_to_42
+def test_no_40_to_42(enable_secret_url):
+    """Target Tests are No.40, No.41 and No.42
+    
+    No.40 Send email containing secret URL
+    No.41 Download the target content
+    No.42 Try to download the target content over the download limit
     
     Secret URL is enabled
     Expiration Date is 3
@@ -1008,6 +989,7 @@ def test_no_40(enable_secret_url):
     Args:
         enable_secret_url(WebDriver): WebDriver object
     """
+    # No.40 Send email containing secret URL
     # log in as Repository Administrator
     login(enable_secret_url, 'Repository')
 
@@ -1028,35 +1010,19 @@ def test_no_40(enable_secret_url):
         3,
         3)
 
-# pytest test_secret_url.py::test_no_41
-def test_no_41(enable_secret_url):
-    """No.41 Download the target content
-    
-    Target User's Role is Repository Administrator
-
-    Args:
-        enable_secret_url(WebDriver): WebDriver object
-    """
+    # No.41 Download the target content
     # download the target content
-    A8(enable_secret_url, config.users['Repository']['mail'].split('@')[0])
+    A8(enable_secret_url, config.users['Repository']['mail'].split('@', 1)[0])
 
     # check download file
     file_list = os.listdir(config.base_download_dir)
     assert 'private.txt' in file_list
 
-# pytest test_secret_url.py::test_no_42
-def test_no_42(enable_secret_url):
-    """No.42 Try to download the target content over the download limit
-    
-    Target User's Role is Repository Administrator
-
-    Args:
-        enable_secret_url(WebDriver): WebDriver object
-    """
+    # No.42 Try to download the target content over the download limit
     # download the target content several times
     # In No.41, download the content once, so the number of remaining downloads is 2
     for i in range(3):
-        A8(enable_secret_url, config.users['Repository']['mail'].split('@')[0])
+        A8(enable_secret_url, config.users['Repository']['mail'].split('@', 1)[0])
         if i < 2:
             # check download file
             file_list = os.listdir(config.base_download_dir)
@@ -1067,10 +1033,9 @@ def test_no_42(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-    # delete downloaded files to do other tests
-    delete_target_files = [file for file in file_list if file.startswith('private')]
-    for file in delete_target_files:
-        os.remove(config.base_download_dir + '/' + file)
+    # move downloaded files to do other tests
+    move_target_files = [file for file in file_list if file.startswith('private')]
+    move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
 # No.43 is not created because this test is difficult to automate
 
@@ -1100,7 +1065,7 @@ def test_no_44(enable_secret_url):
     A7(enable_secret_url)
 
     # check secret url
-    check_secret_url_is_difference(config.users['Repository']['mail'].split('@')[0])
+    check_secret_url_is_difference(config.users['Repository']['mail'].split('@', 1)[0])
 
 # pytest test_secret_url.py::test_no_45
 def test_no_45(enable_secret_url):
@@ -1129,9 +1094,13 @@ def test_no_45(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_46
-def test_no_46(enable_secret_url):
-    """No.46 Send email containing secret URL
+# pytest test_secret_url.py::test_no_46_to_48
+def test_no_46_to_48(enable_secret_url):
+    """Target Tests are No.46, No.47 and No.48
+    
+    No.46 Send email containing secret URL
+    No.47 Download the target content
+    No.48 Try to download the target content over the download limit
     
     Secret URL is enabled
     Expiration Date is 3
@@ -1142,6 +1111,7 @@ def test_no_46(enable_secret_url):
     Args:
         enable_secret_url(WebDriver): WebDriver object
     """
+    # No.46 Send email containing secret URL
     # log in as Contributor
     login(enable_secret_url, 'RegCon')
 
@@ -1162,35 +1132,19 @@ def test_no_46(enable_secret_url):
         3,
         3)
 
-# pytest test_secret_url.py::test_no_47
-def test_no_47(enable_secret_url):
-    """No.47 Download the target content
-    
-    Target User's Role is Contributor and the item's owner
-
-    Args:
-        enable_secret_url(WebDriver): WebDriver object
-    """
+    # No.47 Download the target content
     # download the target content
-    A8(enable_secret_url, config.users['RegCon']['mail'].split('@')[0])
+    A8(enable_secret_url, config.users['RegCon']['mail'].split('@', 1)[0])
 
     # check download file
     file_list = os.listdir(config.base_download_dir)
     assert 'private.txt' in file_list
 
-# pytest test_secret_url.py::test_no_48
-def test_no_48(enable_secret_url):
-    """No.48 Try to download the target content over the download limit
-
-    Target User's Role is Contributor and the item's owner
-    
-    Args:
-        enable_secret_url(WebDriver): WebDriver object
-    """
+    # No.48 Try to download the target content over the download limit
     # download the target content several times
     # In No.47, download the content once, so the number of remaining downloads is 2
     for i in range(3):
-        A8(enable_secret_url, config.users['RegCon']['mail'].split('@')[0])
+        A8(enable_secret_url, config.users['RegCon']['mail'].split('@', 1)[0])
         if i < 2:
             # check download file
             file_list = os.listdir(config.base_download_dir)
@@ -1201,10 +1155,9 @@ def test_no_48(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-    # delete downloaded files to do other tests
-    delete_target_files = [file for file in file_list if file.startswith('private')]
-    for file in delete_target_files:
-        os.remove(config.base_download_dir + '/' + file)
+    # move downloaded files to do other tests
+    move_target_files = [file for file in file_list if file.startswith('private')]
+    move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
 # No.49 is not created because this test is difficult to automate
 
@@ -1234,11 +1187,11 @@ def test_no_50(enable_secret_url):
     A7(enable_secret_url)
 
     # check secret url
-    check_secret_url_is_difference(config.users['RegCon']['mail'].split('@')[0])
+    check_secret_url_is_difference(config.users['RegCon']['mail'].split('@', 1)[0])
 
 # pytest test_secret_url.py::test_no_51
 def test_no_51(enable_secret_url):
-    """No.51 Display error message
+    """No.51 Content's info is hidden
     
     Secret URL is enabled
     Expiration Date is 3
@@ -1255,11 +1208,9 @@ def test_no_51(enable_secret_url):
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
-    # display content's info
-    click_file_information_button(enable_secret_url)
-
-    # check permission error page
-    check_permission_error_page(enable_secret_url)
+    # check content's info is hidden
+    el = enable_secret_url.find_elements(By.XPATH, '//*[@id="detail-item"]/table')
+    assert len(el) == 0
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
@@ -1292,7 +1243,7 @@ def test_no_52(enable_secret_url):
 
 # pytest test_secret_url.py::test_no_53
 def test_no_53(enable_secret_url):
-    """No.53 Display error message
+    """No.53 Secret URL button is hidden
     
     Secret URL is enabled
     Expiration Date is 3
@@ -1312,14 +1263,14 @@ def test_no_53(enable_secret_url):
     # display content's info
     click_file_information_button(enable_secret_url)
 
-    # check permission error page
-    check_permission_error_page(enable_secret_url)
+    # check secret url button is hidden
+    check_secret_url_button_is_hidden(enable_secret_url, True)
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_54
 def test_no_54(enable_secret_url):
-    """No.54 Display error message
+    """No.54 Content's info is hidden
     
     Secret URL is enabled
     Expiration Date is 3
@@ -1336,17 +1287,15 @@ def test_no_54(enable_secret_url):
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
-    # display content's info
-    click_file_information_button(enable_secret_url)
-
-    # check permission error page
-    check_permission_error_page(enable_secret_url)
+    # check content's info is hidden
+    el = enable_secret_url.find_elements(By.XPATH, '//*[@id="detail-item"]/table')
+    assert len(el) == 0
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_55
 def test_no_55(enable_secret_url):
-    """No.55 Transition to the login page
+    """No.55 Content's info is hidden
     
     Secret URL is enabled
     Expiration Date is 3
@@ -1360,11 +1309,9 @@ def test_no_55(enable_secret_url):
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
 
-    # display content's info
-    click_file_information_button(enable_secret_url)
-
-    # check transition destination is login page
-    check_login_page(enable_secret_url)
+    # check content's info is hidden
+    el = enable_secret_url.find_elements(By.XPATH, '//*[@id="detail-item"]/table')
+    assert len(el) == 0
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
@@ -1667,7 +1614,7 @@ def test_no_66(disable_secret_url):
 
 # pytest test_secret_url.py::test_no_67
 def test_no_67(disable_secret_url):
-    """No.67 Display error message
+    """No.67 Secret URL button is hidden
     
     Secret URL is disabled
     Expiration Date is 3
@@ -1687,8 +1634,8 @@ def test_no_67(disable_secret_url):
     # display content's info
     click_file_information_button(disable_secret_url)
 
-    # check permission error page
-    check_permission_error_page(disable_secret_url)
+    # check secret url button is hidden
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
@@ -1853,7 +1800,7 @@ def test_no_73(disable_secret_url):
 
 # pytest test_secret_url.py::test_no_74
 def test_no_74(disable_secret_url):
-    """No.74 Display error message
+    """No.74 Secret URL button is hidden
     
     Secret URL is disabled
     Expiration Date is 3
@@ -1873,8 +1820,8 @@ def test_no_74(disable_secret_url):
     # display content's info
     click_file_information_button(disable_secret_url)
 
-    # check permission error page
-    check_permission_error_page(disable_secret_url)
+    # check secret url button is hidden
+    check_secret_url_button_is_hidden(disable_secret_url, True)
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
@@ -2171,7 +2118,7 @@ def test_no_85(disable_secret_url):
 
 # pytest test_secret_url.py::test_no_86
 def test_no_86(disable_secret_url):
-    """No.86 Secret URL button is hidden
+    """No.86 Content's info is hidden
     
     Secret URL is disabled
     Expiration Date is 3
@@ -2188,11 +2135,9 @@ def test_no_86(disable_secret_url):
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
 
-    # display content's info
-    click_file_information_button(disable_secret_url)
-
-    # check secret url button is hidden
-    check_secret_url_button_is_hidden(disable_secret_url, True)
+    # check content's info is hidden
+    el = disable_secret_url.find_elements(By.XPATH, '//*[@id="detail-item"]/table')
+    assert len(el) == 0
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
@@ -2252,7 +2197,7 @@ def test_no_88(disable_secret_url):
 
 # pytest test_secret_url.py::test_no_89
 def test_no_89(disable_secret_url):
-    """No.89 Secret URL button is hidden
+    """No.89 Content's info is hidden
     
     Secret URL is disabled
     Expiration Date is 3
@@ -2269,17 +2214,15 @@ def test_no_89(disable_secret_url):
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
 
-    # display content's info
-    click_file_information_button(disable_secret_url)
-
-    # check secret url button is hidden
-    check_secret_url_button_is_hidden(disable_secret_url, True)
+    # check content's info is hidden
+    el = disable_secret_url.find_elements(By.XPATH, '//*[@id="detail-item"]/table')
+    assert len(el) == 0
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_90
 def test_no_90(disable_secret_url):
-    """No.90 Secret URL button is hidden
+    """No.90 Content's info is hidden
     
     Secret URL is disabled
     Expiration Date is 3
@@ -2293,11 +2236,9 @@ def test_no_90(disable_secret_url):
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
 
-    # display content's info
-    click_file_information_button(disable_secret_url)
-
-    # check secret url button is hidden
-    check_secret_url_button_is_hidden(disable_secret_url, True)
+    # check content's info is hidden
+    el = disable_secret_url.find_elements(By.XPATH, '//*[@id="detail-item"]/table')
+    assert len(el) == 0
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
@@ -2333,7 +2274,7 @@ def test_no_91(driver):
     set_secret_url(driver, False)
 
     # download the target file
-    A8(driver, config.users['Repository']['mail'].split('@')[0])
+    A8(driver, config.users['Repository']['mail'].split('@', 1)[0])
 
     # check error page has the class what name is error-page
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
@@ -2383,7 +2324,7 @@ def test_no_92(driver):
     set_secret_url(driver, False)
 
     # download the target file
-    A8(driver, config.users['RegCon']['mail'].split('@')[0])
+    A8(driver, config.users['RegCon']['mail'].split('@', 1)[0])
 
     # check error page has the class what name is error-page
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
@@ -2421,7 +2362,7 @@ def test_no_93(driver):
     set_secret_url(driver, False)
 
     # download the target file
-    A8(driver, config.users['Repository']['mail'].split('@')[0])
+    A8(driver, config.users['Repository']['mail'].split('@', 1)[0])
 
     # check error page has the class what name is error-page
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
@@ -2471,7 +2412,7 @@ def test_no_94(driver):
     set_secret_url(driver, False)
 
     # download the target file
-    A8(driver, config.users['RegCon']['mail'].split('@')[0])
+    A8(driver, config.users['RegCon']['mail'].split('@', 1)[0])
 
     # check error page has the class what name is error-page
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
@@ -2479,7 +2420,7 @@ def test_no_94(driver):
 
 # pytest test_secret_url.py::test_no_95
 def test_no_95(driver):
-    """No.95 The number of possible downloads changes by changing Download Limit
+    """No.95 The number of possible downloads does not change by changing Download Limit
     
     Secret URL is enabled
     Expiration Date is 3
@@ -2511,8 +2452,8 @@ def test_no_95(driver):
 
     # download the target content several times
     for i in range(6):
-        A8(driver, config.users['Repository']['mail'].split('@')[0])
-        if i < 5:
+        A8(driver, config.users['Repository']['mail'].split('@', 1)[0])
+        if i < 3:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
             file_list = os.listdir(config.base_download_dir)
@@ -2523,14 +2464,13 @@ def test_no_95(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-    # delete download files to do other tests
-    delete_target_files = [file for file in file_list if file.startswith('before_publish')]
-    for file in delete_target_files:
-        os.remove(config.base_download_dir + '/' + file)
+    # move download files to do other tests
+    move_target_files = [file for file in file_list if file.startswith('before_publish')]
+    move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_96
 def test_no_96(driver):
-    """No.96 The number of possible downloads changes by changing Download Limit
+    """No.96 The number of possible downloads does not change by changing Download Limit
     
     Secret URL is enabled
     Expiration Date is 3
@@ -2574,8 +2514,8 @@ def test_no_96(driver):
 
     # download the target content several times
     for i in range(6):
-        A8(driver, config.users['RegCon']['mail'].split('@')[0])
-        if i < 5:
+        A8(driver, config.users['RegCon']['mail'].split('@', 1)[0])
+        if i < 3:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
             file_list = os.listdir(config.base_download_dir)
@@ -2586,14 +2526,13 @@ def test_no_96(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-    # delete download files to do other tests
-    delete_target_files = [file for file in file_list if file.startswith('before_publish')]
-    for file in delete_target_files:
-        os.remove(config.base_download_dir + '/' + file)
+    # move download files to do other tests
+    move_target_files = [file for file in file_list if file.startswith('before_publish')]
+    move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_97
 def test_no_97(driver):
-    """No.97 The number of possible downloads changes by changing Download Limit
+    """No.97 The number of possible downloads does not change by changing Download Limit
     
     Secret URL is enabled
     Expiration Date is 3
@@ -2625,8 +2564,8 @@ def test_no_97(driver):
 
     # download the target content several times
     for i in range(6):
-        A8(driver, config.users['Repository']['mail'].split('@')[0])
-        if i < 5:
+        A8(driver, config.users['Repository']['mail'].split('@', 1)[0])
+        if i < 3:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
             file_list = os.listdir(config.base_download_dir)
@@ -2637,14 +2576,13 @@ def test_no_97(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-    # delete download files to do other tests
-    delete_target_files = [file for file in file_list if file.startswith('private')]
-    for file in delete_target_files:
-        os.remove(config.base_download_dir + '/' + file)
+    # move download files to do other tests
+    move_target_files = [file for file in file_list if file.startswith('private')]
+    move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
 # pytest test_secret_url.py::test_no_98
 def test_no_98(driver):
-    """No.98 The number of possible downloads changes by changing Download Limit
+    """No.98 The number of possible downloads does not change by changing Download Limit
     
     Secret URL is enabled
     Expiration Date is 3
@@ -2688,8 +2626,8 @@ def test_no_98(driver):
 
     # download the target content several times
     for i in range(6):
-        A8(driver, config.users['RegCon']['mail'].split('@')[0])
-        if i < 5:
+        A8(driver, config.users['RegCon']['mail'].split('@', 1)[0])
+        if i < 3:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
             file_list = os.listdir(config.base_download_dir)
@@ -2700,10 +2638,9 @@ def test_no_98(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-    # delete download files to do other tests
-    delete_target_files = [file for file in file_list if file.startswith('private')]
-    for file in delete_target_files:
-        os.remove(config.base_download_dir + '/' + file)
+    # move download files to do other tests
+    move_target_files = [file for file in file_list if file.startswith('private')]
+    move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
 # No.99-102 is no created because these tests are difficult to automate
 
@@ -2878,3 +2815,18 @@ def save_screenshot(driver, co_name):
     time.sleep(1)
     driver.save_screenshot(
         config.base_save_folder + 'secret_url/' + d + "_" + co_name + ".png")
+
+def move_downloaded_files(target_file_name_list, method_name):
+    """Move downloaded files to the directory of each test case
+    
+    Args:
+        target_file_name_list(list): target file name list
+        method_name(str): target method name
+    """
+    directory_name = d + '_' + method_name
+    os.makedirs(config.base_download_dir + 'secret_url/' + directory_name, exist_ok=True)
+    for target_file_name in target_file_name_list:
+        shutil.move(
+            config.base_download_dir + target_file_name,
+            config.base_download_dir + 'secret_url/' + directory_name
+        )

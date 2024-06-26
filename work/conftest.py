@@ -12,17 +12,22 @@ def driver():
     Returns:
         WebDriver: The driver instance"""
     setup_driver = config.SetupDriver()
-    setup_driver.setup_driver()
-    setup_driver.driver.execute_script('window.scroll(0, 0)')
-    time.sleep(1)
-    setup_driver.driver.find_element(
-        By.XPATH,
-        '//*[@id="klaro"]/div/div/div/div/div/button'
-    ).click()
-    yield setup_driver.driver
-    logout(setup_driver.driver)
-    setup_driver.teardown_method()
-    time.sleep(1)
+    try:
+        setup_driver.setup_driver()
+        setup_driver.driver.execute_script('window.scroll(0, 0)')
+        time.sleep(3)
+        setup_driver.driver.find_element(
+            By.XPATH,
+            '//*[@id="klaro"]/div/div/div/div/div/button'
+        ).click()
+        yield setup_driver.driver
+        logout(setup_driver.driver)
+        setup_driver.teardown_method()
+        time.sleep(1)
+    except Exception as e:
+        setup_driver.teardown_method()
+        time.sleep(1)
+        raise e
 
 @pytest.fixture()
 def enable_secret_url(driver):

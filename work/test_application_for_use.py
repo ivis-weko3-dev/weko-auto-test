@@ -1,5 +1,6 @@
 import inspect
 import os
+import shutil
 import subprocess
 
 import config
@@ -50,8 +51,8 @@ class TestScenario1:
             config.users['RegCon']['mail'],
             config.item_name_dic['scenario_1'])
 
-        # delete downloaded file to do other tests
-        os.remove(config.base_download_dir + '/test_scenario_1.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_1.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest test_application_for_use.py::TestScenario1::test_scenario_1_2
     def test_scenario_1_2(self, driver):
@@ -122,8 +123,8 @@ class TestScenario1:
             config.users['PrxRegCon']['mail'],
             config.item_name_dic['scenario_1'])
 
-        # delete downloaded file to do other tests
-        os.remove(config.base_download_dir + '/test_scenario_1.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_1.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest test_application_for_use.py::TestScenario1::test_scenario_1_4
     def test_scenario_1_4(self, driver):
@@ -292,8 +293,8 @@ class TestScenario1:
             config.users['General']['mail'],
             config.item_name_dic['scenario_1'])
 
-        # delete downloaded file to do other tests
-        os.remove(config.base_download_dir + '/test_scenario_1.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_1.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest test_application_for_use.py::TestScenario1::test_scenario_1_6
     def test_scenario_1_6(self, driver):
@@ -370,8 +371,8 @@ class TestScenario2:
             config.users['RegCon']['mail'],
             config.item_name_dic['scenario_2'])
 
-        # delete downloaded file to do other tests
-        os.remove(config.base_download_dir + '/test_scenario_2.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_2.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest test_application_for_use.py::TestScenario2::test_scenario_2_2
     def test_scenario_2_2(self, driver):
@@ -442,8 +443,8 @@ class TestScenario2:
             config.users['PrxRegCon']['mail'],
             config.item_name_dic['scenario_2'])
 
-        # delete downloaded file to do other tests
-        os.remove(config.base_download_dir + '/test_scenario_2.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_2.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest test_application_for_use.py::TestScenario2::test_scenario_2_4
     def test_scenario_2_4(self, driver):
@@ -659,10 +660,9 @@ class TestScenario2:
                 file_list = os.listdir(config.base_download_dir)
                 assert 'test_scenario_2 (' + str(i + 1) + ').txt' not in file_list
 
-        # delete downloaded files to do other tests
-        delete_target_files = [file for file in file_list if file.startswith('test_scenario_2')]
-        for file in delete_target_files:
-            os.remove(config.base_download_dir + '/' + file)
+        # move downloaded files to do other tests
+        move_target_files = [file for file in file_list if file.startswith('test_scenario_2')]
+        move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
 # pytest test_application_for_use.py::TestScenario3
 class TestScenario3:
@@ -709,8 +709,8 @@ class TestScenario3:
             config.users['RegCon']['mail'],
             config.item_name_dic['scenario_3'])
 
-        # delete downloaded file to do other tests
-        os.remove(config.base_download_dir + '/test_scenario_3.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_3.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest test_application_for_use.py::TestScenario3::test_scenario_3_2
     def test_scenario_3_2(self, driver):
@@ -781,8 +781,8 @@ class TestScenario3:
             config.users['PrxRegCon']['mail'],
             config.item_name_dic['scenario_3'])
 
-        # delete downloaded file to do other tests
-        os.remove(config.base_download_dir + '/test_scenario_3.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_3.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest test_application_for_use.py::TestScenario3::test_scenario_3_4
     def test_scenario_3_4(self, driver):
@@ -953,13 +953,81 @@ class TestScenario3:
         driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
         time.sleep(3)
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '6')
-        # check mail test is not created yet
+        activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        assert check_approved_application_mail(
+            config.users['General']['mail'],
+            config.item_name_dic['scenario_3'],
+            activity_id)
 
         # 10. The Download button appears and the registered content is downloaded.
+        lines = get_latest_mail_body(config.users['General']['mail'].split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        action_td = driver.find_element(By.XPATH, '//*[@id="detail-item"]/table/tbody/tr/td[3]')
+        download_button = action_td.find_elements(By.TAG_NAME, 'a')[0]
+        assert download_button.text == 'Download'
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '10')
+        download_button.click()
+        time.sleep(1)
+        file_list = os.listdir(config.base_download_dir)
+        assert 'test_scenario_3.txt' in file_list
 
         # 11. "Request for register Data Usage Report" email is sent to the applicant.
 
         # 12. "Your Application was Received" email is sent to the applicant.
+        driver.get(config.base_url + '/workflow/')
+        time.sleep(1)
+        table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
+        headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
+        activity_id_idx = headers_text.index('Activity')
+        workflow_idx = headers_text.index('Workflow')
+        user_idx = headers_text.index('User')
+        rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
+        for row in rows:
+            # the tag of the first of row's cell is 'th', so idx - 1 is correct
+            rds = row.find_elements(By.TAG_NAME, 'td')
+            if rds[workflow_idx - 1].text.startswith('利用報告')\
+                and rds[user_idx - 1].text == config.users['General']['mail']:
+                rds[activity_id_idx - 1].find_element(By.TAG_NAME, 'a').click()
+                time.sleep(3)
+                break
+        driver.find_element(By.CLASS_NAME, 'next-button').click()
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
+        time.sleep(3)
+        activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        assert check_received_application_mail(
+            config.users['General']['mail'],
+            config.item_name_dic['scenario_3'],
+            activity_id)
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '12')
+
+        # cancel the workflow to do other tests
+        logout(driver)
+        login(driver, 'Repository')
+        driver.get(config.base_url + '/workflow/activity/detail/' + activity_id)
+        time.sleep(3)
+        A20(driver)
+        time.sleep(1)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+        time.sleep(3)
+
+        # download the file 9 times to do other tests
+        driver.get(url)
+        time.sleep(3)
+        action_td = driver.find_element(By.XPATH, '//*[@id="detail-item"]/table/tbody/tr/td[3]')
+        download_button = action_td.find_elements(By.TAG_NAME, 'a')[0]
+        for _ in range(9):
+            download_button.click()
+            time.sleep(1)
+
+        # move downloaded files to do other tests
+        move_downloaded_files(['test_scenario_3.txt'], inspect.currentframe().f_code.co_name)
+        file_list = os.listdir(config.base_download_dir)
+        delete_target_files = [file for file in file_list if file.startswith('test_scenario_3')]
+        for file in delete_target_files:
+            os.remove(config.base_download_dir + file)
 
     # pytest test_application_for_use.py::TestScenario3::test_scenario_3_5_8
     def test_scenario_3_5_8(self, driver):
@@ -1018,6 +1086,7 @@ class TestScenario3:
         driver.find_element(By.XPATH, '//*[@id="subitem_restricted_access_research_title"]')\
             .send_keys(research_title)
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '8_before')
+        driver.find_elements(By.CLASS_NAME, 'save-button')[1].click()
         time.sleep(3)
         # press the Apply button again to check the input is retained
         search_and_display_target_item(driver, config.item_name_dic['scenario_3'])
@@ -1110,7 +1179,9 @@ class TestScenario3:
         driver.find_element(By.XPATH, '//*[@id="subitem_restricted_access_research_title"]')\
             .send_keys(research_title)
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '9_before')
-        driver.find_element(By.XPATH, '//*[@id="btn_quit"]').click()
+        A20(driver)
+        time.sleep(1)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
         time.sleep(3)
         # press the Apply button again to check the input is retained
         search_and_display_target_item(driver, config.item_name_dic['scenario_3'])
@@ -1145,6 +1216,270 @@ class TestScenario3:
             '//*[@id="subitem_restricted_access_research_title"]')
         assert target_element.get_attribute('value') != research_title
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '9_after')
+
+    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_5_13
+    def test_scenario_3_5_13(self, driver):
+        """Test Scenario 3-5-13
+        
+        1. The Apply button appears.
+        2. The Terms and Conditions modal appears.
+        5. Transition to the usage registration workflow.
+        6. An email with the landing URL attached is sent to the applicant.
+        10. The Download button appears and the registered content is downloaded.
+        11. "Request for register Data Usage Report" email is sent to the applicant.
+        13. Transition to the workflow with input retained.
+        
+        User's role is General
+        
+        Args:
+            driver(WebDriver): WebDriver object
+        """
+        # log in as General
+        login(driver, 'General')
+
+        # search target item
+        search_and_display_target_item(driver, config.item_name_dic['scenario_3'])
+
+        # 1. The Apply button appears.
+        apply_button = driver.find_element(
+            By.XPATH,
+            '//*[@id="detail-item"]/table/tbody/tr/td[3]/a')
+
+        # 2. The Terms and Conditions modal appears.
+        apply_button.click()
+        time.sleep(1)
+
+        # 5. Transition to the usage registration workflow.
+        modal = driver.find_element(By.CLASS_NAME, 'modal.fade.in')
+        modal_id = modal.get_attribute('id')
+        next_id = modal_id.replace('term_and_condtion_modal', 'term_next')
+        next_btn = modal.find_element(By.XPATH, './/*[@id="' + next_id + '"]')
+        check_id = modal_id.replace('term_and_condtion_modal', 'term_checked')
+        check_box = modal.find_element(By.XPATH, './/*[@id="' + check_id + '"]')
+        check_box.click()
+        time.sleep(1)
+        next_btn.click()
+        time.sleep(1)
+
+        # 6. An email with the landing URL attached is sent to the applicant.
+        driver.find_element(By.CLASS_NAME, 'next-button').click()
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
+        time.sleep(3)
+
+        # 10. The Download button appears and the registered content is downloaded.
+        lines = get_latest_mail_body(config.users['General']['mail'].split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        action_td = driver.find_element(By.XPATH, '//*[@id="detail-item"]/table/tbody/tr/td[3]')
+        download_button = action_td.find_elements(By.TAG_NAME, 'a')[0]
+        download_button.click()
+        time.sleep(1)
+
+        # 11. "Request for register Data Usage Report" email is sent to the applicant.
+
+        # 13. Transition to the workflow with input retained.
+        driver.get(config.base_url + '/workflow/')
+        time.sleep(1)
+        table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
+        headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
+        activity_id_idx = headers_text.index('Activity')
+        workflow_idx = headers_text.index('Workflow')
+        user_idx = headers_text.index('User')
+        rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
+        for row in rows:
+            # the tag of the first of row's cell is 'th', so idx - 1 is correct
+            rds = row.find_elements(By.TAG_NAME, 'td')
+            if rds[workflow_idx - 1].text.startswith('利用報告')\
+                and rds[user_idx - 1].text == config.users['General']['mail']:
+                rds[activity_id_idx - 1].find_element(By.TAG_NAME, 'a').click()
+                time.sleep(3)
+                break
+        # edit target is Usage Report
+        activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        panel_toggles = driver.find_elements(By.CLASS_NAME, 'panel-toggle')
+        for pt in panel_toggles:
+            if pt.text == 'Usage Report':
+                usage_report_location = pt.location
+                driver.execute_script(
+                    'window.scrollTo(0, ' + str(usage_report_location['y'] - 100) + ')')
+                pt.click()
+                time.sleep(1)
+                break
+        usage_report = 'test usage report'
+        driver.find_element(By.XPATH, '//*[@id="subitem_restricted_access_usage_report"]')\
+            .send_keys(usage_report)
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '13_before')
+        driver.find_elements(By.CLASS_NAME, 'save-button')[1].click()
+        time.sleep(3)
+        # search for edited workflow from the Workflow tab
+        driver.get(config.base_url + '/workflow/')
+        time.sleep(1)
+        table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
+        headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
+        activity_id_idx = headers_text.index('Activity')
+        rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
+        for row in rows:
+            # the tag of the first of row's cell is 'th', so idx - 1 is correct
+            rds = row.find_elements(By.TAG_NAME, 'td')
+            if rds[activity_id_idx - 1].text == activity_id:
+                rds[activity_id_idx - 1].find_element(By.TAG_NAME, 'a').click()
+                time.sleep(3)
+                break
+        panel_toggles = driver.find_elements(By.CLASS_NAME, 'panel-toggle')
+        for pt in panel_toggles:
+            if pt.text == 'Usage Report':
+                usage_report_location = pt.location
+                driver.execute_script(
+                    'window.scrollTo(0, ' + str(usage_report_location['y'] - 100) + ')')
+                pt.click()
+                time.sleep(1)
+                break
+        target_element = driver.find_element(
+            By.XPATH,
+            '//*[@id="subitem_restricted_access_usage_report"]')
+        assert target_element.get_attribute('value') == usage_report
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '13_after')
+
+        # cancel the workflow to do other tests
+        logout(driver)
+        login(driver, 'Repository')
+        driver.get(config.base_url + '/workflow/activity/detail/' + activity_id)
+        time.sleep(3)
+        A20(driver)
+        time.sleep(1)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+        time.sleep(3)
+
+        # download the file 9 times to do other tests
+        search_and_display_target_item(driver, config.item_name_dic['scenario_3'])
+        action_td = driver.find_element(By.XPATH, '//*[@id="detail-item"]/table/tbody/tr/td[3]')
+        download_button = action_td.find_elements(By.TAG_NAME, 'a')[0]
+        for _ in range(9):
+            download_button.click()
+            time.sleep(1)
+
+        # move downloaded files to do other tests
+        move_downloaded_files(['test_scenario_3.txt'], inspect.currentframe().f_code.co_name)
+        file_list = os.listdir(config.base_download_dir)
+        delete_target_files = [file for file in file_list if file.startswith('test_scenario_3')]
+        for file in delete_target_files:
+            os.remove(config.base_download_dir + file)
+
+    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_5_14
+    def test_scenario_3_5_14(self, driver):
+        """Test Scenario 3-5-14
+        
+        1. The Apply button appears.
+        2. The Terms and Conditions modal appears.
+        5. Transition to the usage registration workflow.
+        6. An email with the landing URL attached is sent to the applicant.
+        10. The Download button appears and the registered content is downloaded.
+        11. "Request for register Data Usage Report" email is sent to the applicant.
+        14. Status is recorded in the workflow tab as aborted.
+        
+        User's role is General
+        
+        Args:
+            driver(WebDriver): WebDriver object
+        """
+        # log in as General
+        login(driver, 'General')
+
+        # search target item
+        search_and_display_target_item(driver, config.item_name_dic['scenario_3'])
+
+        # 1. The Apply button appears.
+        apply_button = driver.find_element(
+            By.XPATH,
+            '//*[@id="detail-item"]/table/tbody/tr/td[3]/a')
+
+        # 2. The Terms and Conditions modal appears.
+        apply_button.click()
+        time.sleep(1)
+
+        # 5. Transition to the usage registration workflow.
+        modal = driver.find_element(By.CLASS_NAME, 'modal.fade.in')
+        modal_id = modal.get_attribute('id')
+        next_id = modal_id.replace('term_and_condtion_modal', 'term_next')
+        next_btn = modal.find_element(By.XPATH, './/*[@id="' + next_id + '"]')
+        check_id = modal_id.replace('term_and_condtion_modal', 'term_checked')
+        check_box = modal.find_element(By.XPATH, './/*[@id="' + check_id + '"]')
+        check_box.click()
+        time.sleep(1)
+        next_btn.click()
+        time.sleep(1)
+
+        # 6. An email with the landing URL attached is sent to the applicant.
+        driver.find_element(By.CLASS_NAME, 'next-button').click()
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
+        time.sleep(3)
+
+        # 10. The Download button appears and the registered content is downloaded.
+        lines = get_latest_mail_body(config.users['General']['mail'].split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        action_td = driver.find_element(By.XPATH, '//*[@id="detail-item"]/table/tbody/tr/td[3]')
+        download_button = action_td.find_elements(By.TAG_NAME, 'a')[0]  
+        download_button.click()
+        time.sleep(1)
+
+        # 11. "Request for register Data Usage Report" email is sent to the applicant.
+
+        # 14. Status is recorded in the workflow tab as aborted.
+        driver.get(config.base_url + '/workflow/')
+        time.sleep(1)
+        table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
+        headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
+        activity_id_idx = headers_text.index('Activity')
+        workflow_idx = headers_text.index('Workflow')
+        user_idx = headers_text.index('User')
+        rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
+        for row in rows:
+            # the tag of the first of row's cell is 'th', so idx - 1 is correct
+            rds = row.find_elements(By.TAG_NAME, 'td')
+            if rds[workflow_idx - 1].text.startswith('利用報告')\
+                and rds[user_idx - 1].text == config.users['General']['mail']:
+                rds[activity_id_idx - 1].find_element(By.TAG_NAME, 'a').click()
+                time.sleep(3)
+                break
+        activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        A20(driver)
+        time.sleep(1)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+        time.sleep(3)
+        driver.get(config.base_url + '/workflow/?tab=all')
+        time.sleep(1)
+        table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
+        headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
+        activity_id_idx = headers_text.index('Activity')
+        status_idx = headers_text.index('Status')
+        rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
+        for row in rows:
+            # the tag of the first of row's cell is 'th', so idx - 1 is correct
+            rds = row.find_elements(By.TAG_NAME, 'td')
+            if rds[activity_id_idx - 1].text == activity_id:
+                assert rds[status_idx - 1].text == 'Canceled'
+                break
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '14')
+
+        # download the file 9 times to do other tests
+        search_and_display_target_item(driver, config.item_name_dic['scenario_3'])
+        action_td = driver.find_element(By.XPATH, '//*[@id="detail-item"]/table/tbody/tr/td[3]')
+        download_button = action_td.find_elements(By.TAG_NAME, 'a')[0]
+        for _ in range(9):
+            download_button.click()
+            time.sleep(1)
+
+        # move downloaded files to do other tests
+        move_downloaded_files(['test_scenario_3.txt'], inspect.currentframe().f_code.co_name)
+        file_list = os.listdir(config.base_download_dir)
+        delete_target_files = [file for file in file_list if file.startswith('test_scenario_3')]
+        for file in delete_target_files:
+            os.remove(config.base_download_dir + file)
 
     # pytest test_application_for_use.py::TestScenario3::test_scenario_3_6
     def test_scenario_3_6(self, driver):
@@ -1221,8 +1556,8 @@ class TestScenario4:
             config.users['RegCon']['mail'],
             config.item_name_dic['scenario_4'])
 
-        # delete downloaded file to do other tests
-        os.remove(config.base_download_dir + '/test_scenario_4.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_4.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest test_application_for_use.py::TestScenario4::test_scenario_4_2
     def test_scenario_4_2(self, driver):
@@ -1293,8 +1628,8 @@ class TestScenario4:
             config.users['PrxRegCon']['mail'],
             config.item_name_dic['scenario_4'])
 
-        # delete downloaded file to do other tests
-        os.remove(config.base_download_dir + '/test_scenario_4.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_4.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest test_application_for_use.py::TestScenario4::test_scenario_4_4
     def test_scenario_4_4(self, driver):
@@ -1487,7 +1822,7 @@ class TestScenario4:
 
         # 6. Transition to the usage registration workflow.
         A14(driver, config.guest_mail)
-        lines = get_latest_mail_body(config.guest_mail.split('@')[0])
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
         applicant_address = [line for line in lines if line.startswith('To: ')][0].split(' ')[1]
         assert applicant_address == config.guest_mail
         url = [line for line in lines if line.startswith('https://')][0]
@@ -1500,16 +1835,66 @@ class TestScenario4:
         time.sleep(3)
         driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
         time.sleep(3)
+        activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '7')
-        # don't get the mail
+        assert check_approved_application_mail_for_guest(
+            config.guest_mail,
+            config.item_name_dic['scenario_4'],
+            activity_id)
 
         # 11. The error message appears.
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        A18(driver, config.users['General']['mail'])
+        time.sleep(1)
+        alert = driver.switch_to.alert
+        alert_msg = alert.text
+        assert alert_msg == config.cannot_download_msg
+        alert.accept()
+        # save_screenshot(driver, inspect.currentframe().f_code.co_name, '11')
 
         # 12. Registered content is downloaded.
+        driver.get(url)
+        time.sleep(3)
+        A18(driver, config.guest_mail)
+        time.sleep(3)
+        file_list = os.listdir(config.base_download_dir)
+        assert 'test_scenario_4.txt' in file_list
 
         # 14. "Request for register Data Usage Report" email is sent to the applicant.
+        assert check_request_for_register_mail(
+            config.guest_mail,
+            config.item_name_dic['scenario_4'],
+            activity_id)
 
         # 15. "Your Application was Received" email is sent to the applicant.
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        driver.find_element(By.CLASS_NAME, 'next-button').click()
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
+        time.sleep(3)
+        activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        assert check_received_application_mail(
+            config.guest_mail,
+            config.item_name_dic['scenario_4'],
+            activity_id)
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '15')
+
+        # cancel the workflow to do other tests
+        login(driver, 'Repository')
+        driver.get(config.base_url + '/workflow/activity/detail/' + activity_id)
+        time.sleep(3)
+        A20(driver)
+        time.sleep(1)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_4.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest test_application_for_use.py::TestScenario4::test_scenario_4_6_9
     def test_scenario_4_6_9(self, driver):
@@ -1552,7 +1937,7 @@ class TestScenario4:
 
         # 6. Transition to the usage registration workflow.
         A14(driver, config.guest_mail)
-        lines = get_latest_mail_body(config.guest_mail.split('@')[0])
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
         url = [line for line in lines if line.startswith('https://')][0]
         driver.get(url)
         time.sleep(3)
@@ -1593,7 +1978,7 @@ class TestScenario4:
         next_btn.click()
         time.sleep(1)
         A14(driver, config.guest_mail)
-        lines = get_latest_mail_body(config.guest_mail.split('@')[0])
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
         url = [line for line in lines if line.startswith('https://')][0]
         driver.get(url)
         time.sleep(3)
@@ -1660,7 +2045,7 @@ class TestScenario4:
 
         # 6. Transition to the usage registration workflow.
         A14(driver, config.guest_mail)
-        lines = get_latest_mail_body(config.guest_mail.split('@')[0])
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
         url = [line for line in lines if line.startswith('https://')][0]
         driver.get(url)
         time.sleep(3)
@@ -1703,7 +2088,7 @@ class TestScenario4:
         next_btn.click()
         time.sleep(1)
         A14(driver, config.guest_mail)
-        lines = get_latest_mail_body(config.guest_mail.split('@')[0])
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
         url = [line for line in lines if line.startswith('https://')][0]
         driver.get(url)
         time.sleep(3)
@@ -1723,6 +2108,211 @@ class TestScenario4:
             '//*[@id="subitem_restricted_access_research_title"]')
         assert target_element.get_attribute('value') != research_title
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '10_after')
+
+        # cancel the workflow to do other tests
+        A20(driver)
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+
+    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_6_16
+    def test_scenario_4_6_16(self, driver):
+        """Test Scenario 4-6-16
+        
+        1. The Apply button appears.
+        2. The Terms and Conditions modal appears.
+        5. The account entry dialog appears.
+        6. Transition to the usage registration workflow.
+        7. An email with a one-time address attached is sent to the applicant.
+        12. Registered content is downloaded.
+        16. Transition to the workflow with input retained.
+        
+        User is not logged in
+        
+        Args:
+            driver(WebDriver): WebDriver object
+        """
+        # search target item
+        search_and_display_target_item(driver, config.item_name_dic['scenario_4'])
+
+        # 1. The Apply button appears.
+        apply_button = driver.find_element(
+            By.XPATH,
+            '//*[@id="detail-item"]/table/tbody/tr/td[3]/a')
+
+        # 2. The Terms and Conditions modal appears.
+        apply_button.click()
+        time.sleep(1)
+
+        # 5. The account entry dialog appears.
+        modal = driver.find_element(By.CLASS_NAME, 'modal.fade.in')
+        modal_id = modal.get_attribute('id')
+        next_id = modal_id.replace('term_and_condtion_modal', 'term_next')
+        next_btn = modal.find_element(By.XPATH, './/*[@id="' + next_id + '"]')
+        check_id = modal_id.replace('term_and_condtion_modal', 'term_checked')
+        check_box = modal.find_element(By.XPATH, './/*[@id="' + check_id + '"]')
+        check_box.click()
+        time.sleep(1)
+        next_btn.click()
+        time.sleep(1)
+
+        # 6. Transition to the usage registration workflow.
+        A14(driver, config.guest_mail)
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+
+        # 7. An email with a one-time address attached is sent to the applicant.
+        driver.find_element(By.CLASS_NAME, 'next-button').click()
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
+        time.sleep(3)
+
+        # 12. Registered content is downloaded.
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        A18(driver, config.guest_mail)
+        time.sleep(3)
+
+        # 16. Transition to the workflow with input retained.
+        # edit target is Usage Report
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        panel_toggles = driver.find_elements(By.CLASS_NAME, 'panel-toggle')
+        for pt in panel_toggles:
+            if pt.text == 'Usage Report':
+                usage_report_location = pt.location
+                driver.execute_script(
+                    'window.scrollTo(0, ' + str(usage_report_location['y'] - 100) + ')')
+                pt.click()
+                time.sleep(1)
+                break
+        usage_report = 'test usage report'
+        driver.find_element(By.XPATH, '//*[@id="subitem_restricted_access_usage_report"]')\
+            .send_keys(usage_report)
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '16_before')
+        driver.find_elements(By.CLASS_NAME, 'save-button')[1].click()
+        time.sleep(3)
+        # reaccess to the workflow
+        driver.get(url)
+        time.sleep(3)
+        panel_toggles = driver.find_elements(By.CLASS_NAME, 'panel-toggle')
+        for pt in panel_toggles:
+            if pt.text == 'Usage Report':
+                usage_report_location = pt.location
+                driver.execute_script(
+                    'window.scrollTo(0, ' + str(usage_report_location['y'] - 100) + ')')
+                pt.click()
+                time.sleep(1)
+                break
+        target_element = driver.find_element(
+            By.XPATH,
+            '//*[@id="subitem_restricted_access_usage_report"]')
+        assert target_element.get_attribute('value') == usage_report
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '16_after')
+
+        # cancel the workflow to do other tests
+        A20(driver)
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_4.txt'], inspect.currentframe().f_code.co_name)
+
+    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_6_17
+    def test_scenario_4_6_17(self, driver):
+        """Test Scenario 4-6-17
+        
+        1. The Apply button appears.
+        2. The Terms and Conditions modal appears.
+        5. The account entry dialog appears.
+        6. Transition to the usage registration workflow.
+        7. An email with a one-time address attached is sent to the applicant.
+        12. Registered content is downloaded.
+        17. The status of the target workflow is "Canceled"
+        
+        User is not logged in
+        
+        Args:
+            driver(WebDriver): WebDriver object
+        """
+        # search target item
+        search_and_display_target_item(driver, config.item_name_dic['scenario_4'])
+
+        # 1. The Apply button appears.
+        apply_button = driver.find_element(
+            By.XPATH,
+            '//*[@id="detail-item"]/table/tbody/tr/td[3]/a')
+
+        # 2. The Terms and Conditions modal appears.
+        apply_button.click()
+        time.sleep(1)
+
+        # 5. The account entry dialog appears.
+        modal = driver.find_element(By.CLASS_NAME, 'modal.fade.in')
+        modal_id = modal.get_attribute('id')
+        next_id = modal_id.replace('term_and_condtion_modal', 'term_next')
+        next_btn = modal.find_element(By.XPATH, './/*[@id="' + next_id + '"]')
+        check_id = modal_id.replace('term_and_condtion_modal', 'term_checked')
+        check_box = modal.find_element(By.XPATH, './/*[@id="' + check_id + '"]')
+        check_box.click()
+        time.sleep(1)
+        next_btn.click()
+        time.sleep(1)
+
+        # 6. Transition to the usage registration workflow.
+        A14(driver, config.guest_mail)
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+
+        # 7. An email with a one-time address attached is sent to the applicant.
+        driver.find_element(By.CLASS_NAME, 'next-button').click()
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
+        time.sleep(3)
+
+        # 12. Registered content is downloaded.
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        A18(driver, config.guest_mail)
+        time.sleep(3)
+
+        # 17. The status of the target workflow is "Canceled"
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        A20(driver)
+        time.sleep(1)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+        time.sleep(3)
+        login(driver, 'Repository')
+        driver.get(config.base_url + '/workflow/?tab=all')
+        time.sleep(1)
+        table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
+        headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
+        activity_id_idx = headers_text.index('Activity')
+        status_idx = headers_text.index('Status')
+        rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
+        for row in rows:
+            # the tag of the first of row's cell is 'th', so idx - 1 is correct
+            rds = row.find_elements(By.TAG_NAME, 'td')
+            if rds[activity_id_idx - 1].text == activity_id:
+                assert rds[status_idx - 1].text == 'Canceled'
+                break
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '17')
+
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_4.txt'], inspect.currentframe().f_code.co_name)
 
 # pytest test_application_for_use.py::TestScenario5
 class TestScenario5:
@@ -1769,8 +2359,8 @@ class TestScenario5:
             config.users['RegCon']['mail'],
             config.item_name_dic['scenario_5'])
 
-        # delete downloaded file to do other tests
-        os.remove(config.base_download_dir + '/test_scenario_5.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_5.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest test_application_for_use.py::TestScenario5::test_scenario_5_2
     def test_scenario_5_2(self, driver):
@@ -1841,8 +2431,8 @@ class TestScenario5:
             config.users['PrxRegCon']['mail'],
             config.item_name_dic['scenario_5'])
 
-        # delete downloaded file to do other tests
-        os.remove(config.base_download_dir + '/test_scenario_5.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_5.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest test_application_for_use.py::TestScenario5::test_scenario_5_4
     def test_scenario_5_4(self, driver):
@@ -2029,16 +2619,14 @@ class TestScenario5:
         table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
         headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
         activity_id_idx = headers_text.index('Activity')
-        # action_idx = headers_text.index('Action')
-        status_idx = headers_text.index('Status')
+        action_idx = headers_text.index('Action')
         rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
         target_element = None
         for row in rows:
             # the tag of the first of row's cell is 'th', so idx - 1 is correct
             rds = row.find_elements(By.TAG_NAME, 'td')
             if rds[activity_id_idx - 1].text == activity_id:
-                # assert rds[action_idx - 1].text == 'Approval'
-                assert rds[status_idx - 1].text == 'Approval'
+                assert rds[action_idx - 1].text == 'Approval'
                 target_element = rds[activity_id_idx - 1]
                 break
         assert target_element, 'Could not get target workflow'
@@ -2061,7 +2649,45 @@ class TestScenario5:
         file_list = os.listdir(config.base_download_dir)
         assert 'test_scenario_5.txt' in file_list
 
-        # 12 and 13 are not created because the mail cannot be checked
+        # 12. "Request for register Data Usage Report" email is sent to the applicant.
+
+        # 13. "Your Application was Received" email is sent to the applicant.
+        driver.get(config.base_url + '/workflow/')
+        time.sleep(1)
+        table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
+        headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
+        activity_id_idx = headers_text.index('Activity')
+        workflow_idx = headers_text.index('Workflow')
+        user_idx = headers_text.index('User')
+        rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
+        for row in rows:
+            # the tag of the first of row's cell is 'th', so idx - 1 is correct
+            rds = row.find_elements(By.TAG_NAME, 'td')
+            if rds[workflow_idx - 1].text.startswith('利用報告')\
+                and rds[user_idx - 1].text == config.users['General']['mail']:
+                rds[activity_id_idx - 1].find_element(By.TAG_NAME, 'a').click()
+                time.sleep(3)
+                break
+        driver.find_element(By.CLASS_NAME, 'next-button').click()
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
+        time.sleep(3)
+        activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        assert check_received_application_mail(
+            config.users['General']['mail'],
+            config.item_name_dic['scenario_5'],
+            activity_id)
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '13')
+
+        # cancel the workflow to do other tests
+        logout(driver)
+        login(driver, 'Repository')
+        driver.get(config.base_url + '/workflow/activity/detail/' + activity_id)
+        time.sleep(3)
+        A20(driver)
+        time.sleep(1)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+        time.sleep(3)
 
         # download the file 9 times to do other tests
         search_and_display_target_item(driver, config.item_name_dic['scenario_5'])
@@ -2071,11 +2697,12 @@ class TestScenario5:
             download_button.click()
             time.sleep(1)
 
-        # delete downloaded files to do other tests
+        # move downloaded files to do other tests
+        move_downloaded_files(['test_scenario_5.txt'], inspect.currentframe().f_code.co_name)
         file_list = os.listdir(config.base_download_dir)
         delete_target_files = [file for file in file_list if file.startswith('test_scenario_5')]
         for file in delete_target_files:
-            os.remove(config.base_download_dir + '/' + file)
+            os.remove(config.base_download_dir + file)
 
     # pytest test_application_for_use.py::TestScenario5::test_scenario_5_5_8
     def test_scenario_5_5_8(self, driver):
@@ -2306,7 +2933,7 @@ class TestScenario5:
         check_box.click()
         time.sleep(1)
         next_btn.click()
-        time.sleep(1)
+        time.sleep(3)
 
         # 6. A reminder email is sent to the applicant.
         driver.find_element(By.CLASS_NAME, 'next-button').click()
@@ -2341,6 +2968,77 @@ class TestScenario5:
         time.sleep(1)
 
         # 14. Transition to the workflow with input retained.
+        driver.get(config.base_url + '/workflow/')
+        time.sleep(1)
+        table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
+        headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
+        activity_id_idx = headers_text.index('Activity')
+        workflow_idx = headers_text.index('Workflow')
+        user_idx = headers_text.index('User')
+        rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
+        for row in rows:
+            # the tag of the first of row's cell is 'th', so idx - 1 is correct
+            rds = row.find_elements(By.TAG_NAME, 'td')
+            if rds[workflow_idx - 1].text.startswith('利用報告')\
+                and rds[user_idx - 1].text == config.users['General']['mail']:
+                rds[activity_id_idx - 1].find_element(By.TAG_NAME, 'a').click()
+                time.sleep(3)
+                break
+        # edit target is Usage Report
+        activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        panel_toggles = driver.find_elements(By.CLASS_NAME, 'panel-toggle')
+        for pt in panel_toggles:
+            if pt.text == 'Usage Report':
+                usage_report_location = pt.location
+                driver.execute_script(
+                    'window.scrollTo(0, ' + str(usage_report_location['y'] - 100) + ')')
+                pt.click()
+                time.sleep(1)
+                break
+        usage_report = 'test usage report'
+        driver.find_element(By.XPATH, '//*[@id="subitem_restricted_access_usage_report"]')\
+            .send_keys(usage_report)
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '14_before')
+        driver.find_elements(By.CLASS_NAME, 'save-button')[1].click()
+        time.sleep(3)
+        # search for edited workflow from the Workflow tab
+        driver.get(config.base_url + '/workflow/')
+        time.sleep(1)
+        table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
+        headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
+        activity_id_idx = headers_text.index('Activity')
+        rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
+        for row in rows:
+            # the tag of the first of row's cell is 'th', so idx - 1 is correct
+            rds = row.find_elements(By.TAG_NAME, 'td')
+            if rds[activity_id_idx - 1].text == activity_id:
+                rds[activity_id_idx - 1].find_element(By.TAG_NAME, 'a').click()
+                time.sleep(3)
+                break
+        panel_toggles = driver.find_elements(By.CLASS_NAME, 'panel-toggle')
+        for pt in panel_toggles:
+            if pt.text == 'Usage Report':
+                usage_report_location = pt.location
+                driver.execute_script(
+                    'window.scrollTo(0, ' + str(usage_report_location['y'] - 100) + ')')
+                pt.click()
+                time.sleep(1)
+                break
+        target_element = driver.find_element(
+            By.XPATH,
+            '//*[@id="subitem_restricted_access_usage_report"]')
+        assert target_element.get_attribute('value') == usage_report
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '14_after')
+
+        # cancel the workflow to do other tests
+        logout(driver)
+        login(driver, 'Repository')
+        driver.get(config.base_url + '/workflow/activity/detail/' + activity_id)
+        time.sleep(3)
+        A20(driver)
+        time.sleep(1)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+        time.sleep(3)
 
         # download the file 9 times to do other tests
         search_and_display_target_item(driver, config.item_name_dic['scenario_5'])
@@ -2350,7 +3048,8 @@ class TestScenario5:
             download_button.click()
             time.sleep(1)
 
-        # delete downloaded files to do other tests
+        # move downloaded files to do other tests
+        move_downloaded_files(['test_scenario_5.txt'], inspect.currentframe().f_code.co_name)
         file_list = os.listdir(config.base_download_dir)
         delete_target_files = [file for file in file_list if file.startswith('test_scenario_5')]
         for file in delete_target_files:
@@ -2432,6 +3131,41 @@ class TestScenario5:
         time.sleep(1)
 
         # 15. Status is recorded in the workflow tab as aborted.
+        driver.get(config.base_url + '/workflow/')
+        time.sleep(1)
+        table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
+        headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
+        activity_id_idx = headers_text.index('Activity')
+        workflow_idx = headers_text.index('Workflow')
+        user_idx = headers_text.index('User')
+        rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
+        for row in rows:
+            # the tag of the first of row's cell is 'th', so idx - 1 is correct
+            rds = row.find_elements(By.TAG_NAME, 'td')
+            if rds[workflow_idx - 1].text.startswith('利用報告')\
+                and rds[user_idx - 1].text == config.users['General']['mail']:
+                rds[activity_id_idx - 1].find_element(By.TAG_NAME, 'a').click()
+                time.sleep(3)
+                break
+        activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        A20(driver)
+        time.sleep(1)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+        time.sleep(3)
+        driver.get(config.base_url + '/workflow/?tab=all')
+        time.sleep(1)
+        table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
+        headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
+        activity_id_idx = headers_text.index('Activity')
+        status_idx = headers_text.index('Status')
+        rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
+        for row in rows:
+            # the tag of the first of row's cell is 'th', so idx - 1 is correct
+            rds = row.find_elements(By.TAG_NAME, 'td')
+            if rds[activity_id_idx - 1].text == activity_id:
+                assert rds[status_idx - 1].text == 'Canceled'
+                break
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '15')
 
         # download the file 9 times to do other tests
         search_and_display_target_item(driver, config.item_name_dic['scenario_5'])
@@ -2441,7 +3175,8 @@ class TestScenario5:
             download_button.click()
             time.sleep(1)
 
-        # delete downloaded files to do other tests
+        # move downloaded files to do other tests
+        move_downloaded_files(['test_scenario_5.txt'], inspect.currentframe().f_code.co_name)
         file_list = os.listdir(config.base_download_dir)
         delete_target_files = [file for file in file_list if file.startswith('test_scenario_5')]
         for file in delete_target_files:
@@ -2523,15 +3258,13 @@ class TestScenario5:
         table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
         headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
         activity_id_idx = headers_text.index('Activity')
-        # action_idx = headers_text.index('Action')
-        status_idx = headers_text.index('Status')
+        action_idx = headers_text.index('Action')
         rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
         for row in rows:
             # the tag of the first of row's cell is 'th', so idx - 1 is correct
             rds = row.find_elements(By.TAG_NAME, 'td')
             if rds[activity_id_idx - 1].text == activity_id:
-                # assert rds[action_idx - 1].text == 'Item Registration'
-                assert rds[status_idx - 1].text == 'Item Registration'
+                assert rds[action_idx - 1].text == 'Item Registration'
                 break
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '16')
         assert check_results_of_the_review_mail(
@@ -2543,17 +3276,31 @@ class TestScenario5:
     def test_scenario_5_6(self, driver):
         """Test Scenario 5-6
         
-        1. Transition to the login page.
+        1. The Apply button appears.
+        2. The error message appears.
         
         User is not logged in
         
         Args:
             driver(WebDriver): WebDriver object
         """
-        # 1. Transition to the login page.
+        # search target item
         search_and_display_target_item(driver, config.item_name_dic['scenario_5'])
-        check_login_page(driver)
+
+        # 1. The Apply button appears.
+        action_td = driver.find_element(By.XPATH, '//*[@id="detail-item"]/table/tbody/tr/td[3]')
+        apply_button = action_td.find_elements(By.TAG_NAME, 'a')[0]
+        assert apply_button.text == 'Apply'
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '1')
+
+        # 2. The error message appears.
+        apply_button.click()
+        time.sleep(1)
+        modals = driver.find_elements(By.XPATH, '//*[@id="allModal"]')
+        assert len(modals) == 1
+        err_msg = driver.find_element(By.XPATH, '//*[@id="inputModal"]')
+        assert err_msg.text == config.application_for_use_error_msg
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
 # pytest test_application_for_use.py::TestScenario6
 class TestScenario6:
@@ -2864,7 +3611,7 @@ class TestScenario6:
 
         # 6. Transition to the workflow page.
         A14(driver, config.guest_mail)
-        lines = get_latest_mail_body(config.guest_mail.split('@')[0])
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
         applicant_address = [line for line in lines if line.startswith('To: ')][0].split(' ')[1]
         assert applicant_address == config.guest_mail
         url = [line for line in lines if line.startswith('https://')][0]
@@ -2906,15 +3653,13 @@ class TestScenario6:
         table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
         headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
         activity_id_idx = headers_text.index('Activity')
-        # action_idx = headers_text.index('Action')
-        status_idx = headers_text.index('Status')
+        action_idx = headers_text.index('Action')
         rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
         for row in rows:
             # the tag of the first of row's cell is 'th', so idx - 1 is correct
             rds = row.find_elements(By.TAG_NAME, 'td')
             if rds[activity_id_idx - 1].text == activity_id:
-                # assert rds[action_idx - 1].text == 'Item Registration'
-                assert rds[status_idx - 1].text == 'Item Registration'
+                assert rds[action_idx - 1].text == 'Item Registration'
                 break
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '19')
         assert check_results_of_the_review_mail_for_guest(
@@ -2926,6 +3671,224 @@ class TestScenario6:
         logout(driver)
         driver.get(url)
         time.sleep(3)
+        A20(driver)
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+
+    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_6_9
+    def test_scenario_6_6_9(self, driver):
+        """Test Scenario 6-6-9
+        
+        1. The Apply button appears.
+        2. The Terms and Conditions modal appears.
+        5. The account entry dialog appears.
+        6. Transition to the workflow page.
+        9. Transition to the workflow with input retained.
+
+        User is not logged in
+
+        Args:
+            driver(WebDriver): WebDriver object
+        """
+        # search target item
+        search_and_display_target_item(driver, config.item_name_dic['scenario_6'])
+
+        # 1. The Apply button appears.
+        apply_button = driver.find_element(
+            By.XPATH,
+            '//*[@id="detail-item"]/table/tbody/tr/td[3]/a')
+
+        # 2. The Terms and Conditions modal appears.
+        apply_button.click()
+        time.sleep(1)
+
+        # 5. The account entry dialog appears.
+        modal = driver.find_element(By.CLASS_NAME, 'modal.fade.in')
+        modal_id = modal.get_attribute('id')
+        next_id = modal_id.replace('term_and_condtion_modal', 'term_next')
+        next_btn = modal.find_element(By.XPATH, './/*[@id="' + next_id + '"]')
+        check_id = modal_id.replace('term_and_condtion_modal', 'term_checked')
+        check_box = modal.find_element(By.XPATH, './/*[@id="' + check_id + '"]')
+        check_box.click()
+        time.sleep(1)
+        next_btn.click()
+        time.sleep(1)
+
+        # 6. Transition to the workflow page.
+        A14(driver, config.guest_mail)
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+
+        # 9. Transition to the workflow with input retained.
+        # edit target is Research Title
+        before_activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        panel_toggles = driver.find_elements(By.CLASS_NAME, 'panel-toggle')
+        for pt in panel_toggles:
+            if pt.text == 'Research Title':
+                research_title_location = pt.location
+                driver.execute_script(
+                    'window.scrollTo(0, ' + str(research_title_location['y'] - 100) + ')')
+                pt.click()
+                time.sleep(1)
+                break
+        research_title = 'test research'
+        driver.find_element(By.XPATH, '//*[@id="subitem_restricted_access_research_title"]')\
+            .send_keys(research_title)
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '9_before')
+        driver.find_elements(By.CLASS_NAME, 'save-button')[1].click()
+        time.sleep(3)
+        # execute 6-6-1, 6-6-2, 6-6-5 and 6-6-6 again
+        search_and_display_target_item(driver, config.item_name_dic['scenario_6'])
+        apply_button = driver.find_element(
+            By.XPATH,
+            '//*[@id="detail-item"]/table/tbody/tr/td[3]/a')
+        apply_button.click()
+        time.sleep(1)
+        modal = driver.find_element(By.CLASS_NAME, 'modal.fade.in')
+        modal_id = modal.get_attribute('id')
+        next_id = modal_id.replace('term_and_condtion_modal', 'term_next')
+        next_btn = modal.find_element(By.XPATH, './/*[@id="' + next_id + '"]')
+        check_id = modal_id.replace('term_and_condtion_modal', 'term_checked')
+        check_box = modal.find_element(By.XPATH, './/*[@id="' + check_id + '"]')
+        check_box.click()
+        time.sleep(1)
+        next_btn.click()
+        time.sleep(1)
+        A14(driver, config.guest_mail)
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        after_activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        assert before_activity_id == after_activity_id
+        panel_toggles = driver.find_elements(By.CLASS_NAME, 'panel-toggle')
+        for pt in panel_toggles:
+            if pt.text == 'Research Title':
+                research_title_location = pt.location
+                driver.execute_script(
+                    'window.scrollTo(0, ' + str(research_title_location['y'] - 100) + ')')
+                pt.click()
+                time.sleep(1)
+                break
+        target_element = driver.find_element(
+            By.XPATH,
+            '//*[@id="subitem_restricted_access_research_title"]')
+        assert target_element.get_attribute('value') == research_title
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '9_after')
+
+        # cancel the workflow to do other tests
+        A20(driver)
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+
+    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_6_10
+    def test_scenario_6_6_10(self, driver):
+        """Test Scenario 6-6-10
+        
+        1. The Apply button appears.
+        2. The Terms and Conditions modal appears.
+        5. The account entry dialog appears.
+        6. Transition to the workflow page.
+        10. Transition to the new usage application workflow.
+        
+        User is not logged in
+        
+        Args:
+            driver(WebDriver): WebDriver object
+        """
+        # search target item
+        search_and_display_target_item(driver, config.item_name_dic['scenario_6'])
+
+        # 1. The Apply button appears.
+        apply_button = driver.find_element(
+            By.XPATH,
+            '//*[@id="detail-item"]/table/tbody/tr/td[3]/a')
+
+        # 2. The Terms and Conditions modal appears.
+        apply_button.click()
+        time.sleep(1)
+
+        # 5. The account entry dialog appears.
+        modal = driver.find_element(By.CLASS_NAME, 'modal.fade.in')
+        modal_id = modal.get_attribute('id')
+        next_id = modal_id.replace('term_and_condtion_modal', 'term_next')
+        next_btn = modal.find_element(By.XPATH, './/*[@id="' + next_id + '"]')
+        check_id = modal_id.replace('term_and_condtion_modal', 'term_checked')
+        check_box = modal.find_element(By.XPATH, './/*[@id="' + check_id + '"]')
+        check_box.click()
+        time.sleep(1)
+        next_btn.click()
+        time.sleep(1)
+
+        # 6. Transition to the workflow page.
+        A14(driver, config.guest_mail)
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+
+        # 10. Transition to the new usage application workflow.
+        # edit target is Research Title
+        before_activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        panel_toggles = driver.find_elements(By.CLASS_NAME, 'panel-toggle')
+        for pt in panel_toggles:
+            if pt.text == 'Research Title':
+                research_title_location = pt.location
+                driver.execute_script(
+                    'window.scrollTo(0, ' + str(research_title_location['y'] - 100) + ')')
+                pt.click()
+                time.sleep(1)
+                break
+        research_title = 'test research'
+        driver.find_element(By.XPATH, '//*[@id="subitem_restricted_access_research_title"]')\
+            .send_keys(research_title)
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '10_before')
+        A20(driver)
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+        time.sleep(3)
+        # execute 6-6-1, 6-6-2, 6-6-5 and 6-6-6 again
+        search_and_display_target_item(driver, config.item_name_dic['scenario_6'])
+        apply_button = driver.find_element(
+            By.XPATH,
+            '//*[@id="detail-item"]/table/tbody/tr/td[3]/a')
+        apply_button.click()
+        time.sleep(1)
+        modal = driver.find_element(By.CLASS_NAME, 'modal.fade.in')
+        modal_id = modal.get_attribute('id')
+        next_id = modal_id.replace('term_and_condtion_modal', 'term_next')
+        next_btn = modal.find_element(By.XPATH, './/*[@id="' + next_id + '"]')
+        check_id = modal_id.replace('term_and_condtion_modal', 'term_checked')
+        check_box = modal.find_element(By.XPATH, './/*[@id="' + check_id + '"]')
+        check_box.click()
+        time.sleep(1)
+        next_btn.click()
+        time.sleep(1)
+        A14(driver, config.guest_mail)
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        after_activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        assert before_activity_id != after_activity_id
+        panel_toggles = driver.find_elements(By.CLASS_NAME, 'panel-toggle')
+        for pt in panel_toggles:
+            if pt.text == 'Research Title':
+                research_title_location = pt.location
+                driver.execute_script(
+                    'window.scrollTo(0, ' + str(research_title_location['y'] - 100) + ')')
+                pt.click()
+                time.sleep(1)
+                break
+        target_element = driver.find_element(
+            By.XPATH,
+            '//*[@id="subitem_restricted_access_research_title"]')
+        assert target_element.get_attribute('value') != research_title
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '10_after')
+
+        # cancel the workflow to do other tests
         A20(driver)
         time.sleep(3)
         driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
@@ -2977,7 +3940,7 @@ class TestScenario6:
 
         # 6. Transition to the workflow page.
         A14(driver, config.guest_mail)
-        lines = get_latest_mail_body(config.guest_mail.split('@')[0])
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
         url = [line for line in lines if line.startswith('https://')][0]
         driver.get(url)
         time.sleep(3)
@@ -2996,16 +3959,14 @@ class TestScenario6:
         table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
         headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
         activity_id_idx = headers_text.index('Activity')
-        # action_idx = headers_text.index('Action')
-        status_idx = headers_text.index('Status')
+        action_idx = headers_text.index('Action')
         rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
         target_element = None
         for row in rows:
             # the tag of the first of row's cell is 'th', so idx - 1 is correct
             rds = row.find_elements(By.TAG_NAME, 'td')
             if rds[activity_id_idx - 1].text == activity_id:
-                # assert rds[action_idx - 1].text == 'Approval'
-                assert rds[status_idx - 1].text == 'Approval'
+                assert rds[action_idx - 1].text == 'Approval'
                 target_element = rds[activity_id_idx - 1]
                 break
         assert target_element, 'Could not get target workflow'
@@ -3024,7 +3985,7 @@ class TestScenario6:
 
         # 13. The error message appears.
         logout(driver)
-        lines = get_latest_mail_body(config.guest_mail.split('@')[0])
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
         url = [line for line in lines if line.startswith('https://')][0]
         driver.get(url)
         time.sleep(3)
@@ -3032,7 +3993,7 @@ class TestScenario6:
         time.sleep(1)
         alert = driver.switch_to.alert
         alert_msg = alert.text
-        assert alert_msg == 'Could not download file.'
+        assert alert_msg == config.cannot_download_msg
         alert.accept()
         # save_screenshot(driver, inspect.currentframe().f_code.co_name, '13')
 
@@ -3051,7 +4012,7 @@ class TestScenario6:
             activity_id)
 
         # 16. "Your Application was Received" email is sent to the applicant.
-        lines = get_latest_mail_body(config.guest_mail.split('@')[0])
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
         url = [line for line in lines if line.startswith('https://')][0]
         driver.get(url)
         time.sleep(3)
@@ -3074,8 +4035,140 @@ class TestScenario6:
         time.sleep(1)
         driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
 
-        # delete downloaded file to do other tests
-        os.remove(config.base_download_dir + '/test_scenario_6.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_6.txt'], inspect.currentframe().f_code.co_name)
+
+    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_6_17
+    def test_scenario_6_6_17(self, driver):
+        """Test Scenario 6-6-17
+        
+        1. The Apply button appears.
+        2. The Terms and Conditions modal appears.
+        5. The account entry dialog appears.
+        6. Transition to the workflow page.
+        7. A mail acknowledging receipt of the usage application is sent to the applicant.
+        11. The usage application workflow with the action status "Approval" is displayed.
+        12. An approval notification email is sent to the applicant.
+        14. Registered content is downloaded.
+        17. Transition to the workflow with input retained.
+        
+        User is not logged in
+        
+        Args:
+            driver(WebDriver): WebDriver object
+        """
+        # search target item
+        search_and_display_target_item(driver, config.item_name_dic['scenario_6'])
+
+        # 1. The Apply button appears.
+        apply_button = driver.find_element(
+            By.XPATH,
+            '//*[@id="detail-item"]/table/tbody/tr/td[3]/a')
+
+        # 2. The Terms and Conditions modal appears.
+        apply_button.click()
+        time.sleep(1)
+
+        # 5. The account entry dialog appears.
+        modal = driver.find_element(By.CLASS_NAME, 'modal.fade.in')
+        modal_id = modal.get_attribute('id')
+        next_id = modal_id.replace('term_and_condtion_modal', 'term_next')
+        next_btn = modal.find_element(By.XPATH, './/*[@id="' + next_id + '"]')
+        check_id = modal_id.replace('term_and_condtion_modal', 'term_checked')
+        check_box = modal.find_element(By.XPATH, './/*[@id="' + check_id + '"]')
+        check_box.click()
+        time.sleep(1)
+        next_btn.click()
+
+        # 6. Transition to the workflow page.
+        A14(driver, config.guest_mail)
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+
+        # 7. A mail acknowledging receipt of the usage application is sent to the applicant.
+        driver.find_element(By.CLASS_NAME, 'next-button').click()
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
+        time.sleep(3)
+        activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+
+        # 11. The usage application workflow with the action status "Approval" is displayed.
+        login(driver, 'Repository')
+        driver.get(config.base_url + '/workflow/')
+        time.sleep(1)
+        table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
+        headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
+        activity_id_idx = headers_text.index('Activity')
+        rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
+        for row in rows:
+            # the tag of the first of row's cell is 'th', so idx - 1 is correct
+            rds = row.find_elements(By.TAG_NAME, 'td')
+            if rds[activity_id_idx - 1].text == activity_id:
+                rds[activity_id_idx - 1].find_element(By.TAG_NAME, 'a').click()
+                time.sleep(3)
+                break
+
+        # 12. An approval notification email is sent to the applicant.
+        driver.find_element(By.XPATH, '//*[@id="btn-approval"]').click()
+        time.sleep(3)
+
+        # 14. Registered content is downloaded.
+        logout(driver)
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        A18(driver, config.guest_mail)
+        time.sleep(3)
+
+        # 17. Transition to the workflow with input retained.
+        # edit target is Usage Report
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        panel_toggles = driver.find_elements(By.CLASS_NAME, 'panel-toggle')
+        for pt in panel_toggles:
+            if pt.text == 'Usage Report':
+                usage_report_location = pt.location
+                driver.execute_script(
+                    'window.scrollTo(0, ' + str(usage_report_location['y'] - 100) + ')')
+                pt.click()
+                time.sleep(1)
+                break
+        usage_report = 'test usage report'
+        driver.find_element(By.XPATH, '//*[@id="subitem_restricted_access_usage_report"]')\
+            .send_keys(usage_report)
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '17_before')
+        driver.find_elements(By.CLASS_NAME, 'save-button')[1].click()
+        time.sleep(3)
+        # reaccess to the workflow
+        driver.get(url)
+        time.sleep(3)
+        panel_toggles = driver.find_elements(By.CLASS_NAME, 'panel-toggle')
+        for pt in panel_toggles:
+            if pt.text == 'Usage Report':
+                usage_report_location = pt.location
+                driver.execute_script(
+                    'window.scrollTo(0, ' + str(usage_report_location['y'] - 100) + ')')
+                pt.click()
+                time.sleep(1)
+                break
+        target_element = driver.find_element(
+            By.XPATH,
+            '//*[@id="subitem_restricted_access_usage_report"]')
+        assert target_element.get_attribute('value') == usage_report
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '17_after')
+
+        # cancel the workflow to do other tests
+        A20(driver)
+        time.sleep(3)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_6.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest test_application_for_use.py::TestScenario6::test_scenario_6_6_18
     def test_scenario_6_6_18(self, driver):
@@ -3122,7 +4215,7 @@ class TestScenario6:
 
         # 6. Transition to the workflow page.
         A14(driver, config.guest_mail)
-        lines = get_latest_mail_body(config.guest_mail.split('@')[0])
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
         url = [line for line in lines if line.startswith('https://')][0]
         driver.get(url)
         time.sleep(3)
@@ -3156,7 +4249,7 @@ class TestScenario6:
 
         # 14. Registered content is downloaded.
         logout(driver)
-        lines = get_latest_mail_body(config.guest_mail.split('@')[0])
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
         url = [line for line in lines if line.startswith('https://')][0]
         driver.get(url)
         time.sleep(3)
@@ -3164,11 +4257,10 @@ class TestScenario6:
         time.sleep(3)
 
         # 18. The status of the target workflow is "Canceled"
-        lines = get_latest_mail_body(config.guest_mail.split('@')[0])
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
         url = [line for line in lines if line.startswith('https://')][0]
         driver.get(url)
         time.sleep(3)
-        save_screenshot(driver, inspect.currentframe().f_code.co_name, 'test')
         activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
         A20(driver)
         time.sleep(1)
@@ -3180,20 +4272,18 @@ class TestScenario6:
         table = driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table')
         headers_text = [header.text for header in table.find_elements(By.TAG_NAME, 'th')]
         activity_id_idx = headers_text.index('Activity')
-        # status_idx = headers_text.index('Status')
-        user_idx = headers_text.index('User')
+        status_idx = headers_text.index('Status')
         rows = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
         for row in rows:
             # the tag of the first of row's cell is 'th', so idx - 1 is correct
             rds = row.find_elements(By.TAG_NAME, 'td')
             if rds[activity_id_idx - 1].text == activity_id:
-                # assert rds[status_idx - 1].text == 'Canceled'
-                assert rds[user_idx - 1].text == 'Canceled'
+                assert rds[status_idx - 1].text == 'Canceled'
                 break
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '18')
 
-        # delete downloaded file to do other tests
-        os.remove(config.base_download_dir + '/test_scenario_6.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_6.txt'], inspect.currentframe().f_code.co_name)
 
 def login(driver, target_key: str):
     """Log in as target user
@@ -3258,7 +4348,7 @@ def check_request_for_approval_mail(mail_address: str, target_item_name: str, ac
         activity_id(str): activity id
     """
     # get the latest mail
-    target_user_name = mail_address.split('@')[0]
+    target_user_name = config.users['Repository']['mail'].split('@', 1)[0]
     lines = get_latest_mail_body(target_user_name)
 
     # get the email title
@@ -3298,7 +4388,7 @@ def check_request_for_approval_mail_for_guest(
         activity_id(str): activity id
     """
     # get the latest mail
-    target_user_name = mail_address.split('@')[0]
+    target_user_name = config.users['Repository']['mail'].split('@', 1)[0]
     lines = get_latest_mail_body(target_user_name)
 
     # get the email title
@@ -3309,6 +4399,42 @@ def check_request_for_approval_mail_for_guest(
         # check recipient's address
         recipient = [line for line in lines if line.startswith('To: ')][0]
         if recipient.split(' ')[1] == config.users['Repository']['mail']:
+            # check the email body
+            body_activity_id = [line for line in lines if line.startswith('申請番号：')]
+            body_mail_address = [line for line in lines if line.startswith('メールアドレス：')]
+            request_data = [line for line in lines if line.startswith('申請データ：')]
+            request_date = [line for line in lines if line.startswith('申請年月日：')]
+            if compare_the_two_elements(activity_id, body_activity_id)\
+                and compare_the_two_elements(mail_address, body_mail_address)\
+                and compare_the_two_elements(target_item_name, request_data)\
+                and compare_the_two_elements(
+                    datetime.datetime.today().strftime('%Y-%m-%d'),
+                    request_date):
+                return True
+    return False
+
+def check_approved_application_mail(mail_address: str, target_item_name: str, activity_id: str):
+    """Check the latest email
+    
+    for Your application was approved  （for logged in users）
+    
+    Args:
+        mail_address(str): recipient's email address
+        target_item_name(str): target item's name
+        activity_id(str): activity id
+    """
+    # get the latest mail
+    target_user_name = mail_address.split('@')[0]
+    lines = get_latest_mail_body(target_user_name)
+
+    # get the email title
+    sub_list = get_mail_subject(lines)
+
+    # decode and check the email title
+    if decode_mail_subject(sub_list) == config.mail_subjects['approved_application']:
+        # check recipient's address
+        recipient = [line for line in lines if line.startswith('To: ')][0]
+        if recipient.split(' ')[1] == mail_address:
             # check the email body
             body_activity_id = [line for line in lines if line.startswith('申請番号：')]
             body_mail_address = [line for line in lines if line.startswith('メールアドレス：')]
@@ -3421,8 +4547,8 @@ def check_results_of_the_review_mail_for_guest(
     # decode and check the email title
     if decode_mail_subject(sub_list) == config.mail_subjects['results_of_the_review_for_guest']:
         # check recipient's address
-        recipient = [line for line in lines if line.startswith('To: ')]
-        if recipient[1].split(' ')[1] == mail_address:
+        recipient = [line for line in lines if line.startswith('To: ')][0]
+        if recipient.split(' ')[1] == mail_address:
             # check the email body
             body_activity_id = [line for line in lines if line.startswith('申請番号：')]
             body_mail_address = [line for line in lines if line.startswith('メールアドレス：')]
@@ -3448,9 +4574,8 @@ def check_received_application_mail(mail_address: str, target_item_name: str, ac
         activity_id(str): activity id
     """
     # get the latest mail
-    mail_list = os.listdir('mail/root/new')
-    with open('mail/root/new/' + mail_list[-1], 'r', encoding='utf-8') as f:
-        lines = f.read().splitlines()
+    target_user_name = mail_address.split('@')[0]
+    lines = get_latest_mail_body(target_user_name)
 
     # get the email title
     sub_list = get_mail_subject(lines)
@@ -3564,3 +4689,18 @@ def save_screenshot(driver, co_name: str, scenario_number: str):
     time.sleep(1)
     driver.save_screenshot(
         config.base_save_folder + 'application_for_use/' + d + "_" + co_name + ".png")
+
+def move_downloaded_files(target_file_name_list, method_name):
+    """Move downloaded files to the directory of each test case
+    
+    Args:
+        target_file_name_list(list): target file name list
+        method_name(str): target method name
+    """
+    directory_name = d + '_' + method_name
+    os.makedirs(config.base_download_dir + 'application_for_use/' + directory_name, exist_ok=True)
+    for target_file_name in target_file_name_list:
+        shutil.move(
+            config.base_download_dir + target_file_name,
+            config.base_download_dir + 'application_for_use/' + directory_name
+        )
