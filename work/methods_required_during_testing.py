@@ -12,7 +12,7 @@ import os
 import re
 import config
 
-d = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%s")
+d = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 def is_integer(n):
     try:

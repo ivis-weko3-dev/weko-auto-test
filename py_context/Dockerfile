@@ -11,5 +11,6 @@ RUN apt-get update && \
 RUN pip install --upgrade pip
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
+RUN ln -sf /bin/bash /bin/sh
 WORKDIR /work
 CMD ["/bin/bash"] 
