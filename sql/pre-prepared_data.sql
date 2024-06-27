@@ -7,7 +7,7 @@ VALUES
     ('noreg-contributor@weko-selenium.jp', '$pbkdf2-sha512$25000$VKqVcu4dI2QsBSDkvJdyLg$b.LYu6VL.6uNeri9FXYaHl9AJkeVXl5lUTYuvM2laNIFmi6oqqwzUkZqxRwWNAhR.MiDCsuWymZWwbFNAoE5kw', True),
     ('prxreg-contributor@weko-selenium.jp', '$pbkdf2-sha512$25000$Rah1jlFKyXnv3bv3PsdYCw$vXZKR.qbsvYQL2kMDQyqFiosag8RpK.62IWuDfXuuxhEbG1LAWNM78AQ.TC38Ne7ytxS5XvGAjDRm1QYElW1Wg', True),
     ('general@weko-selenium.jp', '$pbkdf2-sha512$25000$KwXAGOPcuxeiFOI8xxhDqA$YFjpseBU2AYJpajs0yB2MoFZBq9fIdIzoZGO69miHCsdwVKUYOPnVE.3bmJ2WJHraI.LJcIX4jNiI8We7gSMsA', True),
-    ('sysadmin@weko-selenium.jp', '$pbkdf2-sha512$25000$HQNASIlRyrl3jjGmlDLG2A$XC5AgpHaJCCTFeffAs93NG/6/RJ0gh6B.57jYXs6kHZVBERlzt9J8qAaCnU7YqSlGFN1LshEgurC1RWvV.TEgQ', True)
+    ('sysadmin@weko-selenium.jp', '$pbkdf2-sha512$25000$HQNASIlRyrl3jjGmlDLG2A$XC5AgpHaJCCTFeffAs93NG/6/RJ0gh6B.57jYXs6kHZVBERlzt9J8qAaCnU7YqSlGFN1LshEgurC1RWvV.TEgQ', True);
 
 -- ユーザーロール
 INSERT INTO accounts_userrole(user_id, role_id)
@@ -22,7 +22,14 @@ WHERE (email = 'repoadmin@weko-selenium.jp' AND role_name = 'Repository Administ
     OR (email IN ('reg-contributor@weko-selenium.jp', 'noreg-contributor@weko-selenium.jp', 'prxreg-contributor@weko-selenium.jp') 
         AND role_name = 'Contributor')
     OR (email = 'general@weko-selenium.jp' AND role_name = 'General')
-    OR (email = 'sysadmin@weko-selenium.jp' AND role_name = 'System Administrator')
+    OR (email = 'sysadmin@weko-selenium.jp' AND role_name = 'System Administrator');
+
+-- インデックス
+INSERT INTO index
+VALUES
+    (TIMESTAMP '2024-06-14 08:18:35.300',TIMESTAMP '2024-06-14 08:18:48.821',1718353115275,0,-98,'シークレットURL','Secret URL','','New Index','',False,'',False,5,True,'1','',True,null,False,False,False,False,'3,4,5,-98,-99',False,'3,4,5,-98,-99',False,'',False,'',False,1,'{}',False,''),
+    (TIMESTAMP '2024-06-17 00:22:27.616',TIMESTAMP '2024-06-17 00:24:36.977',1718583747245,0,-97,'利用申請テスト','Usage Application Test','','New Index','',False,'',False,5,True,'1','',True,null,False,False,False,False,'3,4,5,-98,-99',False,'3,4,5,-98,-99',False,'',False,'',False,1,'{}',False,''),
+    (TIMESTAMP '2024-06-26 04:08:22.954',TIMESTAMP '2024-06-26 04:08:39.663',1719374902906,0,-96,'管理テスト','Admin Test','','New Index','',False,'',False,5,True,'1','',True,null,False,False,False,False,'3,4,5,-98,-99',False,'3,4,5,-98,-99',False,'',False,'',False,6,'{}',False,'');
 
 -- メールテンプレート
 INSERT INTO public.mail_templates(mail_subject, mail_body, default_mail, genre_id)
@@ -30,11 +37,11 @@ SELECT CONCAT('テスト_', mail_subject), mail_body, default_mail, genre_id FRO
 UNION ALL
 SELECT CONCAT('テスト_', mail_subject), mail_body, default_mail, genre_id FROM (SELECT * FROM public.mail_templates WHERE genre_id = 2 LIMIT 1) sub
 UNION ALL
-SELECT CONCAT('テスト_', mail_subject), mail_body, default_mail, genre_id FROM (SELECT * FROM public.mail_templates WHERE genre_id = 3 LIMIT 1) sub
+SELECT CONCAT('テスト_', mail_subject), mail_body, default_mail, genre_id FROM (SELECT * FROM public.mail_templates WHERE genre_id = 3 LIMIT 1) sub;
 
 -- 利用規約
 UPDATE admin_settings
 SET settings = jsonb_insert(settings, '{terms_and_conditions, -1}',
     '{"key": "000000000001", "content": {"en": {"title": "TestTermTitle", "content": "TestTermContent"}, "ja": {"title": "テスト規約タイトル", "content": "テスト規約本文"}}, "existed": true}',
     true)
-WHERE name = 'restricted_access'
+WHERE name = 'restricted_access';

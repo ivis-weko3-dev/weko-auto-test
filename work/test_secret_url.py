@@ -21,11 +21,6 @@ def test_no_1(enable_secret_url):
     # log in as Repository Administrator
     login(enable_secret_url, 'Repository')
 
-    # enable secret url, Expiration Date is 3, Download Limit is 3
-    # set_secret_url(enable_secret_url, True)
-    # A3(enable_secret_url, 3)
-    # A4(enable_secret_url, 3)
-
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
 
