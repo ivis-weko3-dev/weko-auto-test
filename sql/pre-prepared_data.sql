@@ -39,6 +39,7 @@ UNION ALL
 SELECT CONCAT('テスト_', mail_subject), mail_body, default_mail, genre_id FROM (SELECT * FROM public.mail_templates WHERE genre_id = 3 LIMIT 1) sub;
 
 -- 利用規約
+-- 更新件数が0件の場合、制限公開用の設定を何かしら編集し、レコードを作成してから再度実行すること。
 UPDATE admin_settings
 SET settings = jsonb_insert(settings, '{terms_and_conditions, -1}',
     '{"key": "000000000001", "content": {"en": {"title": "TestTermTitle", "content": "TestTermContent"}, "ja": {"title": "テスト規約タイトル", "content": "テスト規約本文"}}, "existed": true}',
