@@ -5,7 +5,7 @@ import shutil
 import config
 from methods_required_during_testing import *
 
-# pytest test_secret_url.py::test_no_1
+# pytest auto_test/test_secret_url.py::test_no_1
 def test_no_1(enable_secret_url):
     """No.1 Secret URL button is hidden
 
@@ -32,7 +32,7 @@ def test_no_1(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_2
+# pytest auto_test/test_secret_url.py::test_no_2
 def test_no_2(enable_secret_url):
     """No.2 Secret URL button is hidden
     
@@ -59,7 +59,7 @@ def test_no_2(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_3
+# pytest auto_test/test_secret_url.py::test_no_3
 def test_no_3(enable_secret_url):
     """No.3 Secret URL button is hidden
     
@@ -86,7 +86,7 @@ def test_no_3(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_4
+# pytest auto_test/test_secret_url.py::test_no_4
 def test_no_4(enable_secret_url):
     """No.4 Secret URL button is hidden
     
@@ -113,7 +113,7 @@ def test_no_4(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_5
+# pytest auto_test/test_secret_url.py::test_no_5
 def test_no_5(enable_secret_url):
     """No.5 Secret URL button is hidden
     
@@ -140,7 +140,7 @@ def test_no_5(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_6
+# pytest auto_test/test_secret_url.py::test_no_6
 def test_no_6(enable_secret_url):
     """No.6 Secret URL button is hidden
     
@@ -167,7 +167,7 @@ def test_no_6(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_7
+# pytest auto_test/test_secret_url.py::test_no_7
 def test_no_7(enable_secret_url):
     """No.7 Secret URL button is hidden
     
@@ -192,7 +192,7 @@ def test_no_7(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_8
+# pytest auto_test/test_secret_url.py::test_no_8
 def test_no_8(enable_secret_url):
     """No.8 Secret URL button is hidden
     
@@ -219,7 +219,7 @@ def test_no_8(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_9
+# pytest auto_test/test_secret_url.py::test_no_9
 def test_no_9(enable_secret_url):
     """No.9 Secret URL button is hidden
     
@@ -246,7 +246,7 @@ def test_no_9(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_10
+# pytest auto_test/test_secret_url.py::test_no_10
 def test_no_10(enable_secret_url):
     """No.10 Display error message
     
@@ -273,7 +273,7 @@ def test_no_10(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_11
+# pytest auto_test/test_secret_url.py::test_no_11
 def test_no_11(enable_secret_url):
     """No.11 Secret URL button is hidden
     
@@ -300,7 +300,7 @@ def test_no_11(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_12
+# pytest auto_test/test_secret_url.py::test_no_12
 def test_no_12(enable_secret_url):
     """No.12 Secret URL button is hidden
     
@@ -327,7 +327,7 @@ def test_no_12(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_13
+# pytest auto_test/test_secret_url.py::test_no_13
 def test_no_13(enable_secret_url):
     """No.13 Display error message
     
@@ -354,7 +354,7 @@ def test_no_13(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_14
+# pytest auto_test/test_secret_url.py::test_no_14
 def test_no_14(enable_secret_url):
     """No.14 Transition to the login page
     
@@ -378,7 +378,7 @@ def test_no_14(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_15
+# pytest auto_test/test_secret_url.py::test_no_15
 def test_no_15(enable_secret_url):
     """No.15 Secret URL button is not hidden
     
@@ -405,7 +405,7 @@ def test_no_15(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_16_to_18
+# pytest auto_test/test_secret_url.py::test_no_16_to_18
 def test_no_16_to_18(enable_secret_url):
     """Target Tests are No.16, No.17 and No.18
     
@@ -470,9 +470,9 @@ def test_no_16_to_18(enable_secret_url):
     move_target_files = [file for file in file_list if file.startswith('before_publish')]
     move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
-# No.19 is not created because this test is difficult to automate
+# The test No.19 is in shell_test/test_secret_url_three_days.py
 
-# pytest test_secret_url.py::test_no_20
+# pytest auto_test/test_secret_url.py::test_no_20
 def test_no_20(enable_secret_url):
     """No.20 Secret URL different from No.16's secret URL
     
@@ -500,7 +500,7 @@ def test_no_20(enable_secret_url):
     # check secret url
     check_secret_url_is_difference(config.users['Repository']['mail'].split('@', 1)[0])
 
-# pytest test_secret_url.py::test_no_21
+# pytest auto_test/test_secret_url.py::test_no_21
 def test_no_21(enable_secret_url):
     """No.21 Secret URL button is not hidden
     
@@ -527,7 +527,7 @@ def test_no_21(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_22_to_24
+# pytest auto_test/test_secret_url.py::test_no_22_to_24
 def test_no_22_to_24(enable_secret_url):
     """Target Tests are No.22, No.23 and No.24
     
@@ -592,9 +592,9 @@ def test_no_22_to_24(enable_secret_url):
     move_target_files = [file for file in file_list if file.startswith('before_publish')]
     move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
-# No.25 is not created because this test is difficult to automate
+# The test No.25 is in shell_test/test_secret_url_three_days.py
 
-# pytest test_secret_url.py::test_no_26
+# pytest auto_test/test_secret_url.py::test_no_26
 def test_no_26(enable_secret_url):
     """No.26 Secret URL different from No.22's secret URL
     
@@ -622,7 +622,7 @@ def test_no_26(enable_secret_url):
     # check secret url
     check_secret_url_is_difference(config.users['RegCon']['mail'].split('@', 1)[0])
 
-# pytest test_secret_url.py::test_no_27
+# pytest auto_test/test_secret_url.py::test_no_27
 def test_no_27(enable_secret_url):
     """No.27 Display error message
     
@@ -649,7 +649,7 @@ def test_no_27(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_28
+# pytest auto_test/test_secret_url.py::test_no_28
 def test_no_28(enable_secret_url):
     """No.28 Secret URL button is hidden
     
@@ -676,7 +676,7 @@ def test_no_28(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_29
+# pytest auto_test/test_secret_url.py::test_no_29
 def test_no_29(enable_secret_url):
     """No.29 Secret URL button is hidden
     
@@ -703,7 +703,7 @@ def test_no_29(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_30
+# pytest auto_test/test_secret_url.py::test_no_30
 def test_no_30(enable_secret_url):
     """No.30 Display error message
     
@@ -730,7 +730,7 @@ def test_no_30(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_31
+# pytest auto_test/test_secret_url.py::test_no_31
 def test_no_31(enable_secret_url):
     """No.31 Transition to the login page
     
@@ -754,7 +754,7 @@ def test_no_31(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_32
+# pytest auto_test/test_secret_url.py::test_no_32
 def test_no_32(enable_secret_url):
     """No.32 Secret URL button is hidden
     
@@ -781,7 +781,7 @@ def test_no_32(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_33
+# pytest auto_test/test_secret_url.py::test_no_33
 def test_no_33(enable_secret_url):
     """No.33 Secret URL button is hidden
     
@@ -808,7 +808,7 @@ def test_no_33(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_34
+# pytest auto_test/test_secret_url.py::test_no_34
 def test_no_34(enable_secret_url):
     """No.34 Secret URL button is hidden
     
@@ -835,7 +835,7 @@ def test_no_34(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_35
+# pytest auto_test/test_secret_url.py::test_no_35
 def test_no_35(enable_secret_url):
     """No.35 Secret URL button is hidden
     
@@ -862,7 +862,7 @@ def test_no_35(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_36
+# pytest auto_test/test_secret_url.py::test_no_36
 def test_no_36(enable_secret_url):
     """No.36 Secret URL button is hidden
     
@@ -889,7 +889,7 @@ def test_no_36(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_37
+# pytest auto_test/test_secret_url.py::test_no_37
 def test_no_37(enable_secret_url):
     """No.37 Secret URL button is hidden
     
@@ -916,7 +916,7 @@ def test_no_37(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_38
+# pytest auto_test/test_secret_url.py::test_no_38
 def test_no_38(enable_secret_url):
     """No.38 Secret URL button is hidden
     
@@ -940,7 +940,7 @@ def test_no_38(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_39
+# pytest auto_test/test_secret_url.py::test_no_39
 def test_no_39(enable_secret_url):
     """No.39 Secret URL button is not hidden
     
@@ -967,7 +967,7 @@ def test_no_39(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_40_to_42
+# pytest auto_test/test_secret_url.py::test_no_40_to_42
 def test_no_40_to_42(enable_secret_url):
     """Target Tests are No.40, No.41 and No.42
     
@@ -1032,9 +1032,9 @@ def test_no_40_to_42(enable_secret_url):
     move_target_files = [file for file in file_list if file.startswith('private')]
     move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
-# No.43 is not created because this test is difficult to automate
+# The test No.43 is in shell_test/test_secret_url_three_days.py
 
-# pytest test_secret_url.py::test_no_44
+# pytest auto_test/test_secret_url.py::test_no_44
 def test_no_44(enable_secret_url):
     """No.44 Secret URL different from No.40's secret URL
     
@@ -1062,7 +1062,7 @@ def test_no_44(enable_secret_url):
     # check secret url
     check_secret_url_is_difference(config.users['Repository']['mail'].split('@', 1)[0])
 
-# pytest test_secret_url.py::test_no_45
+# pytest auto_test/test_secret_url.py::test_no_45
 def test_no_45(enable_secret_url):
     """No.45 Secret URL button is not hidden
     
@@ -1089,7 +1089,7 @@ def test_no_45(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_46_to_48
+# pytest auto_test/test_secret_url.py::test_no_46_to_48
 def test_no_46_to_48(enable_secret_url):
     """Target Tests are No.46, No.47 and No.48
     
@@ -1154,9 +1154,9 @@ def test_no_46_to_48(enable_secret_url):
     move_target_files = [file for file in file_list if file.startswith('private')]
     move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
-# No.49 is not created because this test is difficult to automate
+# The test No.49 is in shell_test/test_secret_url_three_days.py
 
-# pytest test_secret_url.py::test_no_50
+# pytest auto_test/test_secret_url.py::test_no_50
 def test_no_50(enable_secret_url):
     """No.50 Secret URL different from No.46's secret URL
     
@@ -1184,7 +1184,7 @@ def test_no_50(enable_secret_url):
     # check secret url
     check_secret_url_is_difference(config.users['RegCon']['mail'].split('@', 1)[0])
 
-# pytest test_secret_url.py::test_no_51
+# pytest auto_test/test_secret_url.py::test_no_51
 def test_no_51(enable_secret_url):
     """No.51 Content's info is hidden
     
@@ -1209,7 +1209,7 @@ def test_no_51(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_52
+# pytest auto_test/test_secret_url.py::test_no_52
 def test_no_52(enable_secret_url):
     """No.52 Secret URL button is hidden
     
@@ -1236,7 +1236,7 @@ def test_no_52(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_53
+# pytest auto_test/test_secret_url.py::test_no_53
 def test_no_53(enable_secret_url):
     """No.53 Secret URL button is hidden
     
@@ -1263,7 +1263,7 @@ def test_no_53(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_54
+# pytest auto_test/test_secret_url.py::test_no_54
 def test_no_54(enable_secret_url):
     """No.54 Content's info is hidden
     
@@ -1288,7 +1288,7 @@ def test_no_54(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_55
+# pytest auto_test/test_secret_url.py::test_no_55
 def test_no_55(enable_secret_url):
     """No.55 Content's info is hidden
     
@@ -1310,7 +1310,7 @@ def test_no_55(enable_secret_url):
 
     save_screenshot(enable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_56
+# pytest auto_test/test_secret_url.py::test_no_56
 def test_no_56(disable_secret_url):
     """No.56 Secret URL button is hidden
     
@@ -1340,7 +1340,7 @@ def test_no_56(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_57
+# pytest auto_test/test_secret_url.py::test_no_57
 def test_no_57(disable_secret_url):
     """No.57 Secret URL button is hidden
     
@@ -1367,7 +1367,7 @@ def test_no_57(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_58
+# pytest auto_test/test_secret_url.py::test_no_58
 def test_no_58(disable_secret_url):
     """No.58 Secret URL button is hidden
     
@@ -1394,7 +1394,7 @@ def test_no_58(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_59
+# pytest auto_test/test_secret_url.py::test_no_59
 def test_no_59(disable_secret_url):
     """No.59 Secret URL button is hidden
     
@@ -1421,7 +1421,7 @@ def test_no_59(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_60
+# pytest auto_test/test_secret_url.py::test_no_60
 def test_no_60(disable_secret_url):
     """No.60 Secret URL button is hidden
     
@@ -1448,7 +1448,7 @@ def test_no_60(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_61
+# pytest auto_test/test_secret_url.py::test_no_61
 def test_no_61(disable_secret_url):
     """No.61 Secret URL button is hidden
     
@@ -1475,7 +1475,7 @@ def test_no_61(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_62
+# pytest auto_test/test_secret_url.py::test_no_62
 def test_no_62(disable_secret_url):
     """No.62 Secret URL button is hidden
     
@@ -1499,7 +1499,7 @@ def test_no_62(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_63
+# pytest auto_test/test_secret_url.py::test_no_63
 def test_no_63(disable_secret_url):
     """No.63 Secret URL button is hidden
     
@@ -1526,7 +1526,7 @@ def test_no_63(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_64
+# pytest auto_test/test_secret_url.py::test_no_64
 def test_no_64(disable_secret_url):
     """No.64 Secret URL button is hidden
     
@@ -1553,7 +1553,7 @@ def test_no_64(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_65
+# pytest auto_test/test_secret_url.py::test_no_65
 def test_no_65(disable_secret_url):
     """No.65 Display error message
     
@@ -1580,7 +1580,7 @@ def test_no_65(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_66
+# pytest auto_test/test_secret_url.py::test_no_66
 def test_no_66(disable_secret_url):
     """No.66 Secret URL button is hidden
     
@@ -1607,7 +1607,7 @@ def test_no_66(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_67
+# pytest auto_test/test_secret_url.py::test_no_67
 def test_no_67(disable_secret_url):
     """No.67 Secret URL button is hidden
     
@@ -1634,7 +1634,7 @@ def test_no_67(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_68
+# pytest auto_test/test_secret_url.py::test_no_68
 def test_no_68(disable_secret_url):
     """No.68 Display error message
     
@@ -1661,7 +1661,7 @@ def test_no_68(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_69
+# pytest auto_test/test_secret_url.py::test_no_69
 def test_no_69(disable_secret_url):
     """No.69 Transition to the login page
     
@@ -1685,7 +1685,7 @@ def test_no_69(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_70
+# pytest auto_test/test_secret_url.py::test_no_70
 def test_no_70(disable_secret_url):
     """No.70 Secret URL button is hidden
     
@@ -1712,7 +1712,7 @@ def test_no_70(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_71
+# pytest auto_test/test_secret_url.py::test_no_71
 def test_no_71(disable_secret_url):
     """No.71 Secret URL button is hidden
     
@@ -1739,7 +1739,7 @@ def test_no_71(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_72
+# pytest auto_test/test_secret_url.py::test_no_72
 def test_no_72(disable_secret_url):
     """No.72 Display error message
     
@@ -1766,7 +1766,7 @@ def test_no_72(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_73
+# pytest auto_test/test_secret_url.py::test_no_73
 def test_no_73(disable_secret_url):
     """No.73 Secret URL button is hidden
     
@@ -1793,7 +1793,7 @@ def test_no_73(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_74
+# pytest auto_test/test_secret_url.py::test_no_74
 def test_no_74(disable_secret_url):
     """No.74 Secret URL button is hidden
     
@@ -1820,7 +1820,7 @@ def test_no_74(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_75
+# pytest auto_test/test_secret_url.py::test_no_75
 def test_no_75(disable_secret_url):
     """No.75 Display error message
     
@@ -1847,7 +1847,7 @@ def test_no_75(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_76
+# pytest auto_test/test_secret_url.py::test_no_76
 def test_no_76(disable_secret_url):
     """No.76 Transition to the login page
     
@@ -1871,7 +1871,7 @@ def test_no_76(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_77
+# pytest auto_test/test_secret_url.py::test_no_77
 def test_no_77(disable_secret_url):
     """No.77 Secret URL button is hidden
     
@@ -1898,7 +1898,7 @@ def test_no_77(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_78
+# pytest auto_test/test_secret_url.py::test_no_78
 def test_no_78(disable_secret_url):
     """No.78 Secret URL button is hidden
     
@@ -1925,7 +1925,7 @@ def test_no_78(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_79
+# pytest auto_test/test_secret_url.py::test_no_79
 def test_no_79(disable_secret_url):
     """No.79 Secret URL button is hidden
     
@@ -1952,7 +1952,7 @@ def test_no_79(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_80
+# pytest auto_test/test_secret_url.py::test_no_80
 def test_no_80(disable_secret_url):
     """No.80 Secret URL button is hidden
     
@@ -1979,7 +1979,7 @@ def test_no_80(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_81
+# pytest auto_test/test_secret_url.py::test_no_81
 def test_no_81(disable_secret_url):
     """No.81 Secret URL button is hidden
     
@@ -2006,7 +2006,7 @@ def test_no_81(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_82
+# pytest auto_test/test_secret_url.py::test_no_82
 def test_no_82(disable_secret_url):
     """No.82 Secret URL button is hidden
     
@@ -2033,7 +2033,7 @@ def test_no_82(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_83
+# pytest auto_test/test_secret_url.py::test_no_83
 def test_no_83(disable_secret_url):
     """No.83 Secret URL button is hidden
     
@@ -2057,7 +2057,7 @@ def test_no_83(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_84
+# pytest auto_test/test_secret_url.py::test_no_84
 def test_no_84(disable_secret_url):
     """No.84 Secret URL button is hidden
     
@@ -2084,7 +2084,7 @@ def test_no_84(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_85
+# pytest auto_test/test_secret_url.py::test_no_85
 def test_no_85(disable_secret_url):
     """No.85 Secret URL button is hidden
     
@@ -2111,7 +2111,7 @@ def test_no_85(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_86
+# pytest auto_test/test_secret_url.py::test_no_86
 def test_no_86(disable_secret_url):
     """No.86 Content's info is hidden
     
@@ -2136,7 +2136,7 @@ def test_no_86(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_87
+# pytest auto_test/test_secret_url.py::test_no_87
 def test_no_87(disable_secret_url):
     """No.87 Secret URL button is hidden
     
@@ -2163,7 +2163,7 @@ def test_no_87(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_88
+# pytest auto_test/test_secret_url.py::test_no_88
 def test_no_88(disable_secret_url):
     """No.88 Secret URL button is hidden
     
@@ -2190,7 +2190,7 @@ def test_no_88(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_89
+# pytest auto_test/test_secret_url.py::test_no_89
 def test_no_89(disable_secret_url):
     """No.89 Content's info is hidden
     
@@ -2215,7 +2215,7 @@ def test_no_89(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_90
+# pytest auto_test/test_secret_url.py::test_no_90
 def test_no_90(disable_secret_url):
     """No.90 Content's info is hidden
     
@@ -2237,7 +2237,7 @@ def test_no_90(disable_secret_url):
 
     save_screenshot(disable_secret_url, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_91
+# pytest auto_test/test_secret_url.py::test_no_91
 def test_no_91(driver):
     """No.91 Download file with secret URL is failed
     
@@ -2275,7 +2275,7 @@ def test_no_91(driver):
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
     assert len(error_page) > 0, 'This page is not error page'
 
-# pytest test_secret_url.py::test_no_92
+# pytest auto_test/test_secret_url.py::test_no_92
 def test_no_92(driver):
     """No.92 Download file with secret URL is failed
     
@@ -2325,7 +2325,7 @@ def test_no_92(driver):
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
     assert len(error_page) > 0, 'This page is not error page'
 
-# pytest test_secret_url.py::test_no_93
+# pytest auto_test/test_secret_url.py::test_no_93
 def test_no_93(driver):
     """No.93 Download file with secret URL is failed
     
@@ -2363,7 +2363,7 @@ def test_no_93(driver):
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
     assert len(error_page) > 0, 'This page is not error page'
 
-# pytest test_secret_url.py::test_no_94
+# pytest auto_test/test_secret_url.py::test_no_94
 def test_no_94(driver):
     """No.94 Download file with secret URL is failed
     
@@ -2413,7 +2413,7 @@ def test_no_94(driver):
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
     assert len(error_page) > 0, 'This page is not error page'
 
-# pytest test_secret_url.py::test_no_95
+# pytest auto_test/test_secret_url.py::test_no_95
 def test_no_95(driver):
     """No.95 The number of possible downloads does not change by changing Download Limit
     
@@ -2448,7 +2448,7 @@ def test_no_95(driver):
     # download the target content several times
     for i in range(6):
         A8(driver, config.users['Repository']['mail'].split('@', 1)[0])
-        if i < 3:
+        if i < 5:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
             file_list = os.listdir(config.base_download_dir)
@@ -2463,7 +2463,7 @@ def test_no_95(driver):
     move_target_files = [file for file in file_list if file.startswith('before_publish')]
     move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_96
+# pytest auto_test/test_secret_url.py::test_no_96
 def test_no_96(driver):
     """No.96 The number of possible downloads does not change by changing Download Limit
     
@@ -2510,7 +2510,7 @@ def test_no_96(driver):
     # download the target content several times
     for i in range(6):
         A8(driver, config.users['RegCon']['mail'].split('@', 1)[0])
-        if i < 3:
+        if i < 5:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
             file_list = os.listdir(config.base_download_dir)
@@ -2525,7 +2525,7 @@ def test_no_96(driver):
     move_target_files = [file for file in file_list if file.startswith('before_publish')]
     move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_97
+# pytest auto_test/test_secret_url.py::test_no_97
 def test_no_97(driver):
     """No.97 The number of possible downloads does not change by changing Download Limit
     
@@ -2560,7 +2560,7 @@ def test_no_97(driver):
     # download the target content several times
     for i in range(6):
         A8(driver, config.users['Repository']['mail'].split('@', 1)[0])
-        if i < 3:
+        if i < 5:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
             file_list = os.listdir(config.base_download_dir)
@@ -2575,7 +2575,7 @@ def test_no_97(driver):
     move_target_files = [file for file in file_list if file.startswith('private')]
     move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
-# pytest test_secret_url.py::test_no_98
+# pytest auto_test/test_secret_url.py::test_no_98
 def test_no_98(driver):
     """No.98 The number of possible downloads does not change by changing Download Limit
     
@@ -2622,7 +2622,7 @@ def test_no_98(driver):
     # download the target content several times
     for i in range(6):
         A8(driver, config.users['RegCon']['mail'].split('@', 1)[0])
-        if i < 3:
+        if i < 5:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
             file_list = os.listdir(config.base_download_dir)
@@ -2637,7 +2637,7 @@ def test_no_98(driver):
     move_target_files = [file for file in file_list if file.startswith('private')]
     move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
-# No.99-102 is no created because these tests are difficult to automate
+# The tests No.99-102 are in shell_test/test_secret_url_changing_deadline.py
 
 def login(driver, target_key):
     """Log in as target user

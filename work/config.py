@@ -11,9 +11,10 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from pathlib import Path
 
 # 変数
-base_url = "https://192.168.56.103"
+base_url = "https://192.168.56.106"
 base_save_folder = "screenshots/"
 base_download_dir = "downloads/"
+base_secret_url_dir = 'secret_url/'
 test_account_mail = "contributor@weko-selenium.jp"
 test_account_password = "uspass123"
 guest_mail = "guest@weko-selenium.jp"

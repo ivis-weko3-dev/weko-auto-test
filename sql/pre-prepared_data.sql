@@ -29,7 +29,6 @@ INSERT INTO index
 VALUES
     (TIMESTAMP '2024-06-14 08:18:35.300',TIMESTAMP '2024-06-14 08:18:48.821',1718353115275,0,-98,'シークレットURL','Secret URL','','New Index','',False,'',False,5,True,'1','',True,null,False,False,False,False,'3,4,5,-98,-99',False,'3,4,5,-98,-99',False,'',False,'',False,1,'{}',False,''),
     (TIMESTAMP '2024-06-17 00:22:27.616',TIMESTAMP '2024-06-17 00:24:36.977',1718583747245,0,-97,'利用申請テスト','Usage Application Test','','New Index','',False,'',False,5,True,'1','',True,null,False,False,False,False,'3,4,5,-98,-99',False,'3,4,5,-98,-99',False,'',False,'',False,1,'{}',False,''),
-    (TIMESTAMP '2024-06-26 04:08:22.954',TIMESTAMP '2024-06-26 04:08:39.663',1719374902906,0,-96,'管理テスト','Admin Test','','New Index','',False,'',False,5,True,'1','',True,null,False,False,False,False,'3,4,5,-98,-99',False,'3,4,5,-98,-99',False,'',False,'',False,6,'{}',False,'');
 
 -- メールテンプレート
 INSERT INTO public.mail_templates(mail_subject, mail_body, default_mail, genre_id)

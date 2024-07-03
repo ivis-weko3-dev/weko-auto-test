@@ -3,7 +3,7 @@ import os
 
 import config
 from methods_required_during_testing import *
-# pytest test_admin.py::test_no_1
+# pytest auto_test/test_admin.py::test_no_1
 def test_no_1(driver):
     """No.1 Create new mail template
 
@@ -75,7 +75,7 @@ def test_no_1(driver):
     # delete created mail template
     other_mail_template_list_after_save[-1].find_elements(By.TAG_NAME, 'a')[1].click()
 
-# pytest test_admin.py::test_no_2
+# pytest auto_test/test_admin.py::test_no_2
 def test_no_2(driver):
     """No.2 Edit Secret URL Download mail template
 
@@ -165,7 +165,7 @@ def test_no_2(driver):
     body.send_keys(edited_body.replace('編集後のテンプレート\n', ''))
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
 
-# pytest test_admin.py::test_no_3
+# pytest auto_test/test_admin.py::test_no_3
 def test_no_3(driver):
     """No.3 Edit Guest User Request mail template
 
@@ -254,7 +254,7 @@ def test_no_3(driver):
     body.send_keys(edited_body.replace('編集後のテンプレート\n', ''))
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
 
-# pytest test_admin.py::test_no_4
+# pytest auto_test/test_admin.py::test_no_4
 def test_no_4(driver):
     """No.4 Edit Other mail template
     
@@ -342,7 +342,7 @@ def test_no_4(driver):
     body.send_keys(edited_body.replace('編集後のテンプレート\n', ''))
     driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
 
-# pytest test_admin.py::test_no_5
+# pytest auto_test/test_admin.py::test_no_5
 def test_no_5(driver):
     """No.5 Create new Terms and Conditions
     
@@ -433,7 +433,7 @@ def test_no_5(driver):
     driver.execute_script('window.scrollBy(0, 300)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-# pytest test_admin.py::test_no_6
+# pytest auto_test/test_admin.py::test_no_6
 def test_no_6(driver):
     """No.6 Edit Terms and Conditions
     
@@ -544,7 +544,7 @@ def test_no_6(driver):
     driver.execute_script('window.scrollBy(0, 300)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-# pytest test_admin.py::test_no_7
+# pytest auto_test/test_admin.py::test_no_7
 def test_no_7(driver):
     """No.7 Delete Terms and Conditions
     
@@ -598,7 +598,7 @@ def test_no_7(driver):
     driver.execute_script('window.scrollBy(0, 300)')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-# pytest test_admin.py::test_no_8
+# pytest auto_test/test_admin.py::test_no_8
 def test_no_8(driver):
     """No.8 Can't delete Terms and Conditions if it is set to any item
     
@@ -612,7 +612,7 @@ def test_no_8(driver):
     # NII_WEKO3-240
     assert True
 
-# pytest test_admin.py::test_no_12
+# pytest auto_test/test_admin.py::test_no_12
 def test_no_12(driver):
     """No.12 Check Data Usage Report Work Flow exists
     
@@ -646,7 +646,7 @@ def test_no_12(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-# pytest test_admin.py::test_no_13
+# pytest auto_test/test_admin.py::test_no_13
 def test_no_13(driver):
     """No.13 Send Mail of Usage Report Reminder Email
     
@@ -720,7 +720,7 @@ def test_no_13(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-# pytest test_admin.py::test_no_14
+# pytest auto_test/test_admin.py::test_no_14
 def test_no_14(driver):
     """No.14 Check Restricted Access and Mail Templates not exists
     
@@ -761,7 +761,7 @@ def test_no_14(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-# pytest test_admin.py::test_no_15
+# pytest auto_test/test_admin.py::test_no_15
 def test_no_15(driver):
     """No.15 Check Administration not exists
     
@@ -793,7 +793,7 @@ def test_no_15(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-# pytest test_admin.py::test_no_16
+# pytest auto_test/test_admin.py::test_no_16
 def test_no_16(driver):
     """No.16 Check Administration not exists
     

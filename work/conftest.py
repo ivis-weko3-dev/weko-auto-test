@@ -10,7 +10,8 @@ def driver():
     """Setup driver
     
     Returns:
-        WebDriver: The driver instance"""
+        WebDriver: The driver instance
+    """
     setup_driver = config.SetupDriver()
     try:
         setup_driver.setup_driver()

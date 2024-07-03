@@ -6,7 +6,7 @@ import subprocess
 import config
 from methods_required_during_testing import *
 
-# pytest test_application_for_use.py::TestScenario1
+# pytest auto_test/test_application_for_use.py::TestScenario1
 class TestScenario1:
     """Test Scenario 1
     
@@ -15,7 +15,7 @@ class TestScenario1:
         - The Providing Role is General
         - The Terms and Conditions are voluntary
     """
-    # pytest test_application_for_use.py::TestScenario1::test_scenario_1_1
+    # pytest auto_test/test_application_for_use.py::TestScenario1::test_scenario_1_1
     def test_scenario_1_1(self, driver):
         """Test Scenario 1-1
         
@@ -54,7 +54,7 @@ class TestScenario1:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_1.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario1::test_scenario_1_2
+    # pytest auto_test/test_application_for_use.py::TestScenario1::test_scenario_1_2
     def test_scenario_1_2(self, driver):
         """Test Scenario 1-2
         
@@ -87,7 +87,7 @@ class TestScenario1:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario1::test_scenario_1_3
+    # pytest auto_test/test_application_for_use.py::TestScenario1::test_scenario_1_3
     def test_scenario_1_3(self, driver):
         """Test Scenario 1-3
         
@@ -126,7 +126,7 @@ class TestScenario1:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_1.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario1::test_scenario_1_4
+    # pytest auto_test/test_application_for_use.py::TestScenario1::test_scenario_1_4
     def test_scenario_1_4(self, driver):
         """Test Scenario 1-4
         
@@ -159,7 +159,7 @@ class TestScenario1:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario1::test_scenario_1_5_1_to_3
+    # pytest auto_test/test_application_for_use.py::TestScenario1::test_scenario_1_5_1_to_3
     def test_scenario_1_5_1_to_3(self, driver):
         """Test Scenario 1-5-1, 1-5-2, 1-5-3
         
@@ -207,7 +207,7 @@ class TestScenario1:
         driver.switch_to.window(window_handles[0])
         time.sleep(1)
 
-    # pytest test_application_for_use.py::TestScenario1::test_scenario_1_5_4
+    # pytest auto_test/test_application_for_use.py::TestScenario1::test_scenario_1_5_4
     def test_scenario_1_5_4(self, driver):
         """Test Scenario 1-5-4
         
@@ -245,7 +245,7 @@ class TestScenario1:
         file_list = os.listdir(config.base_download_dir)
         assert not 'test_scenario_1.txt' in file_list
 
-    # pytest test_application_for_use.py::TestScenario1::test_scenario_1_5_5_and_6
+    # pytest auto_test/test_application_for_use.py::TestScenario1::test_scenario_1_5_5_and_6
     def test_scenario_1_5_5_and_6(self, driver):
         """Test Scenario 1-5-5, 1-5-6
         
@@ -296,7 +296,7 @@ class TestScenario1:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_1.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario1::test_scenario_1_6
+    # pytest auto_test/test_application_for_use.py::TestScenario1::test_scenario_1_6
     def test_scenario_1_6(self, driver):
         """Test Scenario 1-6
         
@@ -326,7 +326,7 @@ class TestScenario1:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-# pytest test_application_for_use.py::TestScenario2
+# pytest auto_test/test_application_for_use.py::TestScenario2
 class TestScenario2:
     """Test Scenario 2
     
@@ -335,7 +335,7 @@ class TestScenario2:
         - The Providing Role is Guest
         - The Terms and Conditions are voluntary
     """
-    # pytest test_application_for_use.py::TestScenario2::test_scenario_2_1
+    # pytest auto_test/test_application_for_use.py::TestScenario2::test_scenario_2_1
     def test_scenario_2_1(self, driver):
         """Test Scenario 2-1
         
@@ -374,7 +374,7 @@ class TestScenario2:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_2.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario2::test_scenario_2_2
+    # pytest auto_test/test_application_for_use.py::TestScenario2::test_scenario_2_2
     def test_scenario_2_2(self, driver):
         """Test Scenario 2-2
         
@@ -407,7 +407,7 @@ class TestScenario2:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario2::test_scenario_2_3
+    # pytest auto_test/test_application_for_use.py::TestScenario2::test_scenario_2_3
     def test_scenario_2_3(self, driver):
         """Test Scenario 2-3
         
@@ -446,7 +446,7 @@ class TestScenario2:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_2.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario2::test_scenario_2_4
+    # pytest auto_test/test_application_for_use.py::TestScenario2::test_scenario_2_4
     def test_scenario_2_4(self, driver):
         """Test Scenario 2-4
         
@@ -479,7 +479,7 @@ class TestScenario2:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario2::test_scenario_2_5
+    # pytest auto_test/test_application_for_use.py::TestScenario2::test_scenario_2_5
     def test_scenario_2_5(self, driver):
         """Test Scenario 2-5
         
@@ -512,7 +512,7 @@ class TestScenario2:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario2::test_scenario_2_6_1_to_3
+    # pytest auto_test/test_application_for_use.py::TestScenario2::test_scenario_2_6_1_to_3
     def test_scenario_2_6_1_to_3(self, driver):
         """Test Scenario 2-6-1, 2-6-2, 2-6-3
         
@@ -557,7 +557,7 @@ class TestScenario2:
         driver.switch_to.window(window_handles[0])
         time.sleep(1)
 
-    # pytest test_application_for_use.py::TestScenario2::test_scenario_2_6_4
+    # pytest auto_test/test_application_for_use.py::TestScenario2::test_scenario_2_6_4
     def test_scenario_2_6_4(self, driver):
         """Test Scenario 2-6-4
         
@@ -592,7 +592,7 @@ class TestScenario2:
         file_list = os.listdir(config.base_download_dir)
         assert not 'test_scenario_2.txt' in file_list
 
-    # pytest test_application_for_use.py::TestScenario2::test_scenario_2_6_5_to_7
+    # pytest auto_test/test_application_for_use.py::TestScenario2::test_scenario_2_6_5_to_7
     def test_scenario_2_6_5_to_7(self, driver):
         """Test Scenario 2-6-5, 2-6-6, 2-6-7
         
@@ -664,7 +664,7 @@ class TestScenario2:
         move_target_files = [file for file in file_list if file.startswith('test_scenario_2')]
         move_downloaded_files(move_target_files, inspect.currentframe().f_code.co_name)
 
-# pytest test_application_for_use.py::TestScenario3
+# pytest auto_test/test_application_for_use.py::TestScenario3
 class TestScenario3:
     """Test Scenario 3
     
@@ -673,7 +673,7 @@ class TestScenario3:
         - The Providing Role is General
         - The Terms and Conditions are voluntary
     """
-    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_1
+    # pytest auto_test/test_application_for_use.py::TestScenario3::test_scenario_3_1
     def test_scenario_3_1(self, driver):
         """Test Scenario 3-1
         
@@ -712,7 +712,7 @@ class TestScenario3:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_3.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_2
+    # pytest auto_test/test_application_for_use.py::TestScenario3::test_scenario_3_2
     def test_scenario_3_2(self, driver):
         """Test Scenario 3-2
         
@@ -745,7 +745,7 @@ class TestScenario3:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_3
+    # pytest auto_test/test_application_for_use.py::TestScenario3::test_scenario_3_3
     def test_scenario_3_3(self, driver):
         """Test Scenario 3-3
         
@@ -784,7 +784,7 @@ class TestScenario3:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_3.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_4
+    # pytest auto_test/test_application_for_use.py::TestScenario3::test_scenario_3_4
     def test_scenario_3_4(self, driver):
         """Test Scenario 3-4
         
@@ -817,7 +817,7 @@ class TestScenario3:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_5_1_to_3
+    # pytest auto_test/test_application_for_use.py::TestScenario3::test_scenario_3_5_1_to_3
     def test_scenario_3_5_1_to_3(self, driver):
         """Test Scenario 3-5-1, 3-5-2, 3-5-3
         
@@ -865,7 +865,7 @@ class TestScenario3:
         driver.switch_to.window(window_handles[0])
         time.sleep(1)
 
-    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_5_4
+    # pytest auto_test/test_application_for_use.py::TestScenario3::test_scenario_3_5_4
     def test_scenario_3_5_4(self, driver):
         """Test Scenario 3-5-4
         
@@ -902,7 +902,7 @@ class TestScenario3:
         time.sleep(1)
         assert not driver.current_url.startswith(config.base_url + '/workflow/activity/detail')
 
-    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_5_5_and_6_and_10_to_12
+    # pytest auto_test/test_application_for_use.py::TestScenario3::test_scenario_3_5_5_and_6_and_10_to_12
     def test_scenario_3_5_5_and_6_and_10_to_12(self, driver):
         """Test Scenario 3-5-5, 3-5-6, 3-5-10, 3-5-11, 3-5-12
         
@@ -1029,7 +1029,7 @@ class TestScenario3:
         for file in delete_target_files:
             os.remove(config.base_download_dir + file)
 
-    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_5_8
+    # pytest auto_test/test_application_for_use.py::TestScenario3::test_scenario_3_5_8
     def test_scenario_3_5_8(self, driver):
         """Test Scenario 3-5-8
         
@@ -1122,7 +1122,7 @@ class TestScenario3:
         assert target_element.get_attribute('value') == research_title
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '8_after')
 
-    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_5_9
+    # pytest auto_test/test_application_for_use.py::TestScenario3::test_scenario_3_5_9
     def test_scenario_3_5_9(self, driver):
         """Test Scenario 3-5-9
         
@@ -1217,7 +1217,7 @@ class TestScenario3:
         assert target_element.get_attribute('value') != research_title
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '9_after')
 
-    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_5_13
+    # pytest auto_test/test_application_for_use.py::TestScenario3::test_scenario_3_5_13
     def test_scenario_3_5_13(self, driver):
         """Test Scenario 3-5-13
         
@@ -1367,7 +1367,7 @@ class TestScenario3:
         for file in delete_target_files:
             os.remove(config.base_download_dir + file)
 
-    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_5_14
+    # pytest auto_test/test_application_for_use.py::TestScenario3::test_scenario_3_5_14
     def test_scenario_3_5_14(self, driver):
         """Test Scenario 3-5-14
         
@@ -1481,7 +1481,7 @@ class TestScenario3:
         for file in delete_target_files:
             os.remove(config.base_download_dir + file)
 
-    # pytest test_application_for_use.py::TestScenario3::test_scenario_3_6
+    # pytest auto_test/test_application_for_use.py::TestScenario3::test_scenario_3_6
     def test_scenario_3_6(self, driver):
         """Test Scenario 3-6
         
@@ -1511,7 +1511,7 @@ class TestScenario3:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-# pytest test_application_for_use.py::TestScenario4
+# pytest auto_test/test_application_for_use.py::TestScenario4
 class TestScenario4:
     """Test Scenario 4
     
@@ -1520,7 +1520,7 @@ class TestScenario4:
         - The Providing Role is Guest
         - The Terms and Conditions are voluntary
     """
-    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_1
+    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_1
     def test_scenario_4_1(self, driver):
         """Test Scenario 4-1
         
@@ -1559,7 +1559,7 @@ class TestScenario4:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_4.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_2
+    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_2
     def test_scenario_4_2(self, driver):
         """Test Scenario 4-2
         
@@ -1592,7 +1592,7 @@ class TestScenario4:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_3
+    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_3
     def test_scenario_4_3(self, driver):
         """Test Scenario 4-3
         
@@ -1631,7 +1631,7 @@ class TestScenario4:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_4.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_4
+    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_4
     def test_scenario_4_4(self, driver):
         """Test Scenario 4-4
         
@@ -1664,7 +1664,7 @@ class TestScenario4:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_5
+    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_5
     def test_scenario_4_5(self, driver):
         """Test Scenario 4-5
         
@@ -1697,7 +1697,7 @@ class TestScenario4:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_6_1_to_3
+    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_6_1_to_3
     def test_scenario_4_6_1_to_3(self, driver):
         """Test Scenario 4-6-1, 4-6-2, 4-6-3
         
@@ -1742,7 +1742,7 @@ class TestScenario4:
         driver.switch_to.window(window_handles[0])
         time.sleep(1)
 
-    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_6_4
+    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_6_4
     def test_scenario_4_6_4(self, driver):
         """Test Scenario 4-6-4
         
@@ -1776,7 +1776,7 @@ class TestScenario4:
         time.sleep(1)
         assert not driver.current_url.startswith(config.base_url + '/workflow/activity/detail')
 
-    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_6_5_to_7_and_11_and_12_and_14_and_15
+    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_6_5_to_7_and_11_and_12_and_14_and_15
     def test_scenario_4_6_5_to_7_and_11_and_12_and_14_and_15(self, driver):
         """Test Scenario 4-6-5, 4-6-6, 4-6-7, 4-6-11, 4-6-12, 4-6-14, 4-6-15
         
@@ -1896,7 +1896,7 @@ class TestScenario4:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_4.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_6_9
+    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_6_9
     def test_scenario_4_6_9(self, driver):
         """Test Scenario 4-6-9
         
@@ -2004,7 +2004,7 @@ class TestScenario4:
         time.sleep(3)
         driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
 
-    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_6_10
+    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_6_10
     def test_scenario_4_6_10(self, driver):
         """Test Scenario 4-6-10
         
@@ -2114,7 +2114,7 @@ class TestScenario4:
         time.sleep(3)
         driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
 
-    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_6_16
+    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_6_16
     def test_scenario_4_6_16(self, driver):
         """Test Scenario 4-6-16
         
@@ -2223,7 +2223,7 @@ class TestScenario4:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_4.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario4::test_scenario_4_6_17
+    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_6_17
     def test_scenario_4_6_17(self, driver):
         """Test Scenario 4-6-17
         
@@ -2314,7 +2314,7 @@ class TestScenario4:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_4.txt'], inspect.currentframe().f_code.co_name)
 
-# pytest test_application_for_use.py::TestScenario5
+# pytest auto_test/test_application_for_use.py::TestScenario5
 class TestScenario5:
     """Test Scenario 5
     
@@ -2323,7 +2323,7 @@ class TestScenario5:
         - The Providing Role is General
         - The Terms and Conditions are voluntary
     """
-    # pytest test_application_for_use.py::TestScenario5::test_scenario_5_1
+    # pytest auto_test/test_application_for_use.py::TestScenario5::test_scenario_5_1
     def test_scenario_5_1(self, driver):
         """Test Scenario 5-1
         
@@ -2362,7 +2362,7 @@ class TestScenario5:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_5.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario5::test_scenario_5_2
+    # pytest auto_test/test_application_for_use.py::TestScenario5::test_scenario_5_2
     def test_scenario_5_2(self, driver):
         """Test Scenario 5-2
         
@@ -2395,7 +2395,7 @@ class TestScenario5:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario5::test_scenario_5_3
+    # pytest auto_test/test_application_for_use.py::TestScenario5::test_scenario_5_3
     def test_scenario_5_3(self, driver):
         """Test Scenario 5-3
         
@@ -2434,7 +2434,7 @@ class TestScenario5:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_5.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario5::test_scenario_5_4
+    # pytest auto_test/test_application_for_use.py::TestScenario5::test_scenario_5_4
     def test_scenario_5_4(self, driver):
         """Test Scenario 5-4
         
@@ -2468,7 +2468,7 @@ class TestScenario5:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario5::test_scenario_5_5_1_to_3
+    # pytest auto_test/test_application_for_use.py::TestScenario5::test_scenario_5_5_1_to_3
     def test_scenario_5_5_1_to_3(self, driver):
         """Test Scenario 5-5-1, 5-5-2, 5-5-3
         
@@ -2516,7 +2516,7 @@ class TestScenario5:
         driver.switch_to.window(window_handles[0])
         time.sleep(1)
 
-    # pytest test_application_for_use.py::TestScenario5::test_scenario_5_5_4
+    # pytest auto_test/test_application_for_use.py::TestScenario5::test_scenario_5_5_4
     def test_scenario_5_5_4(self, driver):
         """Test Scenario 5-5-4
         
@@ -2553,7 +2553,7 @@ class TestScenario5:
         time.sleep(1)
         assert not driver.current_url.startswith(config.base_url + '/workflow/activity/detail')
 
-    # pytest test_application_for_use.py::TestScenario5::test_scenario_5_5_5_and_6_and_10_to_13
+    # pytest auto_test/test_application_for_use.py::TestScenario5::test_scenario_5_5_5_and_6_and_10_to_13
     def test_scenario_5_5_5_and_6_and_10_to_13(self, driver):
         """Test Scenario 5-5-5, 5-5-6, 5-5-10, 5-5-11, 5-5-12, 5-5-13
         
@@ -2704,7 +2704,7 @@ class TestScenario5:
         for file in delete_target_files:
             os.remove(config.base_download_dir + file)
 
-    # pytest test_application_for_use.py::TestScenario5::test_scenario_5_5_8
+    # pytest auto_test/test_application_for_use.py::TestScenario5::test_scenario_5_5_8
     def test_scenario_5_5_8(self, driver):
         """Test Scenario 5-5-8
         
@@ -2797,7 +2797,7 @@ class TestScenario5:
         assert target_element.get_attribute('value') == research_title
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '8_after')
 
-    # pytest test_application_for_use.py::TestScenario5::test_scenario_5_5_9
+    # pytest auto_test/test_application_for_use.py::TestScenario5::test_scenario_5_5_9
     def test_scenario_5_5_9(self, driver):
         """Test Scenario 5-5-9
         
@@ -2892,7 +2892,7 @@ class TestScenario5:
         assert target_element.get_attribute('value') != research_title
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '9_after')
 
-    # pytest test_application_for_use.py::TestScenario5::test_scenario_5_5_14
+    # pytest auto_test/test_application_for_use.py::TestScenario5::test_scenario_5_5_14
     def test_scenario_5_5_14(self, driver):
         """Test Scenario 5-5-14
         
@@ -3055,7 +3055,7 @@ class TestScenario5:
         for file in delete_target_files:
             os.remove(config.base_download_dir + '/' + file)
 
-    # pytest test_application_for_use.py::TestScenario5::test_scenario_5_5_15
+    # pytest auto_test/test_application_for_use.py::TestScenario5::test_scenario_5_5_15
     def test_scenario_5_5_15(self, driver):
         """Test Scenario 5-5-15
         
@@ -3182,7 +3182,7 @@ class TestScenario5:
         for file in delete_target_files:
             os.remove(config.base_download_dir + '/' + file)
 
-    # pytest test_application_for_use.py::TestScenario5::test_scenario_5_5_16
+    # pytest auto_test/test_application_for_use.py::TestScenario5::test_scenario_5_5_16
     def test_scenario_5_5_16(self, driver):
         """Test Scenario 5-5-16
         
@@ -3272,7 +3272,7 @@ class TestScenario5:
             config.item_name_dic['scenario_5'],
             activity_id)
 
-    # pytest test_application_for_use.py::TestScenario5::test_scenario_5_6
+    # pytest auto_test/test_application_for_use.py::TestScenario5::test_scenario_5_6
     def test_scenario_5_6(self, driver):
         """Test Scenario 5-6
         
@@ -3302,7 +3302,7 @@ class TestScenario5:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-# pytest test_application_for_use.py::TestScenario6
+# pytest auto_test/test_application_for_use.py::TestScenario6
 class TestScenario6:
     """Test Scenario 6
     
@@ -3311,7 +3311,7 @@ class TestScenario6:
         - The Providing Role is Guest
         - The Terms and Conditions are voluntary
     """
-    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_1
+    # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_1
     def test_scenario_6_1(self, driver):
         """ Test Scenario 6-1
         
@@ -3350,7 +3350,7 @@ class TestScenario6:
         # delete downloaded file to to other tests
         os.remove(config.base_download_dir + '/test_scenario_6.txt')
 
-    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_2
+    # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_2
     def test_scenario_6_2(self, driver):
         """ Test Scenario 6-2
         
@@ -3383,7 +3383,7 @@ class TestScenario6:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_3
+    # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_3
     def test_scenario_6_3(self, driver):
         """Test Scenario 6-3
         
@@ -3422,7 +3422,7 @@ class TestScenario6:
         # delete downloaded file to to other tests
         os.remove(config.base_download_dir + '/test_scenario_6.txt')
 
-    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_4
+    # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_4
     def test_scenario_6_4(self, driver):
         """Test Scenario 6-4
         
@@ -3455,7 +3455,7 @@ class TestScenario6:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_5
+    # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_5
     def test_scenario_6_5(self, driver):
         """Test Scenario 6-5
         
@@ -3488,7 +3488,7 @@ class TestScenario6:
         assert err_msg.text == config.application_for_use_error_msg
         save_screenshot(driver, inspect.currentframe().f_code.co_name, '2')
 
-    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_6_1_to_3
+    # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_6_1_to_3
     def test_scenario_6_6_1_to_3(self, driver):
         """Test Scenario 6-6-1, 6-6-2, 6-6-3
         
@@ -3533,7 +3533,7 @@ class TestScenario6:
         driver.switch_to.window(window_handles[0])
         time.sleep(1)
 
-    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_6_4
+    # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_6_4
     def test_scenario_6_6_4(self, driver):
         """Test Scenario 6-6-4
         
@@ -3567,7 +3567,7 @@ class TestScenario6:
         time.sleep(1)
         assert not driver.current_url.startswith(config.base_url + '/workflow/activity/detail')
 
-    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_6_5_to_7_and_19
+    # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_6_5_to_7_and_19
     def test_scenario_6_6_5_to_7_and_19(self, driver):
         """Test Scenario 6-6-5, 6-6-6, 6-6-7, 6-6-19
         
@@ -3675,7 +3675,7 @@ class TestScenario6:
         time.sleep(3)
         driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
 
-    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_6_9
+    # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_6_9
     def test_scenario_6_6_9(self, driver):
         """Test Scenario 6-6-9
         
@@ -3783,7 +3783,7 @@ class TestScenario6:
         time.sleep(3)
         driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
 
-    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_6_10
+    # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_6_10
     def test_scenario_6_6_10(self, driver):
         """Test Scenario 6-6-10
         
@@ -3893,7 +3893,7 @@ class TestScenario6:
         time.sleep(3)
         driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
 
-    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_6_11_to_16
+    # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_6_11_to_16
     def test_scenario_6_6_11_to_16(self, driver):
         """Test Scenario 6-6-11, 6-6-12, 6-6-13, 6-6-14, 6-6-15, 6-6-16
         
@@ -4038,7 +4038,7 @@ class TestScenario6:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_6.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_6_17
+    # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_6_17
     def test_scenario_6_6_17(self, driver):
         """Test Scenario 6-6-17
         
@@ -4170,7 +4170,7 @@ class TestScenario6:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_6.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest test_application_for_use.py::TestScenario6::test_scenario_6_6_18
+    # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_6_18
     def test_scenario_6_6_18(self, driver):
         """Test Scenario 6-6-18
         
