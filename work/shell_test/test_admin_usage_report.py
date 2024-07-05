@@ -188,6 +188,7 @@ def create_usage_report(driver, target_key):
     time.sleep(3)
     driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
     time.sleep(3)
+    # scenario_6 is the item for usage application, so it is necessary to approve it
     if target_key == 'scenario_6':
         activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
         login(driver, 'Repository')
