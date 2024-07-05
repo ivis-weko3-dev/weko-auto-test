@@ -608,9 +608,38 @@ def test_no_8(driver):
     Args:
         driver(WebDriver): WebDriver object
     """
-    # skip this test
-    # NII_WEKO3-240
-    assert True
+    # log in as Repository Administrator
+    login(driver, 'Repository')
+
+    # transition to restricted access
+    transition_to_restricted_access(driver)
+
+    # find target terms and conditions and try to delete it
+    terms_and_conditions = driver.find_element(By.XPATH, '//*[@id="sltBoxListEmail"]')
+    terms = terms_and_conditions.find_elements(By.TAG_NAME, 'li')
+    target_term_title = 'TestTermTitle'
+    for t in terms:
+        if t.text == target_term_title:
+            t.find_elements(By.TAG_NAME, 'a')[1].click()
+            time.sleep(1)
+            driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
+            time.sleep(1)
+            break
+    
+    # refresh page and check if target terms and conditions still exists
+    driver.refresh()
+    time.sleep(3)
+    terms_and_conditions = driver.find_element(By.XPATH, '//*[@id="sltBoxListEmail"]')
+    terms = terms_and_conditions.find_elements(By.TAG_NAME, 'li')
+    title_list = [t.text for t in terms]
+    assert target_term_title in title_list
+
+    loc_element = driver.find_element(By.XPATH, '//*[@id="expiration_date_access_unlimited_chk"]')
+    location = loc_element.location
+    driver.execute_script('window.scrollTo(0, ' + str(location['y']) + ')')
+    save_screenshot(driver, inspect.currentframe().f_code.co_name)
+
+# The tests No.9-11 are in shell_test/test_admin_usage_report.py
 
 # pytest auto_test/test_admin.py::test_no_12
 def test_no_12(driver):

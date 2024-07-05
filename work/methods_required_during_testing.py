@@ -403,7 +403,40 @@ def click_file_information_button(driver):
             button.click()
             break
     time.sleep(1)
+
+def change_usage_report_workflow_access(driver, expiration_date, expiration_date_unlimited=False):
+    """Change Usage Report Workflow Access
     
+    Args:
+        driver(WebDriver): WebDriver object
+        expiration_date(int): expiration date
+        expiration_date_unlimited(bool): expiration date unlimited
+    """
+    # access to Administration/restricted access page
+    transition_to_restricted_access(driver)
+
+    location = driver.find_element(By.XPATH, '//*[@id="download_limit"]').location
+    driver.execute_script('window.scrollTo(0, ' + str(location['y']) + ')')
+
+    expiration_date_unlimited_check = \
+        driver.find_element(By.XPATH, '//*[@id="expiration_date_access_unlimited_chk"]')
+    # set expiration_date_unlimited_checkbox
+    if (expiration_date_unlimited_check.get_attribute('checked') is not None) !=\
+        expiration_date_unlimited:
+        expiration_date_unlimited_check.click()
+        driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
+    if not expiration_date_unlimited:
+        if is_integer(expiration_date):
+            # change expiration_date
+            target_element = driver.find_element(By.XPATH, '//*[@id="expiration_date_access"]')
+            target_element.clear()
+            target_element.send_keys(expiration_date)
+            driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
+        else:
+            print('Expiration Date must be an integer')
+
+    time.sleep(1)
+
 def main():
     try:
         setup_driver = config.SetupDriver()

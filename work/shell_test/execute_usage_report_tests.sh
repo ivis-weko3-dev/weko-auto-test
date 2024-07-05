@@ -3,8 +3,9 @@ declare -A jp=(
     ['pre_begin']='テストの準備を開始します。'
     ['pre_failed']='テストの準備に失敗しました。'
     ['pre_succeeded']='テストの準備が正常に完了しました。'
-    ['before_exec_msg1']='このテストは有効期限が3日のシークレットURLのテストのため、マシンの時間を4日ずらす必要があります。'
-    ['before_exec_msg2']='そのため、以下のコマンドをWEKOシステムのあるマシンで実行してください。'
+    ['before_exec_msg1']='このテストはゲストが利用報告にアクセスできる期限を5日から3日変更するテストです。'
+    ['before_exec_msg2']='変更前に作成された利用報告に変更後の値が適応されないことを確認するため、マシンの時間を4日ずらす必要があります。'
+    ['before_exec_msg3']='そのため、以下のコマンドをWEKOシステムのあるマシンで実行してください。'
     ['confirm_exec']='コマンドの実行は完了しましたか？(y/n)'
     ['y_or_n']='yかnを入力してください。'
     ['exec_begin']='テストの実行を開始します。'
@@ -19,8 +20,9 @@ declare -A en=(
     ['pre_begin']='Test preparation begins.'
     ['pre_failed']='Test preparation failed.'
     ['pre_succeeded']='Test preparation completed successfully.'
-    ['before_exec_msg1']='This test is for a secret URL with a 3-day expiration date, so you need to shift the time in the machine by 4 days.'
-    ['before_exec_msg2']='Therefore, run the following command on the machine where the WEKO system is located.'
+    ['before_exec_msg1']='This test is for changing the period in which guests can access the usage report from 5 days to 3 days.'
+    ['before_exec_msg2']='To confirm that the changed value is not applied to the usage report created before the change, you need to shift the time in the machine by 4 days.'
+    ['before_exec_msg3']='Therefore, run the following command on the machine where the WEKO system is located.'
     ['confirm_exec']='Did you complete the command execution? (y/n)'
     ['y_or_n']='Please enter y or n.'
     ['exec_begin']='Test execution begins.'
@@ -92,7 +94,7 @@ ConfirmLanguage
 
 # execute the test prepalation process
 echo ${lang['pre_begin']}
-pytest shell_test/test_secret_url_three_days.py::TestPreparation
+pytest shell_test/test_admin_usage_report.py::TestPreparation
 
 # check for successful completion
 if [ $? -ne 0 ]; then
@@ -105,6 +107,7 @@ echo ${lang['pre_succeeded']}
 # wait for date operation
 echo ${lang['before_exec_msg1']}
 echo ${lang['before_exec_msg2']}
+echo ${lang['before_exec_msg3']}
 echo "date -s \"4 days\""
 sleep 5
 
@@ -113,7 +116,7 @@ echo ${lang['confirm_exec']}
 ConfirmExecution
 
 # execute the test
-pytest shell_test/test_secret_url_three_days.py::TestExecution
+pytest shell_test/test_admin_usage_report.py::TestExecution
 
 # check for successful completion
 if [ $? -ne 0 ]; then
