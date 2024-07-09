@@ -2,7 +2,8 @@ import pytest
 import time
 
 import config
-from methods_required_during_testing import A1, logout, set_secret_url, A3, A4
+from methods_required_during_testing import login, logout, set_secret_url,\
+    change_secret_url_expiration_date, change_secret_url_download_limit
 from selenium.webdriver.common.by import By
 
 @pytest.fixture()
@@ -40,10 +41,10 @@ def enable_secret_url(driver):
     Returns:
         WebDriver: The driver instance
     """
-    A1(driver, config.users['System']['mail'], config.users['System']['password'])
+    login(driver, config.users['System']['mail'], config.users['System']['password'])
     set_secret_url(driver, True)
-    A3(driver, 3)
-    A4(driver, 3)
+    change_secret_url_expiration_date(driver, 3)
+    change_secret_url_download_limit(driver, 3)
     logout(driver)
     return driver
 
@@ -57,9 +58,9 @@ def disable_secret_url(driver):
     Returns:
         WebDriver: The driver instance
     """
-    A1(driver, config.users['System']['mail'], config.users['System']['password'])
+    login(driver, config.users['System']['mail'], config.users['System']['password'])
     set_secret_url(driver, False)
-    A3(driver, 3)
-    A4(driver, 3)
+    change_secret_url_expiration_date(driver, 3)
+    change_secret_url_download_limit(driver, 3)
     logout(driver)
     return driver

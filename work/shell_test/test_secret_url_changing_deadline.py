@@ -1,9 +1,13 @@
 import inspect
 import os
+import re
 import time
+from selenium.webdriver.common.by import By
 
 import config
-from methods_required_during_testing import *
+from methods_required_during_testing import d, login, logout, set_secret_url,\
+    change_secret_url_expiration_date, search_and_display_target_item, click_file_information_button,\
+    click_secret_url_btn
 
 # pytest shell_test/test_secret_url_changing_deadline.py::TestPreparation
 class TestPreparation:
@@ -22,11 +26,11 @@ class TestPreparation:
             driver(WebDriver): WebDriver object
         """
         # log in as Repository Administrator
-        login(driver, 'Repository')
+        login_as_target(driver, 'Repository')
 
         # enable secret url and set expiration date to 3
         set_secret_url(driver, True)
-        A3(driver, 3)
+        change_secret_url_expiration_date(driver, 3)
 
         # search target item
         search_and_display_target_item(driver, config.item_name_dic['before_publish'])
@@ -35,7 +39,7 @@ class TestPreparation:
         click_file_information_button(driver)
 
         # click secret url button
-        A7(driver)
+        click_secret_url_btn(driver)
 
         # get secret url from email and create a file to store it
         url = get_secret_url(config.users['Repository']['mail'].split('@', 1)[0])
@@ -56,17 +60,17 @@ class TestPreparation:
             driver(WebDriver): WebDriver object
         """
         # log in as Repository Administrator for set expiration date to 3
-        login(driver, 'Repository')
+        login_as_target(driver, 'Repository')
 
         # enable secret url and set expiration date to 3
         set_secret_url(driver, True)
-        A3(driver, 3)
+        change_secret_url_expiration_date(driver, 3)
 
         # log out
         logout(driver)
 
         # log in as Contributor
-        login(driver, 'RegCon')
+        login_as_target(driver, 'RegCon')
 
         # search target item
         search_and_display_target_item(driver, config.item_name_dic['before_publish'])
@@ -75,7 +79,7 @@ class TestPreparation:
         click_file_information_button(driver)
 
         # click secret url button
-        A7(driver)
+        click_secret_url_btn(driver)
 
         # get secret url from email and create a file to store it
         url = get_secret_url(config.users['RegCon']['mail'].split('@', 1)[0])
@@ -96,11 +100,11 @@ class TestPreparation:
             driver(WebDriver): WebDriver object
         """
         # log in as Repository Administrator
-        login(driver, 'Repository')
+        login_as_target(driver, 'Repository')
 
         # enable secret url and set expiration date to 3
         set_secret_url(driver, True)
-        A3(driver, 3)
+        change_secret_url_expiration_date(driver, 3)
 
         # search target item
         search_and_display_target_item(driver, config.item_name_dic['private'])
@@ -109,7 +113,7 @@ class TestPreparation:
         click_file_information_button(driver)
 
         # click secret url button
-        A7(driver)
+        click_secret_url_btn(driver)
 
         # get secret url from email and create a file to store it
         url = get_secret_url(config.users['Repository']['mail'].split('@', 1)[0])
@@ -130,17 +134,17 @@ class TestPreparation:
             driver(WebDriver): WebDriver object
         """
         # log in as Repository Administrator for set expiration date to 3
-        login(driver, 'Repository')
+        login_as_target(driver, 'Repository')
 
         # enable secret url and set expiration date to 3
         set_secret_url(driver, True)
-        A3(driver, 3)
+        change_secret_url_expiration_date(driver, 3)
 
         # log out
         logout(driver)
 
         # log in as Contributor
-        login(driver, 'RegCon')
+        login_as_target(driver, 'RegCon')
 
         # search target item
         search_and_display_target_item(driver, config.item_name_dic['private'])
@@ -149,7 +153,7 @@ class TestPreparation:
         click_file_information_button(driver)
 
         # click secret url button
-        A7(driver)
+        click_secret_url_btn(driver)
 
         # get secret url from email and create a file to store it
         url = get_secret_url(config.users['RegCon']['mail'].split('@', 1)[0])
@@ -164,10 +168,10 @@ def test_change_expiration_date(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # change expiration date from 3 to 5
-    A3(driver, 5)
+    change_secret_url_expiration_date(driver, 5)
 
     # reload the page
     driver.refresh()
@@ -192,7 +196,7 @@ class TestExecution:
             url = f.read()
 
         # log in as Repository Administrator
-        login(driver, 'Repository')
+        login_as_target(driver, 'Repository')
 
         # access secret url
         driver.get(url)
@@ -223,7 +227,7 @@ class TestExecution:
             url = f.read()
 
         # log in as Contributor
-        login(driver, 'RegCon')
+        login_as_target(driver, 'RegCon')
 
         # access secret url
         driver.get(url)
@@ -252,9 +256,9 @@ class TestExecution:
         # get secret url from file
         with open(config.base_secret_url_dir + 'secret_url_101.txt', 'r', encoding='utf-8') as f:
             url = f.read()
-        
+
         # log in as Repository Administrator
-        login(driver, 'Repository')
+        login_as_target(driver, 'Repository')
 
         # access secret url
         driver.get(url)
@@ -283,9 +287,9 @@ class TestExecution:
         # get secret url from file
         with open(config.base_secret_url_dir + 'secret_url_102.txt', 'r', encoding='utf-8') as f:
             url = f.read()
-        
+
         # log in as Contributor
-        login(driver, 'RegCon')
+        login_as_target(driver, 'RegCon')
 
         # access secret url
         driver.get(url)
@@ -302,7 +306,7 @@ class TestExecution:
 
         os.remove(config.base_secret_url_dir + 'secret_url_102.txt')
 
-def login(driver, target_key):
+def login_as_target(driver, target_key):
     """Log in as target user
     
     Args:
@@ -312,7 +316,7 @@ def login(driver, target_key):
     # set login_user from config
     login_user = config.users[target_key]
     # log in as target user
-    A1(driver, login_user['mail'], login_user['password'])
+    login(driver, login_user['mail'], login_user['password'])
 
 def get_secret_url(user: str):
     """Get secret URL

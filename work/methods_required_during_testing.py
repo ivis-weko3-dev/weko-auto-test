@@ -15,6 +15,10 @@ import config
 d = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 def is_integer(n):
+    """Check if n is integer
+    
+    Args:
+        n(str): number"""
     try:
         float(n)
     except ValueError:
@@ -23,10 +27,20 @@ def is_integer(n):
         return float(n).is_integer()
 
 def logout(driver):
+    """Logout from WEKO
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     driver.get(config.base_url + "/logout/")
     time.sleep(1)
-    
+
 def until_complete_download(time_limit):
+    """Wait until download is complete
+    
+    Args:
+        time_limit(int): time limit
+    """
     for x in range(time_limit):
         file_list = os.listdir(config.base_download_dir)
         for filename in file_list:
@@ -36,31 +50,24 @@ def until_complete_download(time_limit):
                 if x == time_limit - 1:
                     raise Exception(f"Download did not complete within {time_limit} seconds")
                 break
-            
-def select_WF(driver):
-    driver.find_element(By.XPATH, '//*[@id="background-color-main-content"]/ul/li[2]/a').click()
-    
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="myTabContent"]/div[4]/div/div[1]/table/tbody/tr[1]/td[5]/a').click()
-    
-            
 
 # SecretURL
-def A1(driver, account_mail, account_password):
-    """login.
-
-    :param driver: webdriver
-    :param account_mail
-    :param account_password
+def login(driver, account_mail, account_password):
+    """Login to WEKO
+    
+    Args:
+        driver(WebDriver): WebDriver object
+        account_mail(str): account mail address
+        account_password(str): account password
     """
     # access to WEKO's TOP page
     driver.get(config.base_url)
     driver.implicitly_wait(10)
-    
+
     # show Login page with press login button
     driver.find_element(By.XPATH, '//*[@id="fixed_header"]/form/a[1]').click()
     driver.implicitly_wait(10)
-    
+
     # enter mail-address and password and click login button
     driver.find_element(By.XPATH, '//*[@id="email"]').send_keys(account_mail)
     driver.find_element(By.XPATH, '//*[@id="password"]').send_keys(account_password)
@@ -84,46 +91,30 @@ def A1(driver, account_mail, account_password):
         if retry_count == 10:
             err_msg = "Login failed"
     assert not err_msg, err_msg
-    
-def A2(driver, enable):
-    """Set SecretURL ON/OFF.
 
-    :param driver: webdriver
-    :param enable: boolean
+def change_secret_url_expiration_date(driver, expiration_date, expiration_date_unlimited = False):
+    """Change SecretURL Expiration Date
+    
+    Args:
+        driver(WebDriver): WebDriver object
+        expiration_date(int): expiration date
+        expiration_date_unlimited(bool): is expiration date unlimited
     """
     # access to Administration/restricted access page
     driver.get(config.base_url + "/admin/restricted_access/")
     driver.implicitly_wait(10)
-    
-    # click 'SecretURL enable/disable button'
-    check_box = driver.find_element(By.XPATH, '//*[@id="secret_enable"]')
-    if (check_box.get_attribute("checked") == "true") != enable:
-        check_box.click()
-        driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-    
-    time.sleep(1)
-    
-def A3(driver, expiration_date, expiration_date_unlimited = False):
-    """change expiration_date.
 
-    :param driver: webdriver
-    :param expiration_date
-    :param expiration_date_unlimited
-    """
-    # access to Administration/restricted access page
-    driver.get(config.base_url + "/admin/restricted_access/")
-    driver.implicitly_wait(10)
-    
     # check if SecretURL is enabled
     check_box = driver.find_element(By.XPATH, '//*[@id="secret_enable"]')
     if check_box.get_attribute("checked") == "true":
-        if expiration_date_unlimited:
-            expiration_date_unlimited_check = driver.find_element(By.XPATH, '//*[@id="secret_expiration_date_unlimited_chk"]')
-            # set expiration_date_unlimited_checkbox if it is disabled
-            if expiration_date_unlimited_check.get_attribute("checked") != "true":
-                expiration_date_unlimited_check.click()
-                driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-        else:
+        expiration_date_unlimited_check = \
+            driver.find_element(By.XPATH, '//*[@id="secret_expiration_date_unlimited_chk"]')
+        # set expiration_date_unlimited_checkbox if it is disabled
+        if (expiration_date_unlimited_check.get_attribute("checked") is not None) !=\
+            expiration_date_unlimited:
+            expiration_date_unlimited_check.click()
+            driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
+        if not expiration_date_unlimited:
             if is_integer(expiration_date):
                 # change expiration_date
                 driver.find_element(By.XPATH, '//*[@id="secret_expiration_date"]').clear()
@@ -133,30 +124,30 @@ def A3(driver, expiration_date, expiration_date_unlimited = False):
                 print("Expiration Date must be an integer")
     else:
         print("Secret URL is not enable")
-        
-    time.sleep(1)
-    
-def A4(driver, download_limit, download_limit_unlimited = False):
-    """change download_limit count.
 
-    :param driver: webdriver
-    :param download_limit
-    :param download_limit_unlimited
+    time.sleep(1)
+
+def change_secret_url_download_limit(driver, download_limit, download_limit_unlimited = False):
+    """Change SecretURL Download Limit
+    
+    Args:
+        driver(WebDriver): WebDriver object
+        download_limit(int): download limit count
+        download_limit_unlimited(bool): is download limit unlimited
     """
     # access to Administration/restricted access page
     driver.get(config.base_url + "/admin/restricted_access/")
     driver.implicitly_wait(10)
-    
+
     # check if SecretURL is enabled
     check_box = driver.find_element(By.XPATH, '//*[@id="secret_enable"]')
     if check_box.get_attribute("checked") == "true":
-        if download_limit_unlimited:
-            download_limit_unlimited_check = driver.find_element(By.XPATH, '//*[@id="secret_download_limit_unlimited_chk"]')
-            if download_limit_unlimited_check.get_attribute("checked") != "true":
-                # set download_limit_unlimited_checkbox if it is disabled
-                download_limit_unlimited_check.click()
-                driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
-        else:
+        download_limit_unlimited_check = driver.find_element(By.XPATH, '//*[@id="secret_download_limit_unlimited_chk"]')
+        if (download_limit_unlimited_check.get_attribute("checked") is not None) !=\
+            download_limit_unlimited:
+            download_limit_unlimited_check.click()
+            driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
+        if not download_limit_unlimited:
             if is_integer(download_limit):
                 driver.find_element(By.XPATH, '//*[@id="secret_download_limit"]').clear()
                 driver.find_element(By.XPATH, '//*[@id="secret_download_limit"]').send_keys(download_limit)
@@ -165,157 +156,125 @@ def A4(driver, download_limit, download_limit_unlimited = False):
                 print("Download Limit must be an integer")
     else:
         print("Secret URL is not enable")
-        
+
     time.sleep(1)
 
-def A5(driver, record_id):
-    """access to Item details page.
-
-    :param driver: webdriver
-    :param record_id
-    """
-    driver.get(config.base_url + "/records/" + str(record_id))
-    time.sleep(1)
+def click_secret_url_btn(driver, save_ss = False):
+    """Click SecretURL button
     
-def A6(driver):
-    """access to file information page.
-
-    :param driver: webdriver
-    """
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="detail-item"]/table/tbody/tr/td[3]/a[2]/button').click()
-    
-    time.sleep(1)
-    
-    # driver.save_screenshot(
-    #     config.base_save_folder + d + "_test6.png"
-    # )
-    
-def A7(driver, save_ss = False):
-    """click SecretURL button.
-
-    :param driver: webdriver
+    Args:
+        driver(WebDriver): WebDriver object
+        save_ss(bool): save screenshot or not
     """
     driver.find_element(By.XPATH, '//*[@id="secret_url"]').click()
-    
+
     wait = WebDriverWait(driver, timeout=10)
     wait.until(expected_conditions.alert_is_present())
-    
+
     # if save_ss:
     #     driver.save_screenshot(
     #         config.base_save_folder + d + "_test_alert.png"
     #     )
-    
+
     driver.switch_to.alert.accept()
-    
+
     # driver.save_screenshot(
     #     config.base_save_folder + d + "_test7.png"
     # )
-    
-    time.sleep(1)
-    
-def A8(driver, user):
-    """click link in mail.
 
-    :param driver: webdriver
-    :param user: user maildir folder name
+    time.sleep(1)
+
+def click_mail_link(driver, user):
+    """Click mail link
+    
+    Args:
+        driver(WebDriver): WebDriver object
+        user(str): user name
     """
     mail_list = os.listdir("mail/" + user + "/new")
-    
-    with open("mail/" + user + "/new/" + mail_list[-1], "r") as f:
+
+    with open("mail/" + user + "/new/" + mail_list[-1], "r", encoding='utf-8') as f:
         text = f.read()
         url = re.search("https://.*", text).group()
         driver.get(url)
-        
+
     try:
         until_complete_download(10)
     except Exception as e:
         print(e)
     time.sleep(1)
-    
+
 # ダウンロードボタンまたは利用申請ボタン押下
-def A10(driver):
+def click_detail_item_button(driver):
+    """Click Download button or Apply button
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     driver.find_element(By.XPATH, '//*[@id="detail-item"]/table/tbody/tr/td[3]/a[1]/button').click()
-    
+
 # プリントボタン押下
-def A11(driver):
+def click_print_btn(driver):
+    """Click Print button
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     driver.find_element(By.XPATH, '//*[@id="print-btn"]').click()
-    
-# 利用規約チェック
-def A12(driver):
-    try:
-        driver.find_element(By.CLASS_NAME, 'pointer').click()
-    except:
-        # driver.find_element(By.XPATH, '//*[@id="allModal"]/div/div/div[3]/button'):
-        return
-    
-# 利用規約ダイアログの「次へ」ボタン押下
-def A13(driver):
-    driver.find_element(By.CLASS_NAME, 'term_next').click()
-    
+
 # 利用申請メール入力・送信
-def A14(driver, guest_mail):
+def enter_guest_email_for_get_usage_application(driver, guest_mail):
+    """Enter guest email address for get usage application
+    
+    Args:
+        driver(WebDriver): WebDriver object
+        guest_mail(str): guest email address
+    """
     driver.find_element(By.XPATH, '//*[@id="user_mail"]').send_keys(guest_mail)
     driver.find_element(By.XPATH, '//*[@id="user_mail_confirm"]').send_keys(guest_mail)
     driver.find_element(By.XPATH, '//*[@id="confirm_email_btn"]').click()
     time.sleep(1)
-    driver.find_element(By.XPATH, '//*[@id="modalSendEmailSuccess"]/div/div/div[3]/div/button').click()
-        
-# WF入力
-def A15(driver):
-    # 利用申請ワークフロー、「次へ」ボタン押下
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="weko_records_ctrl"]/div[8]/div/div[1]/div/button[2]/span').click()
-    
-    # インデックスツリー登録後「次へ」ボタン押下
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="step_page"]/div[2]/div/app-root-tree/app-tree-list2/div[2]/div/div[1]/div/div/div[2]/tree/tree-internal/ul/li/tree-internal/ul/li/div/div[2]/input').click()
-    driver.find_element(By.XPATH, '//*[@id="step_page"]/div[2]/div/app-root-tree/app-tree-list2/div[2]/div/div[2]/div/div/div[3]/button[2]').click()
-    
-    # 「次へ」ボタン押下
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
-    
-    # 「次へ」ボタン押下
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="step_page_permission"]/div/div/div/h1')
-    
+    driver.find_element(By.XPATH, '//*[@id="modalSendEmailSuccess"]/div/div/div[3]/div/button')\
+        .click()
+
 # WF承認
-def A16(driver):
-    driver.find_element(By.XPATH, '//*[@id="btn-approval"]').click()
-     
-# WF却下
-def A17(driver):
-    driver.find_element(By.XPATH, '//*[@id="btn-reject"]').click()
+def click_approval_btn(driver):
+    """Click Approval button
     
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    driver.find_element(By.XPATH, '//*[@id="btn-approval"]').click()
+
+# WF却下
+def click_reject_btn(driver):
+    """Click Reject button
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
+    driver.find_element(By.XPATH, '//*[@id="btn-reject"]').click()
+
 # 利用申請承認後のゲストでのDL（メールアドレス入力）
-def A18(driver, guest_mail):
+def enter_guest_email_after_approval(driver, guest_mail):
+    """Enter guest email address after approval
+    
+    Args:
+        driver(WebDriver): WebDriver object
+        guest_mail(str): guest email address
+    """
     driver.implicitly_wait(10)
     driver.find_element(By.XPATH, '//*[@id="mail_form"]').send_keys(guest_mail)
     driver.find_element(By.XPATH, '//*[@id="mailaddress_confirm_download"]').click()
-    
-# WF保存ボタン押下
-def A19(driver):
-    driver.find_element(By.XPATH, '//*[@id="weko_records_ctrl"]/div[8]/div/div[1]/div/button[2]').click()
-    
+
 # WF強制終了ボタン押下
-def A20(driver):
+def click_quit_btn(driver):
+    """Click Quit button
+    
+    Args:
+        driver(WebDriver): WebDriver object
+    """
     driver.find_element(By.XPATH, '//*[@id="btn_quit"]').click()
-
-def B1(driver):
-    # 管理者画面表示
-    driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/button').click()
-    driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/ul/li[6]').click()
-    
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '/html/body/div/aside/section/ul/li[15]').click()
-    driver.find_element(By.XPATH, '/html/body/div/aside/section/ul/li[15]/ul/li[17]').click()
-    
-    driver.implicitly_wait(10)
-    driver.find_element(By.XPATH, '//*[@id="new_term"]').click()
-    driver.find_element(By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input').send_keys("aaa")
-    driver.find_element(By.XPATH, '//*[@id="root"]/div/div[1]/div[2]/div/div/div[2]/textarea').send_keys("sample text")
-
 
 def transition_to_mail_template(driver):
     """Transition to Mail Template page
@@ -436,19 +395,3 @@ def change_usage_report_workflow_access(driver, expiration_date, expiration_date
             print('Expiration Date must be an integer')
 
     time.sleep(1)
-
-def main():
-    try:
-        setup_driver = config.SetupDriver()
-        setup_driver.setup_driver()
-        
-        A1(setup_driver.driver, config.test_account_mail, config.test_account_password)
-
-        time.sleep(1)
-        setup_driver.teardown_method()
-    except Exception as ex:
-        print(ex)
-        setup_driver.teardown_method()
-
-if __name__ == "__main__":
-    main()
