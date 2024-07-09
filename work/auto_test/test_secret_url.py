@@ -2318,6 +2318,12 @@ def test_no_92(driver):
     # disable secret url
     set_secret_url(driver, False)
 
+    # log out
+    logout(driver)
+
+    # log in as Contributor
+    login(driver, 'RegCon')
+
     # download the target file
     A8(driver, config.users['RegCon']['mail'].split('@', 1)[0])
 
@@ -2405,6 +2411,12 @@ def test_no_94(driver):
 
     # disable secret url
     set_secret_url(driver, False)
+
+    # log out
+    logout(driver)
+
+    # log in as Contributor
+    login(driver, 'RegCon')
 
     # download the target file
     A8(driver, config.users['RegCon']['mail'].split('@', 1)[0])
@@ -2506,6 +2518,12 @@ def test_no_96(driver):
 
     # set download limit to 5
     A4(driver, 5)
+
+    # log out
+    logout(driver)
+
+    # log in as Contributor
+    login(driver, 'RegCon')
 
     # download the target content several times
     for i in range(6):
@@ -2618,6 +2636,12 @@ def test_no_98(driver):
 
     # set download limit to 5
     A4(driver, 5)
+
+    # log out
+    logout(driver)
+
+    # log in as Contributor
+    login(driver, 'RegCon')
 
     # download the target content several times
     for i in range(6):

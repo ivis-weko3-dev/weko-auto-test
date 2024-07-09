@@ -182,12 +182,17 @@ class TestExecution:
     def test_no_99(self, driver):
         """Execute test No.99
         
+        User's Role is Repository Administrator
+
         Args:
             driver(WebDriver): WebDriver object
         """
         # get secret url from file
         with open(config.base_secret_url_dir + 'secret_url_99.txt', 'r', encoding='utf-8') as f:
             url = f.read()
+
+        # log in as Repository Administrator
+        login(driver, 'Repository')
 
         # access secret url
         driver.get(url)
@@ -208,12 +213,17 @@ class TestExecution:
     def test_no_100(self, driver):
         """Execute test No.100
 
+        User's Role is Contributor and the item's owner
+
         Args:
             driver(WebDriver): WebDriver object
         """
         # get secret url from file
         with open(config.base_secret_url_dir + 'secret_url_100.txt', 'r', encoding='utf-8') as f:
             url = f.read()
+
+        # log in as Contributor
+        login(driver, 'RegCon')
 
         # access secret url
         driver.get(url)
@@ -233,6 +243,8 @@ class TestExecution:
     # pytest shell_test/test_secret_url_changing_deadline.py::TestExecution::test_no_101
     def test_no_101(self, driver):
         """Execute test No.101
+    
+        User's Role is Repository Administrator
 
         Args:
             driver(WebDriver): WebDriver object
@@ -240,6 +252,9 @@ class TestExecution:
         # get secret url from file
         with open(config.base_secret_url_dir + 'secret_url_101.txt', 'r', encoding='utf-8') as f:
             url = f.read()
+        
+        # log in as Repository Administrator
+        login(driver, 'Repository')
 
         # access secret url
         driver.get(url)
@@ -260,12 +275,17 @@ class TestExecution:
     def test_no_102(self, driver):
         """Execute test No.102
 
+        User's Role is Contributor and the item's owner
+
         Args:
             driver(WebDriver): WebDriver object
         """
         # get secret url from file
         with open(config.base_secret_url_dir + 'secret_url_102.txt', 'r', encoding='utf-8') as f:
             url = f.read()
+        
+        # log in as Contributor
+        login(driver, 'RegCon')
 
         # access secret url
         driver.get(url)
