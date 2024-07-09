@@ -94,7 +94,7 @@ ConfirmLanguage
 
 # execute the test prepalation process
 echo ${lang['pre_begin']}
-pytest shell_test/test_admin_usage_report.py::TestPreparation
+pytest shell_test/test_admin_usage_report.py::TestPreparation -v
 
 # check for successful completion
 if [ $? -ne 0 ]; then
@@ -116,7 +116,7 @@ echo ${lang['confirm_exec']}
 ConfirmExecution
 
 # execute the test
-pytest shell_test/test_admin_usage_report.py::TestExecution
+pytest shell_test/test_admin_usage_report.py::TestExecution -v
 
 # check for successful completion
 if [ $? -ne 0 ]; then

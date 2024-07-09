@@ -3347,8 +3347,8 @@ class TestScenario6:
             config.users['RegCon']['mail'],
             config.item_name_dic['scenario_6'])
 
-        # delete downloaded file to to other tests
-        os.remove(config.base_download_dir + '/test_scenario_6.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_6.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_2
     def test_scenario_6_2(self, driver):
@@ -3419,8 +3419,8 @@ class TestScenario6:
             config.users['PrxRegCon']['mail'],
             config.item_name_dic['scenario_6'])
 
-        # delete downloaded file to to other tests
-        os.remove(config.base_download_dir + '/test_scenario_6.txt')
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_6.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest auto_test/test_application_for_use.py::TestScenario6::test_scenario_6_4
     def test_scenario_6_4(self, driver):

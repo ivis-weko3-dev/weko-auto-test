@@ -365,19 +365,19 @@ def test_no_5(driver):
     # get target elements
     term_title_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[1]/input'
     )
     term_content_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
     )
     term_title_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[1]/input'
     )
     term_content_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
     )
 
     # define input values
@@ -411,19 +411,19 @@ def test_no_5(driver):
     save_term_element.click()
     term_title_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[1]/input'
     )
     term_content_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
     )
     term_title_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[1]/input'
     )
     term_content_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
     )
     assert term_title_jp.get_attribute('value') == input_title_jp
     assert term_content_jp.get_attribute('value') == input_content_jp
@@ -467,19 +467,19 @@ def test_no_6(driver):
     # get target elements
     term_title_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[1]/input'
     )
     term_content_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
     )
     term_title_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[1]/input'
     )
     term_content_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
     )
 
     # define input values
@@ -522,22 +522,22 @@ def test_no_6(driver):
     target.click()
     term_title_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[1]/input'
     )
     assert term_title_jp.get_attribute('value') == input_title_jp
     term_content_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
     )
     assert term_content_jp.get_attribute('value') == input_content_jp
     term_title_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[1]/input'
     )
     assert term_title_en.get_attribute('value') == input_title_en
     term_content_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
     )
     assert term_content_en.get_attribute('value') == input_content_en
 
@@ -660,7 +660,7 @@ def test_no_12(driver):
     # scroll to Usage Report Reminder Email's location
     usage_report_reminder_email = driver.find_element(
         By.XPATH, 
-        '//*[@id="root"]/div/div[8]/div/div/div'
+        '//*[@id="root"]/div/div[12]/div/div/div'
     )
     reminder_location = usage_report_reminder_email.location
     driver.execute_script('window.scrollTo(0, ' + str(reminder_location['y']) + ')')
@@ -668,7 +668,7 @@ def test_no_12(driver):
     # check if Data Usage Report Work Flow exists
     tbody = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[8]/div/div/div/div[2]/div[1]/table/tbody'
+        '//*[@id="root"]/div/div[12]/div/div/div/div[2]/div[1]/table/tbody'
     )
     trs = tbody.find_elements(By.TAG_NAME, 'tr')
     assert len(trs) > 0
@@ -693,7 +693,7 @@ def test_no_13(driver):
     # scroll to Usage Report Reminder Email's location
     usage_report_reminder_email = driver.find_element(
         By.XPATH, 
-        '//*[@id="root"]/div/div[8]/div/div/div'
+        '//*[@id="root"]/div/div[12]/div/div/div'
     )
     reminder_location = usage_report_reminder_email.location
     driver.execute_script('window.scrollTo(0, ' + str(reminder_location['y']) + ')')
@@ -701,7 +701,7 @@ def test_no_13(driver):
     # get Usage Report Reminder Email's data
     tbody = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[8]/div/div/div/div[2]/div[1]/table/tbody'
+        '//*[@id="root"]/div/div[12]/div/div/div/div[2]/div[1]/table/tbody'
     )
     trs = tbody.find_elements(By.TAG_NAME, 'tr')
     assert len(trs) > 0, 'Usage Report Reminder Email not found'
