@@ -433,7 +433,9 @@ def test_no_5(driver):
     assert term_title_en.get_attribute('value') == input_title_en
     assert term_content_en.get_attribute('value') == input_content_en
 
-    driver.execute_script('window.scrollBy(0, 300)')
+    target = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[9]')
+    location = target.location
+    driver.execute_script('window.scrollTo(0, ' + str(location['y']) + ')')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 # pytest auto_test/test_admin.py::test_no_6
@@ -544,7 +546,9 @@ def test_no_6(driver):
     )
     assert term_content_en.get_attribute('value') == input_content_en
 
-    driver.execute_script('window.scrollBy(0, 300)')
+    target = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[9]')
+    location = target.location
+    driver.execute_script('window.scrollTo(0, ' + str(location['y']) + ')')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 # pytest auto_test/test_admin.py::test_no_7
@@ -598,7 +602,9 @@ def test_no_7(driver):
             break
     assert target is None
 
-    driver.execute_script('window.scrollBy(0, 300)')
+    target = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[9]')
+    location = target.location
+    driver.execute_script('window.scrollTo(0, ' + str(location['y']) + ')')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 # pytest auto_test/test_admin.py::test_no_8

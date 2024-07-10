@@ -1697,7 +1697,7 @@ class TestScenario4:
 
     # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_6_5_to_8_and_12_and_13_and_15_and_16
     def test_scenario_4_6_5_to_8_and_12_and_13_and_15_and_16(self, driver):
-        """Test Scenario 4-6-5, 4-6-6, 4-6-7, 4-6-11, 4-6-12, 4-6-14, 4-6-15
+        """Test Scenario 4-6-5, 4-6-6, 4-6-7, 4-6-8, 4-6-12, 4-6-13, 4-6-15, 4-6-16
         
         1. The Apply button appears.
         2. The Terms and Conditions modal appears.
@@ -1814,9 +1814,9 @@ class TestScenario4:
         # move downloaded file to do other tests
         move_downloaded_files(['test_scenario_4.txt'], inspect.currentframe().f_code.co_name)
 
-    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_6_9
-    def test_scenario_4_6_9(self, driver):
-        """Test Scenario 4-6-9
+    # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_6_9_and_14
+    def test_scenario_4_6_9_and_14(self, driver):
+        """Test Scenario 4-6-9, 4-6-14
         
         1. The Apply button appears.
         2. The Terms and Conditions modal appears.
@@ -1824,6 +1824,7 @@ class TestScenario4:
         6. "Register Application for Use" email is sent to the applicant.
         7. Transition to the usage registration workflow.
         9. An email with a one-time address attached is sent to the applicant.
+        14. Registered content is downloaded.
         
         User is not logged in
         
@@ -1873,6 +1874,28 @@ class TestScenario4:
             config.guest_mail,
             config.item_name_dic['scenario_4'],
             activity_id)
+
+        # 13. Registered content is downloaded.
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        enter_guest_email_after_approval(driver, config.guest_mail)
+        time.sleep(3)
+        file_list = os.listdir(config.base_download_dir)
+        assert 'test_scenario_4.txt' in file_list
+
+        # cancel the workflow to do other tests
+        lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
+        url = [line for line in lines if line.startswith('https://')][0]
+        driver.get(url)
+        time.sleep(3)
+        click_quit_btn(driver)
+        time.sleep(1)
+        driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
+
+        # move downloaded file to do other tests
+        move_downloaded_files(['test_scenario_4.txt'], inspect.currentframe().f_code.co_name)
 
     # pytest auto_test/test_application_for_use.py::TestScenario4::test_scenario_4_6_10
     def test_scenario_4_6_10(self, driver):
@@ -3667,11 +3690,12 @@ class TestScenario6:
         driver.find_element(By.XPATH, '//*[@id="btn-finish"]').click()
         time.sleep(3)
         activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
+        save_screenshot(driver, inspect.currentframe().f_code.co_name, '9')
         assert check_request_for_approval_mail_for_guest(
             config.guest_mail,
             config.item_name_dic['scenario_6'],
             activity_id)
-        
+
         # cancel the workflow to do other tests
         login_as_target(driver, 'Repository')
         driver.get(config.base_url + '/workflow/activity/detail/' + activity_id)
