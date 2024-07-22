@@ -84,7 +84,8 @@ mail_subjects = {
         '利用申請の審査結果について（ログインユーザー向け）／The results of the review of your application  （for logged in users）',
     'results_of_the_review_for_guest':
         '利用申請の審査結果について（ゲストユーザー向け）／The results of the review of your application  （for guest user）',
-    'received_application': '利用報告の受付のお知らせ／Your Application was Received'
+    'received_application': '利用報告の受付のお知らせ／Your Application was Received',
+    'register_application': '利用申請登録のご案内／Register Application for Use'
 }
 
 class SetupDriver:
