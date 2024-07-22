@@ -92,7 +92,7 @@ ConfirmLanguage
 
 # execute the test prepalation process
 echo ${lang['pre_begin']}
-pytest shell_test/test_secret_url_three_days.py::TestPreparation
+pytest shell_test/test_secret_url_three_days.py::TestPreparation -v
 
 # check for successful completion
 if [ $? -ne 0 ]; then
@@ -113,7 +113,7 @@ echo ${lang['confirm_exec']}
 ConfirmExecution
 
 # execute the test
-pytest shell_test/test_secret_url_three_days.py::TestExecution
+pytest shell_test/test_secret_url_three_days.py::TestExecution -v
 
 # check for successful completion
 if [ $? -ne 0 ]; then

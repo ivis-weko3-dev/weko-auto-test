@@ -1,9 +1,15 @@
 import datetime
 import inspect
+import os
+import re
 import shutil
+import time
+from selenium.webdriver.common.by import By
 
 import config
-from methods_required_during_testing import *
+from methods_required_during_testing import d, login, logout, search_and_display_target_item,\
+    click_file_information_button, click_secret_url_btn, click_mail_link, set_secret_url,\
+    change_secret_url_download_limit
 
 # pytest auto_test/test_secret_url.py::test_no_1
 def test_no_1(enable_secret_url):
@@ -19,7 +25,7 @@ def test_no_1(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(enable_secret_url, 'Repository')
+    login_as_target(enable_secret_url, 'Repository')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
@@ -46,7 +52,7 @@ def test_no_2(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'RegCon')
+    login_as_target(enable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
@@ -73,7 +79,7 @@ def test_no_3(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'NoRegCon')
+    login_as_target(enable_secret_url, 'NoRegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
@@ -100,7 +106,7 @@ def test_no_4(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'PrxRegCon')
+    login_as_target(enable_secret_url, 'PrxRegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
@@ -127,7 +133,7 @@ def test_no_5(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(enable_secret_url, 'Community')
+    login_as_target(enable_secret_url, 'Community')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
@@ -154,7 +160,7 @@ def test_no_6(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(enable_secret_url, 'General')
+    login_as_target(enable_secret_url, 'General')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['open_access'])
@@ -206,7 +212,7 @@ def test_no_8(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(enable_secret_url, 'Repository')
+    login_as_target(enable_secret_url, 'Repository')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['restricted_access'])
@@ -233,7 +239,7 @@ def test_no_9(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'RegCon')
+    login_as_target(enable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['restricted_access'])
@@ -260,7 +266,7 @@ def test_no_10(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'NoRegCon')
+    login_as_target(enable_secret_url, 'NoRegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['restricted_access'])
@@ -287,7 +293,7 @@ def test_no_11(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'PrxRegCon')
+    login_as_target(enable_secret_url, 'PrxRegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['restricted_access'])
@@ -314,7 +320,7 @@ def test_no_12(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(enable_secret_url, 'Community')
+    login_as_target(enable_secret_url, 'Community')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['restricted_access'])
@@ -341,7 +347,7 @@ def test_no_13(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(enable_secret_url, 'General')
+    login_as_target(enable_secret_url, 'General')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['restricted_access'])
@@ -392,7 +398,7 @@ def test_no_15(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(enable_secret_url, 'Repository')
+    login_as_target(enable_secret_url, 'Repository')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
@@ -424,7 +430,7 @@ def test_no_16_to_18(enable_secret_url):
     """
     # No.16 Send email containing secret URL
     # log in as Repository Administrator
-    login(enable_secret_url, 'Repository')
+    login_as_target(enable_secret_url, 'Repository')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
@@ -433,7 +439,7 @@ def test_no_16_to_18(enable_secret_url):
     click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(enable_secret_url)
+    click_secret_url_btn(enable_secret_url)
 
     # check mail
     check_secret_url_mail(
@@ -445,7 +451,7 @@ def test_no_16_to_18(enable_secret_url):
 
     # No.17 Download the target content
     # download the target content
-    A8(enable_secret_url, config.users['Repository']['mail'].split('@', 1)[0])
+    click_mail_link(enable_secret_url, config.users['Repository']['mail'].split('@', 1)[0])
 
     # check download file
     file_list = os.listdir(config.base_download_dir)
@@ -455,7 +461,7 @@ def test_no_16_to_18(enable_secret_url):
     # download the target content several times
     # In No.17, download the content once, so the number of remaining downloads is 2
     for i in range(3):
-        A8(enable_secret_url, config.users['Repository']['mail'].split('@', 1)[0])
+        click_mail_link(enable_secret_url, config.users['Repository']['mail'].split('@', 1)[0])
         if i < 2:
             # check download file
             file_list = os.listdir(config.base_download_dir)
@@ -486,7 +492,7 @@ def test_no_20(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(enable_secret_url, 'Repository')
+    login_as_target(enable_secret_url, 'Repository')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
@@ -495,7 +501,7 @@ def test_no_20(enable_secret_url):
     click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(enable_secret_url)
+    click_secret_url_btn(enable_secret_url)
 
     # check secret url
     check_secret_url_is_difference(config.users['Repository']['mail'].split('@', 1)[0])
@@ -514,7 +520,7 @@ def test_no_21(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'RegCon')
+    login_as_target(enable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
@@ -546,7 +552,7 @@ def test_no_22_to_24(enable_secret_url):
     """
     # No.22 Send email containing secret URL
     # log in as Contributor
-    login(enable_secret_url, 'RegCon')
+    login_as_target(enable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
@@ -555,7 +561,7 @@ def test_no_22_to_24(enable_secret_url):
     click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(enable_secret_url)
+    click_secret_url_btn(enable_secret_url)
 
     # check mail
     check_secret_url_mail(
@@ -567,7 +573,7 @@ def test_no_22_to_24(enable_secret_url):
 
     # No.23 Download the target content
     # download the target content
-    A8(enable_secret_url, config.users['RegCon']['mail'].split('@', 1)[0])
+    click_mail_link(enable_secret_url, config.users['RegCon']['mail'].split('@', 1)[0])
 
     # check download file
     file_list = os.listdir(config.base_download_dir)
@@ -577,7 +583,7 @@ def test_no_22_to_24(enable_secret_url):
     # download the target content several times
     # In No.23, download the content once, so the number of remaining downloads is 2
     for i in range(3):
-        A8(enable_secret_url, config.users['RegCon']['mail'].split('@', 1)[0])
+        click_mail_link(enable_secret_url, config.users['RegCon']['mail'].split('@', 1)[0])
         if i < 2:
             # check download file
             file_list = os.listdir(config.base_download_dir)
@@ -608,7 +614,7 @@ def test_no_26(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'RegCon')
+    login_as_target(enable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
@@ -617,7 +623,7 @@ def test_no_26(enable_secret_url):
     click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(enable_secret_url)
+    click_secret_url_btn(enable_secret_url)
 
     # check secret url
     check_secret_url_is_difference(config.users['RegCon']['mail'].split('@', 1)[0])
@@ -636,7 +642,7 @@ def test_no_27(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'NoRegCon')
+    login_as_target(enable_secret_url, 'NoRegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
@@ -663,7 +669,7 @@ def test_no_28(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'PrxRegCon')
+    login_as_target(enable_secret_url, 'PrxRegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
@@ -690,7 +696,7 @@ def test_no_29(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(enable_secret_url, 'Community')
+    login_as_target(enable_secret_url, 'Community')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
@@ -717,7 +723,7 @@ def test_no_30(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(enable_secret_url, 'General')
+    login_as_target(enable_secret_url, 'General')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['before_publish'])
@@ -768,7 +774,7 @@ def test_no_32(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(enable_secret_url, 'Repository')
+    login_as_target(enable_secret_url, 'Repository')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['after_publish'])
@@ -795,7 +801,7 @@ def test_no_33(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'RegCon')
+    login_as_target(enable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['after_publish'])
@@ -822,7 +828,7 @@ def test_no_34(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'NoRegCon')
+    login_as_target(enable_secret_url, 'NoRegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['after_publish'])
@@ -849,7 +855,7 @@ def test_no_35(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'PrxRegCon')
+    login_as_target(enable_secret_url, 'PrxRegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['after_publish'])
@@ -876,7 +882,7 @@ def test_no_36(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(enable_secret_url, 'Community')
+    login_as_target(enable_secret_url, 'Community')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['after_publish'])
@@ -903,7 +909,7 @@ def test_no_37(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(enable_secret_url, 'General')
+    login_as_target(enable_secret_url, 'General')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['after_publish'])
@@ -954,7 +960,7 @@ def test_no_39(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(enable_secret_url, 'Repository')
+    login_as_target(enable_secret_url, 'Repository')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
@@ -986,7 +992,7 @@ def test_no_40_to_42(enable_secret_url):
     """
     # No.40 Send email containing secret URL
     # log in as Repository Administrator
-    login(enable_secret_url, 'Repository')
+    login_as_target(enable_secret_url, 'Repository')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
@@ -995,7 +1001,7 @@ def test_no_40_to_42(enable_secret_url):
     click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(enable_secret_url)
+    click_secret_url_btn(enable_secret_url)
 
     # check mail
     check_secret_url_mail(
@@ -1007,7 +1013,7 @@ def test_no_40_to_42(enable_secret_url):
 
     # No.41 Download the target content
     # download the target content
-    A8(enable_secret_url, config.users['Repository']['mail'].split('@', 1)[0])
+    click_mail_link(enable_secret_url, config.users['Repository']['mail'].split('@', 1)[0])
 
     # check download file
     file_list = os.listdir(config.base_download_dir)
@@ -1017,7 +1023,7 @@ def test_no_40_to_42(enable_secret_url):
     # download the target content several times
     # In No.41, download the content once, so the number of remaining downloads is 2
     for i in range(3):
-        A8(enable_secret_url, config.users['Repository']['mail'].split('@', 1)[0])
+        click_mail_link(enable_secret_url, config.users['Repository']['mail'].split('@', 1)[0])
         if i < 2:
             # check download file
             file_list = os.listdir(config.base_download_dir)
@@ -1048,7 +1054,7 @@ def test_no_44(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(enable_secret_url, 'Repository')
+    login_as_target(enable_secret_url, 'Repository')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
@@ -1057,7 +1063,7 @@ def test_no_44(enable_secret_url):
     click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(enable_secret_url)
+    click_secret_url_btn(enable_secret_url)
 
     # check secret url
     check_secret_url_is_difference(config.users['Repository']['mail'].split('@', 1)[0])
@@ -1076,7 +1082,7 @@ def test_no_45(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'RegCon')
+    login_as_target(enable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
@@ -1108,7 +1114,7 @@ def test_no_46_to_48(enable_secret_url):
     """
     # No.46 Send email containing secret URL
     # log in as Contributor
-    login(enable_secret_url, 'RegCon')
+    login_as_target(enable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
@@ -1117,7 +1123,7 @@ def test_no_46_to_48(enable_secret_url):
     click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(enable_secret_url)
+    click_secret_url_btn(enable_secret_url)
 
     # check mail
     check_secret_url_mail(
@@ -1129,7 +1135,7 @@ def test_no_46_to_48(enable_secret_url):
 
     # No.47 Download the target content
     # download the target content
-    A8(enable_secret_url, config.users['RegCon']['mail'].split('@', 1)[0])
+    click_mail_link(enable_secret_url, config.users['RegCon']['mail'].split('@', 1)[0])
 
     # check download file
     file_list = os.listdir(config.base_download_dir)
@@ -1139,7 +1145,7 @@ def test_no_46_to_48(enable_secret_url):
     # download the target content several times
     # In No.47, download the content once, so the number of remaining downloads is 2
     for i in range(3):
-        A8(enable_secret_url, config.users['RegCon']['mail'].split('@', 1)[0])
+        click_mail_link(enable_secret_url, config.users['RegCon']['mail'].split('@', 1)[0])
         if i < 2:
             # check download file
             file_list = os.listdir(config.base_download_dir)
@@ -1170,7 +1176,7 @@ def test_no_50(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'RegCon')
+    login_as_target(enable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
@@ -1179,7 +1185,7 @@ def test_no_50(enable_secret_url):
     click_file_information_button(enable_secret_url)
 
     # click secret url button
-    A7(enable_secret_url)
+    click_secret_url_btn(enable_secret_url)
 
     # check secret url
     check_secret_url_is_difference(config.users['RegCon']['mail'].split('@', 1)[0])
@@ -1198,7 +1204,7 @@ def test_no_51(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'NoRegCon')
+    login_as_target(enable_secret_url, 'NoRegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
@@ -1223,7 +1229,7 @@ def test_no_52(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(enable_secret_url, 'PrxRegCon')
+    login_as_target(enable_secret_url, 'PrxRegCon')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
@@ -1250,7 +1256,7 @@ def test_no_53(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(enable_secret_url, 'Community')
+    login_as_target(enable_secret_url, 'Community')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
@@ -1277,7 +1283,7 @@ def test_no_54(enable_secret_url):
         enable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(enable_secret_url, 'General')
+    login_as_target(enable_secret_url, 'General')
 
     # search target item
     search_and_display_target_item(enable_secret_url, config.item_name_dic['private'])
@@ -1324,7 +1330,7 @@ def test_no_56(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(disable_secret_url, 'Repository')
+    login_as_target(disable_secret_url, 'Repository')
 
     # disable secret url
     set_secret_url(disable_secret_url, False)
@@ -1354,7 +1360,7 @@ def test_no_57(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'RegCon')
+    login_as_target(disable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['open_access'])
@@ -1381,7 +1387,7 @@ def test_no_58(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'NoRegCon')
+    login_as_target(disable_secret_url, 'NoRegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['open_access'])
@@ -1408,7 +1414,7 @@ def test_no_59(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'PrxRegCon')
+    login_as_target(disable_secret_url, 'PrxRegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['open_access'])
@@ -1435,7 +1441,7 @@ def test_no_60(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(disable_secret_url, 'Community')
+    login_as_target(disable_secret_url, 'Community')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['open_access'])
@@ -1462,7 +1468,7 @@ def test_no_61(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(disable_secret_url, 'General')
+    login_as_target(disable_secret_url, 'General')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['open_access'])
@@ -1513,7 +1519,7 @@ def test_no_63(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(disable_secret_url, 'Repository')
+    login_as_target(disable_secret_url, 'Repository')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['restricted_access'])
@@ -1540,7 +1546,7 @@ def test_no_64(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'RegCon')
+    login_as_target(disable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['restricted_access'])
@@ -1567,7 +1573,7 @@ def test_no_65(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'NoRegCon')
+    login_as_target(disable_secret_url, 'NoRegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['restricted_access'])
@@ -1594,7 +1600,7 @@ def test_no_66(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'PrxRegCon')
+    login_as_target(disable_secret_url, 'PrxRegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['restricted_access'])
@@ -1621,7 +1627,7 @@ def test_no_67(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(disable_secret_url, 'Community')
+    login_as_target(disable_secret_url, 'Community')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['restricted_access'])
@@ -1648,7 +1654,7 @@ def test_no_68(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(disable_secret_url, 'General')
+    login_as_target(disable_secret_url, 'General')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['restricted_access'])
@@ -1699,7 +1705,7 @@ def test_no_70(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(disable_secret_url, 'Repository')
+    login_as_target(disable_secret_url, 'Repository')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['before_publish'])
@@ -1726,7 +1732,7 @@ def test_no_71(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'RegCon')
+    login_as_target(disable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['before_publish'])
@@ -1753,7 +1759,7 @@ def test_no_72(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'NoRegCon')
+    login_as_target(disable_secret_url, 'NoRegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['before_publish'])
@@ -1780,7 +1786,7 @@ def test_no_73(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'PrxRegCon')
+    login_as_target(disable_secret_url, 'PrxRegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['before_publish'])
@@ -1807,7 +1813,7 @@ def test_no_74(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(disable_secret_url, 'Community')
+    login_as_target(disable_secret_url, 'Community')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['before_publish'])
@@ -1834,7 +1840,7 @@ def test_no_75(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(disable_secret_url, 'General')
+    login_as_target(disable_secret_url, 'General')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['before_publish'])
@@ -1885,7 +1891,7 @@ def test_no_77(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(disable_secret_url, 'Repository')
+    login_as_target(disable_secret_url, 'Repository')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['after_publish'])
@@ -1912,7 +1918,7 @@ def test_no_78(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'RegCon')
+    login_as_target(disable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['after_publish'])
@@ -1939,7 +1945,7 @@ def test_no_79(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'NoRegCon')
+    login_as_target(disable_secret_url, 'NoRegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['after_publish'])
@@ -1966,7 +1972,7 @@ def test_no_80(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'PrxRegCon')
+    login_as_target(disable_secret_url, 'PrxRegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['after_publish'])
@@ -1993,7 +1999,7 @@ def test_no_81(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(disable_secret_url, 'Community')
+    login_as_target(disable_secret_url, 'Community')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['after_publish'])
@@ -2020,7 +2026,7 @@ def test_no_82(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(disable_secret_url, 'General')
+    login_as_target(disable_secret_url, 'General')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['after_publish'])
@@ -2071,7 +2077,7 @@ def test_no_84(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(disable_secret_url, 'Repository')
+    login_as_target(disable_secret_url, 'Repository')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
@@ -2098,7 +2104,7 @@ def test_no_85(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'RegCon')
+    login_as_target(disable_secret_url, 'RegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
@@ -2125,7 +2131,7 @@ def test_no_86(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'NoRegCon')
+    login_as_target(disable_secret_url, 'NoRegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
@@ -2150,7 +2156,7 @@ def test_no_87(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(disable_secret_url, 'PrxRegCon')
+    login_as_target(disable_secret_url, 'PrxRegCon')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
@@ -2177,7 +2183,7 @@ def test_no_88(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(disable_secret_url, 'Community')
+    login_as_target(disable_secret_url, 'Community')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
@@ -2204,7 +2210,7 @@ def test_no_89(disable_secret_url):
         disable_secret_url(WebDriver): WebDriver object
     """
     # log in as General
-    login(disable_secret_url, 'General')
+    login_as_target(disable_secret_url, 'General')
 
     # search target item
     search_and_display_target_item(disable_secret_url, config.item_name_dic['private'])
@@ -2251,7 +2257,7 @@ def test_no_91(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # enable secret url
     set_secret_url(driver, True)
@@ -2263,13 +2269,13 @@ def test_no_91(driver):
     click_file_information_button(driver)
 
     # click secret url button
-    A7(driver)
+    click_secret_url_btn(driver)
 
     # disable secret url
     set_secret_url(driver, False)
 
     # download the target file
-    A8(driver, config.users['Repository']['mail'].split('@', 1)[0])
+    click_mail_link(driver, config.users['Repository']['mail'].split('@', 1)[0])
 
     # check error page has the class what name is error-page
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
@@ -2289,7 +2295,7 @@ def test_no_92(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator for enable secret url
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # enable secret url
     set_secret_url(driver, True)
@@ -2298,7 +2304,7 @@ def test_no_92(driver):
     logout(driver)
 
     # log in as Contributor
-    login(driver, 'RegCon')
+    login_as_target(driver, 'RegCon')
 
     # search target item
     search_and_display_target_item(driver, config.item_name_dic['before_publish'])
@@ -2307,19 +2313,25 @@ def test_no_92(driver):
     click_file_information_button(driver)
 
     # click secret url button
-    A7(driver)
+    click_secret_url_btn(driver)
 
     # log out
     logout(driver)
 
     # log in as Repository Administrator for disable secret url
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # disable secret url
     set_secret_url(driver, False)
 
+    # log out
+    logout(driver)
+
+    # log in as Contributor
+    login_as_target(driver, 'RegCon')
+
     # download the target file
-    A8(driver, config.users['RegCon']['mail'].split('@', 1)[0])
+    click_mail_link(driver, config.users['RegCon']['mail'].split('@', 1)[0])
 
     # check error page has the class what name is error-page
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
@@ -2339,7 +2351,7 @@ def test_no_93(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Admministrator
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # enable secret url
     set_secret_url(driver, True)
@@ -2351,13 +2363,13 @@ def test_no_93(driver):
     click_file_information_button(driver)
 
     # click secret url button
-    A7(driver)
+    click_secret_url_btn(driver)
 
     # disable secret url
     set_secret_url(driver, False)
 
     # download the target file
-    A8(driver, config.users['Repository']['mail'].split('@', 1)[0])
+    click_mail_link(driver, config.users['Repository']['mail'].split('@', 1)[0])
 
     # check error page has the class what name is error-page
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
@@ -2377,7 +2389,7 @@ def test_no_94(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator for enable secret url
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # enable secret url
     set_secret_url(driver, True)
@@ -2386,7 +2398,7 @@ def test_no_94(driver):
     logout(driver)
 
     # log in as Contributor
-    login(driver, 'RegCon')
+    login_as_target(driver, 'RegCon')
 
     # search target item
     search_and_display_target_item(driver, config.item_name_dic['private'])
@@ -2395,19 +2407,25 @@ def test_no_94(driver):
     click_file_information_button(driver)
 
     # click secret url button
-    A7(driver)
+    click_secret_url_btn(driver)
 
     # log out
     logout(driver)
 
     # log in as Repository Administrator for disable secret url
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # disable secret url
     set_secret_url(driver, False)
 
+    # log out
+    logout(driver)
+
+    # log in as Contributor
+    login_as_target(driver, 'RegCon')
+
     # download the target file
-    A8(driver, config.users['RegCon']['mail'].split('@', 1)[0])
+    click_mail_link(driver, config.users['RegCon']['mail'].split('@', 1)[0])
 
     # check error page has the class what name is error-page
     error_page = driver.find_elements(By.CLASS_NAME, 'error-page')
@@ -2427,11 +2445,11 @@ def test_no_95(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # enable secret url and set download limit to 3
     set_secret_url(driver, True)
-    A4(driver, 3)
+    change_secret_url_download_limit(driver, 3)
 
     # search target item
     search_and_display_target_item(driver, config.item_name_dic['before_publish'])
@@ -2440,14 +2458,14 @@ def test_no_95(driver):
     click_file_information_button(driver)
 
     # click secret url button
-    A7(driver)
+    click_secret_url_btn(driver)
 
     # set download limit to 5
-    A4(driver, 5)
+    change_secret_url_download_limit(driver, 5)
 
     # download the target content several times
     for i in range(6):
-        A8(driver, config.users['Repository']['mail'].split('@', 1)[0])
+        click_mail_link(driver, config.users['Repository']['mail'].split('@', 1)[0])
         if i < 5:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
@@ -2477,17 +2495,17 @@ def test_no_96(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator for set download limit to 3
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # enable secret url and set download limit to 3
     set_secret_url(driver, True)
-    A4(driver, 3)
+    change_secret_url_download_limit(driver, 3)
 
     # log out
     logout(driver)
 
     # log in as Contributor
-    login(driver, 'RegCon')
+    login_as_target(driver, 'RegCon')
 
     # search target item
     search_and_display_target_item(driver, config.item_name_dic['before_publish'])
@@ -2496,20 +2514,26 @@ def test_no_96(driver):
     click_file_information_button(driver)
 
     # click secret url button
-    A7(driver)
+    click_secret_url_btn(driver)
 
     # log out
     logout(driver)
 
     # log in as Repository Administrator for set download limit to 5
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # set download limit to 5
-    A4(driver, 5)
+    change_secret_url_download_limit(driver, 5)
+
+    # log out
+    logout(driver)
+
+    # log in as Contributor
+    login_as_target(driver, 'RegCon')
 
     # download the target content several times
     for i in range(6):
-        A8(driver, config.users['RegCon']['mail'].split('@', 1)[0])
+        click_mail_link(driver, config.users['RegCon']['mail'].split('@', 1)[0])
         if i < 5:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
@@ -2539,11 +2563,11 @@ def test_no_97(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # enable secret url and set download limit to 3
     set_secret_url(driver, True)
-    A4(driver, 3)
+    change_secret_url_download_limit(driver, 3)
 
     # search target item
     search_and_display_target_item(driver, config.item_name_dic['private'])
@@ -2552,14 +2576,14 @@ def test_no_97(driver):
     click_file_information_button(driver)
 
     # click secret url button
-    A7(driver)
+    click_secret_url_btn(driver)
 
     # set download limit to 5
-    A4(driver, 5)
+    change_secret_url_download_limit(driver, 5)
 
     # download the target content several times
     for i in range(6):
-        A8(driver, config.users['Repository']['mail'].split('@', 1)[0])
+        click_mail_link(driver, config.users['Repository']['mail'].split('@', 1)[0])
         if i < 5:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
@@ -2589,17 +2613,17 @@ def test_no_98(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator for set download limit to 3
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # enable secret url and set download limit to 3
     set_secret_url(driver, True)
-    A4(driver, 3)
+    change_secret_url_download_limit(driver, 3)
 
     # log out
     logout(driver)
 
     # log in as Contributor
-    login(driver, 'RegCon')
+    login_as_target(driver, 'RegCon')
 
     # search target item
     search_and_display_target_item(driver, config.item_name_dic['private'])
@@ -2608,20 +2632,26 @@ def test_no_98(driver):
     click_file_information_button(driver)
 
     # click secret url button
-    A7(driver)
+    click_secret_url_btn(driver)
 
     # log out
     logout(driver)
 
     # log in as Repository Administrator for set download limit to 5
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # set download limit to 5
-    A4(driver, 5)
+    change_secret_url_download_limit(driver, 5)
+
+    # log out
+    logout(driver)
+
+    # log in as Contributor
+    login_as_target(driver, 'RegCon')
 
     # download the target content several times
     for i in range(6):
-        A8(driver, config.users['RegCon']['mail'].split('@', 1)[0])
+        click_mail_link(driver, config.users['RegCon']['mail'].split('@', 1)[0])
         if i < 5:
             # check download file
             parentheses = ' (' + str(i) + ')' if i > 0 else ''
@@ -2639,7 +2669,7 @@ def test_no_98(driver):
 
 # The tests No.99-102 are in shell_test/test_secret_url_changing_deadline.py
 
-def login(driver, target_key):
+def login_as_target(driver, target_key):
     """Log in as target user
     
     Args:
@@ -2649,7 +2679,7 @@ def login(driver, target_key):
     # set login_user from config
     login_user = config.users[target_key]
     # log in as target user
-    A1(driver, login_user['mail'], login_user['password'])
+    login(driver, login_user['mail'], login_user['password'])
 
 def check_secret_url_button_is_hidden(driver, is_hidden):
     """Check secret url button is hidden or not

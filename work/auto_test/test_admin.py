@@ -1,8 +1,11 @@
 import inspect
 import os
+import time
+from selenium.webdriver.common.by import By
 
 import config
-from methods_required_during_testing import *
+from methods_required_during_testing import d, login, set_secret_url,\
+    transition_to_mail_template, transition_to_restricted_access
 # pytest auto_test/test_admin.py::test_no_1
 def test_no_1(driver):
     """No.1 Create new mail template
@@ -13,7 +16,7 @@ def test_no_1(driver):
         driver(WebDriver): WebDriver object  
     """
     # log in as System Administrator
-    login(driver, 'System')
+    login_as_target(driver, 'System')
 
     # Secret URL Download disable
     set_secret_url(driver, False)
@@ -86,7 +89,7 @@ def test_no_2(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as System Administrator
-    login(driver, 'System')
+    login_as_target(driver, 'System')
 
     # Secret URL Download enable
     set_secret_url(driver, True)
@@ -175,7 +178,7 @@ def test_no_3(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as System Administrator
-    login(driver, 'System')
+    login_as_target(driver, 'System')
 
     # Secret URL Download disable
     set_secret_url(driver, False)
@@ -264,7 +267,7 @@ def test_no_4(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as System Administrator
-    login(driver, 'System')
+    login_as_target(driver, 'System')
 
     # Secret URL Download disable
     set_secret_url(driver, False)
@@ -286,7 +289,7 @@ def test_no_4(driver):
     # click test template and edit subject and body
     target.click()
     subject = driver.find_element(
-        By.XPATH, 
+        By.XPATH,
         '//*[@id="root"]/div/div[1]/div[2]/div/div/div[1]/input'
     )
     edited_subject = '編集済_' + subject.get_attribute('value')
@@ -352,7 +355,7 @@ def test_no_5(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # transition to restricted access
     transition_to_restricted_access(driver)
@@ -365,19 +368,19 @@ def test_no_5(driver):
     # get target elements
     term_title_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[1]/input'
     )
     term_content_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
     )
     term_title_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[1]/input'
     )
     term_content_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
     )
 
     # define input values
@@ -411,26 +414,28 @@ def test_no_5(driver):
     save_term_element.click()
     term_title_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[1]/input'
     )
     term_content_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
     )
     term_title_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[1]/input'
     )
     term_content_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
     )
     assert term_title_jp.get_attribute('value') == input_title_jp
     assert term_content_jp.get_attribute('value') == input_content_jp
     assert term_title_en.get_attribute('value') == input_title_en
     assert term_content_en.get_attribute('value') == input_content_en
 
-    driver.execute_script('window.scrollBy(0, 300)')
+    target = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[9]')
+    location = target.location
+    driver.execute_script('window.scrollTo(0, ' + str(location['y']) + ')')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 # pytest auto_test/test_admin.py::test_no_6
@@ -444,7 +449,7 @@ def test_no_6(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # transition to restricted access
     transition_to_restricted_access(driver)
@@ -467,19 +472,19 @@ def test_no_6(driver):
     # get target elements
     term_title_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[1]/input'
     )
     term_content_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
     )
     term_title_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[1]/input'
     )
     term_content_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
     )
 
     # define input values
@@ -522,26 +527,28 @@ def test_no_6(driver):
     target.click()
     term_title_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[1]/input'
     )
     assert term_title_jp.get_attribute('value') == input_title_jp
     term_content_jp = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[1]/div[2]/textarea'
     )
     assert term_content_jp.get_attribute('value') == input_content_jp
     term_title_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[1]/input'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[1]/input'
     )
     assert term_title_en.get_attribute('value') == input_title_en
     term_content_en = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[5]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
+        '//*[@id="root"]/div/div[9]/div/div[2]/div[2]/div/div[2]/div[2]/textarea'
     )
     assert term_content_en.get_attribute('value') == input_content_en
 
-    driver.execute_script('window.scrollBy(0, 300)')
+    target = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[9]')
+    location = target.location
+    driver.execute_script('window.scrollTo(0, ' + str(location['y']) + ')')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 # pytest auto_test/test_admin.py::test_no_7
@@ -555,7 +562,7 @@ def test_no_7(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # transition to restricted access
     transition_to_restricted_access(driver)
@@ -595,7 +602,9 @@ def test_no_7(driver):
             break
     assert target is None
 
-    driver.execute_script('window.scrollBy(0, 300)')
+    target = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[9]')
+    location = target.location
+    driver.execute_script('window.scrollTo(0, ' + str(location['y']) + ')')
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
 # pytest auto_test/test_admin.py::test_no_8
@@ -609,7 +618,7 @@ def test_no_8(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # transition to restricted access
     transition_to_restricted_access(driver)
@@ -625,7 +634,7 @@ def test_no_8(driver):
             driver.find_element(By.XPATH, '//*[@id="save-btn"]').click()
             time.sleep(1)
             break
-    
+
     # refresh page and check if target terms and conditions still exists
     driver.refresh()
     time.sleep(3)
@@ -652,15 +661,15 @@ def test_no_12(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # transition to restricted access
     transition_to_restricted_access(driver)
 
     # scroll to Usage Report Reminder Email's location
     usage_report_reminder_email = driver.find_element(
-        By.XPATH, 
-        '//*[@id="root"]/div/div[8]/div/div/div'
+        By.XPATH,
+        '//*[@id="root"]/div/div[12]/div/div/div'
     )
     reminder_location = usage_report_reminder_email.location
     driver.execute_script('window.scrollTo(0, ' + str(reminder_location['y']) + ')')
@@ -668,7 +677,7 @@ def test_no_12(driver):
     # check if Data Usage Report Work Flow exists
     tbody = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[8]/div/div/div/div[2]/div[1]/table/tbody'
+        '//*[@id="root"]/div/div[12]/div/div/div/div[2]/div[1]/table/tbody'
     )
     trs = tbody.find_elements(By.TAG_NAME, 'tr')
     assert len(trs) > 0
@@ -685,15 +694,15 @@ def test_no_13(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Repository Administrator
-    login(driver, 'Repository')
+    login_as_target(driver, 'Repository')
 
     # transition to restricted access
     transition_to_restricted_access(driver)
 
     # scroll to Usage Report Reminder Email's location
     usage_report_reminder_email = driver.find_element(
-        By.XPATH, 
-        '//*[@id="root"]/div/div[8]/div/div/div'
+        By.XPATH,
+        '//*[@id="root"]/div/div[12]/div/div/div'
     )
     reminder_location = usage_report_reminder_email.location
     driver.execute_script('window.scrollTo(0, ' + str(reminder_location['y']) + ')')
@@ -701,7 +710,7 @@ def test_no_13(driver):
     # get Usage Report Reminder Email's data
     tbody = driver.find_element(
         By.XPATH,
-        '//*[@id="root"]/div/div[8]/div/div/div/div[2]/div[1]/table/tbody'
+        '//*[@id="root"]/div/div[12]/div/div/div/div[2]/div[1]/table/tbody'
     )
     trs = tbody.find_elements(By.TAG_NAME, 'tr')
     assert len(trs) > 0, 'Usage Report Reminder Email not found'
@@ -759,7 +768,7 @@ def test_no_14(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Community Administrator
-    login(driver, 'Community')
+    login_as_target(driver, 'Community')
 
     # access to admin page
     driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/button').click()
@@ -800,7 +809,7 @@ def test_no_15(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as Contributor
-    login(driver, 'RegCon')
+    login_as_target(driver, 'RegCon')
 
     # open menu
     driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/button').click()
@@ -832,7 +841,7 @@ def test_no_16(driver):
         driver(WebDriver): WebDriver object
     """
     # log in as general
-    login(driver, 'General')
+    login_as_target(driver, 'General')
 
     # open menu
     driver.find_element(By.XPATH, '//*[@id="fixed_header"]/div[2]/div/button').click()
@@ -854,7 +863,7 @@ def test_no_16(driver):
 
     save_screenshot(driver, inspect.currentframe().f_code.co_name)
 
-def login(driver, target_key):
+def login_as_target(driver, target_key):
     """Log in as target user
     
     Args:
@@ -864,7 +873,7 @@ def login(driver, target_key):
     # set login_user from config
     login_user = config.users[target_key]
     # log in as target user
-    A1(driver, login_user['mail'], login_user['password'])
+    login(driver, login_user['mail'], login_user['password'])
 
 def save_screenshot(driver, co_name):
     """Save screenshot

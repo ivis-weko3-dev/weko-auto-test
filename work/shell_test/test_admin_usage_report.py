@@ -1,9 +1,12 @@
 import inspect
 import os
 import time
+from selenium.webdriver.common.by import By
 
 import config
-from methods_required_during_testing import *
+from methods_required_during_testing import d, login, logout, change_usage_report_workflow_access,\
+    click_quit_btn, search_and_display_target_item, enter_guest_email_for_get_usage_application,\
+    enter_guest_email_after_approval
 
 # pytest shell_test/test_admin_usage_report.py::TestPreparation
 class TestPreparation:
@@ -19,7 +22,7 @@ class TestPreparation:
             driver(WebDriver): Webdriver object
         """
         # log in as Repository Administrator
-        login(driver, 'Repository')
+        login_as_target(driver, 'Repository')
 
         # set expiration date to 5
         change_usage_report_workflow_access(driver, 5)
@@ -49,7 +52,7 @@ class TestPreparation:
             driver(WebDriver): WebDriver object
         """
         # log in as Repostitory Administrator
-        login(driver, 'Repository')
+        login_as_target(driver, 'Repository')
 
         # change expiration date
         change_usage_report_workflow_access(driver, 3)
@@ -115,7 +118,7 @@ class TestExecution:
 
         driver.get(url)
         time.sleep(3)
-        A20(driver)
+        click_quit_btn(driver)
         time.sleep(1)
         driver.find_element(By.XPATH, '//*[@id="btn_cancel"]').click()
         time.sleep(3)
@@ -142,7 +145,7 @@ class TestExecution:
 
         os.remove(config.base_secret_url_dir + 'admin_11.txt')
 
-def login(driver, target_key):
+def login_as_target(driver, target_key):
     """Log in as target user
     
     Args:
@@ -152,7 +155,7 @@ def login(driver, target_key):
     # set login_user from config
     login_user = config.users[target_key]
     # log in as target user
-    A1(driver, login_user['mail'], login_user['password'])
+    login(driver, login_user['mail'], login_user['password'])
 
 def create_usage_report(driver, target_key):
     """Create a usage report
@@ -177,7 +180,7 @@ def create_usage_report(driver, target_key):
     time.sleep(1)
     next_btn.click()
     time.sleep(1)
-    A14(driver, config.guest_mail)
+    enter_guest_email_for_get_usage_application(driver, config.guest_mail)
     lines = get_latest_mail_body(config.guest_mail.split('@', 1)[0])
     url = [line for line in lines if line.startswith('https://')][0]
     driver.get(url)
@@ -191,7 +194,7 @@ def create_usage_report(driver, target_key):
     # scenario_6 is the item for usage application, so it is necessary to approve it
     if target_key == 'scenario_6':
         activity_id = driver.find_element(By.XPATH, '//*[@id="activity_id"]').text
-        login(driver, 'Repository')
+        login_as_target(driver, 'Repository')
         driver.get(config.base_url + '/workflow/activity/detail/' + activity_id)
         time.sleep(5)
         driver.find_element(By.XPATH, '//*[@id="btn-approval"]').click()
@@ -201,7 +204,7 @@ def create_usage_report(driver, target_key):
     url = [line for line in lines if line.startswith('https://')][0]
     driver.get(url)
     time.sleep(3)
-    A18(driver, config.guest_mail)
+    enter_guest_email_after_approval(driver, config.guest_mail)
     time.sleep(3)
 
 def get_latest_mail_body(user_name: str):
@@ -226,7 +229,7 @@ def check_error_page(driver, is_displayed):
         # check error page has the class what name is error-page
         assert len(error_page) > 0, 'This page is not error page'
 
-        # check error message 
+        # check error message
         error_message = error_page[0].find_element(By.XPATH, './/div/div/h1')
         assert error_message.text == 'The specified link has expired.',\
             'Error message is not "The specified link has expired."'

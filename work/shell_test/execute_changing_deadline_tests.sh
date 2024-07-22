@@ -100,7 +100,7 @@ ConfirmLanguage
 
 # execute the test prepalation process
 echo ${lang['pre_begin']}
-pytest shell_test/test_secret_url_changing_deadline.py::TestPreparation
+pytest shell_test/test_secret_url_changing_deadline.py::TestPreparation -v
 
 # check for successful completion
 if [ $? -ne 0 ]; then
@@ -112,7 +112,7 @@ echo ${lang['pre_succeeded']}
 
 # change expiration date
 echo ${lang['change_begin']}
-pytest shell_test/test_secret_url_changing_deadline.py::test_change_expiration_date
+pytest shell_test/test_secret_url_changing_deadline.py::test_change_expiration_date -v
 
 # check for successful completion
 if [ $? -ne 0 ]; then
@@ -134,7 +134,7 @@ echo ${lang['confirm_exec']}
 ConfirmExecution
 
 # execute the test
-pytest shell_test/test_secret_url_changing_deadline.py::TestExecution
+pytest shell_test/test_secret_url_changing_deadline.py::TestExecution -v
 
 # check for successful completion
 if [ $? -ne 0 ]; then
